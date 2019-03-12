@@ -14,7 +14,7 @@ def distance_table(Data, Z):
     return AllDist
 
 
-def kmeans_2(Data, K, seeds=None):
+def kmeans(Data, K, seeds=None):
     '''K-Means clustering algorithm rewritten'''
 
     N, M = Data.shape
@@ -25,36 +25,31 @@ def kmeans_2(Data, K, seeds=None):
     else:
         Z = seeds
 
-    OldUi = []                                      # Indices of previous nearest centroids
-
-    converged = False
+    OldU = []  # Indices of previous nearest centroids
     iterations = 0
 
-    # Calculate distances
-    while converged == False:
+    # Main loop
+    while True:
 
         AllDist = distance_table(Data, Z)
 
-        #U = AllDist.min(1)
-        Ui = AllDist.argmin(1)
+        U = AllDist.argmin(1)
 
-        #print("Min (U):\n", U, "\n")
-        #print("Argmin (Ui):\n", Ui, "\n")
-
-        converged = np.array_equal(OldUi, Ui)       # Foolproof? should we compare centroids instead?
+        if (np.array_equal(OldU, U)):
+            break
 
         clusters = []
 
         # Generate new centroids and clusters
         for k in range(K):
-            cluster = Data[Ui==k, :]
-            Z[k, :] = np.mean(cluster, 0)           # Matlab: Z(k,:) = mean(Data(U==k, :), 1);
+            cluster = Data[U==k, :]
+            Z[k, :] = np.mean(cluster, 0)
             clusters.append(cluster)
 
-        OldUi = Ui
+        OldU = U
         iterations += 1
 
-    return Z, clusters, iterations
+    return Z, U, clusters, iterations
 
 # ------------------------------------------------------------------------------
 
@@ -76,9 +71,10 @@ if __name__ == '__main__':
 
     #K = len(seeds)
 
-    Z, clusters, iterations = kmeans_2(data, K, seeds)
+    Z, U, clusters, iterations = kmeans(data, K, seeds)
 
     for cluster in clusters:
         print("Cluster:\n", cluster, "\n")
+    print("U:\n", U, "\n")
     print("Centroids:\n", Z, "\n")
     print("Iterations: ", iterations, "\n")
