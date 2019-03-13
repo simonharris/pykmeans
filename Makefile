@@ -1,5 +1,6 @@
 init:
-    pip install -r requirements.txt
+	pip install -r requirements.txt
 
-#test:
-#    py.test tests
+test:
+	python3 -m unittest discover
+	
