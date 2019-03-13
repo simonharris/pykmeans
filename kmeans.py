@@ -1,4 +1,12 @@
 import numpy as np
+from sklearn import preprocessing
+
+
+def standardise(Data):
+    '''Scale data from -1 to 1, with 0 mean and unit variance'''
+
+    min_max_scaler = preprocessing.MinMaxScaler((-1,1))
+    return min_max_scaler.fit_transform(Data)
 
 
 def distance_table(Data, Z):
@@ -14,7 +22,7 @@ def distance_table(Data, Z):
     return AllDist
 
 
-def kmeans(Data, K, seeds=None):
+def cluster(Data, K, seeds=None):
     '''K-Means clustering algorithm rewritten'''
 
     N, M = Data.shape
@@ -64,17 +72,17 @@ if __name__ == '__main__':
     #seeds = np.array([[1,2,3], [1,2,10]])
 
     '''To test using Learning_Data.csv'''
-    data = np.loadtxt('sample_data/Learning_Data.csv', delimiter=',', dtype='int')
-    seeds = np.array([[9,  5,  5,  4,  4,  5,  4,  3,  3],
-                      [1,  1,  1,  1,  2,  1,  2,  1,  1],
-                      [9, 10, 10, 10, 10,  5, 10, 10, 10]])
+    data = standardise(np.loadtxt('sample_data/Learning_Data.csv', delimiter=',', dtype='float'))
+    seeds = standardise(np.array([[9.,  5.,  5.,  4.,  4.,  5.,  4.,  3.,  3.],
+                      [1.,  1.,  1.,  1.,  2.,  1.,  2.,  1.,  1.],
+                      [9., 10., 10., 10., 10.,  5., 10., 10., 10.]]))
 
     #K = len(seeds)
 
-    Z, U, clusters, iterations = kmeans(data, K, seeds)
+    Z, U, clusters, iterations = cluster(data, K, seeds)
 
-    for cluster in clusters:
-        print("Cluster:\n", cluster, "\n")
+    #for cluster in clusters:
+    #    print("Cluster:\n", cluster, "\n")
     print("U:\n", U, "\n")
     print("Centroids:\n", Z, "\n")
     print("Iterations: ", iterations, "\n")

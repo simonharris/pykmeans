@@ -1,34 +1,29 @@
 import numpy as np
-from kmeans import distance_table
-from sklearn import preprocessing
+import kmeans
 
-def anomolous_pattern(Data):
-    '''Locate the most anomolous cluster in a data set'''
+def anomalous_pattern(Data):
+    '''Locate the most anomalous cluster in a data set'''
 
-    # i) Standardise the original data
-    min_max_scaler = preprocessing.MinMaxScaler((-1,1))
-    DataStd = min_max_scaler.fit_transform(Data)
+    # i) Standardise the original data (idempotent)
+    DataStd = kmeans.standardise(Data)
 
     # ii) Initial setting
     Origin = np.zeros((1, DataStd.shape[1]))
 
-    InitialDist = distance_table(DataStd, Origin)
+    InitialDist = kmeans.distance_table(DataStd, Origin)
     c = DataStd[InitialDist.argmax()]
 
     # iii) Cluster update
-    iterations = 0
-
     while True:
         Z = np.array([Origin[0], c])
 
-        AllDist = distance_table(DataStd, Z)
+        AllDist = kmeans.distance_table(DataStd, Z)
         U = AllDist.argmin(1)
+        Ui = np.where(U==1)             # Needed later to remove them from Data
         S = DataStd[U==1, :]
 
         # iv) Centroid update
         cTentative = np.mean(S, 0)
-
-        iterations += 1
 
         if np.array_equal(c, cTentative):
             break
@@ -36,7 +31,39 @@ def anomolous_pattern(Data):
             c = cTentative
 
     # v) Output
-    return c, S, iterations
+    return c, S, Ui
+
+
+def ikmeans(Data):
+    '''Intelligent K-Means algorithm'''
+
+    centroids = []
+
+    # ii) Control
+    while True:
+
+        # i) Anomalous Pattern
+        c, S, Ui = anomalous_pattern(Data)
+
+        centroids.append(c)
+
+        Data = np.delete(Data, Ui, 0)
+
+        print(Data)
+        print("Len of data:", len(Data))
+
+        print("================================\n")
+
+        # TODO: investigate other stopping conditions
+        if len(centroids) >= 3:
+            break
+
+    centroids = np.array(centroids)
+    print(centroids)
+
+    # iv) K-Means
+    return kmeans.cluster(Data, len(centroids), centroids)
+
 
 # ------------------------------------------------------------------------------
 
@@ -44,8 +71,12 @@ if __name__ == '__main__':
 
     data = np.loadtxt('sample_data/Learning_Data.csv', delimiter=',', dtype='float')
 
-    c, S, iterations = anomolous_pattern(data)
+    #c, S, indexes = anomalous_pattern(data)
 
-    print('Most anomolous centroid:\n', c, "\n")
-    print('Most anomolous cluster:\n', S, "\n")
-    print('Iterations: ', iterations, "\n")
+    #print('Most anomalous centroid:\n', c, "\n")
+    #print('Most anomalous cluster:\n', S, "\n")
+    #print('Indexes to remove: ', indexes, "\n")
+
+    foo = ikmeans(data)
+
+
