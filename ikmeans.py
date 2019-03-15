@@ -71,12 +71,11 @@ if __name__ == '__main__':
 
     data = np.loadtxt('sample_data/Learning_Data.csv', delimiter=',', dtype='float')
 
+    '''To test Anomalous Pattern'''
     #c, S, indexes = anomalous_pattern(data)
-
     #print('Most anomalous centroid:\n', c, "\n")
     #print('Most anomalous cluster:\n', S, "\n")
     #print('Indexes to remove: ', indexes, "\n")
 
-    foo = ikmeans(data)
-
-
+    '''To test I-K-Means'''
+    Z, U, clusters, iterations = ikmeans(data)
