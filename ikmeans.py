@@ -49,10 +49,9 @@ def ikmeans(Data):
 
         Data = np.delete(Data, Ui, 0)
 
-        print(Data)
-        print("Len of data:", len(Data))
-
-        print("================================\n")
+        #print(Data)
+        #print("Len of data:", len(Data))
+        #print("================================\n")
 
         # TODO: investigate other stopping conditions
         if len(centroids) >= 3:
@@ -63,7 +62,6 @@ def ikmeans(Data):
 
     # iv) K-Means
     return kmeans.cluster(Data, len(centroids), centroids)
-
 
 # ------------------------------------------------------------------------------
 
