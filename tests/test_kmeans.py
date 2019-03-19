@@ -4,11 +4,6 @@ import numpy as np
 
 class DistanceTableTestSuite(unittest.TestCase):
 
-    #
-    # TODO: we don't seem to have taken the sqrt of the sums
-    # of squared distances, which we did in the project. Check
-    # with Renato
-    #
     def test_distance_table(self):
 
         data = np.array([[1,1], [2,3], [4,4]])
