@@ -1,11 +1,12 @@
 import numpy as np
+import utils as pu
 import kmeans
 
 def anomalous_pattern(Data):
     '''Locate the most anomalous cluster in a data set'''
 
     # i) Standardise the original data (idempotent)
-    Data = kmeans.standardise(Data)
+    Data = pu.standardise(Data)
 
     # ii) Initial setting
     Origin = np.zeros((1, Data.shape[1]))
@@ -37,7 +38,6 @@ def anomalous_pattern(Data):
 def cluster(Data):
     '''Intelligent K-Means algorithm'''
 
-    Data = kmeans.standardise(Data)
     DataWorking = Data
 
     centroids = []
@@ -67,6 +67,7 @@ def cluster(Data):
 if __name__ == '__main__':
 
     data = np.loadtxt('sample_data/Learning_Data.csv', delimiter=',', dtype='float')
+    data = pu.standardise(data)
 
     '''To test Anomalous Pattern'''
     #c, S, indexes = anomalous_pattern(data)

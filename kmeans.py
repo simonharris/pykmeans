@@ -1,13 +1,10 @@
 import numpy as np
-from sklearn import preprocessing
+import utils as pu
 
-
-def standardise(Data):
-    '''Scale data from -1 to 1, with 0 mean and unit variance'''
-
-    min_max_scaler = preprocessing.MinMaxScaler((-1,1))
-    return min_max_scaler.fit_transform(Data)
-
+#
+#
+#
+#
 
 def distance_table(Data, Z):
     '''Calculate distances between entities (1 per row) and centroids (1 per column)'''
@@ -24,8 +21,6 @@ def distance_table(Data, Z):
 
 def cluster(Data, K, seeds=None):
     '''K-Means clustering algorithm rewritten'''
-
-    Data = standardise(Data)
 
     N, M = Data.shape
 
@@ -74,8 +69,8 @@ if __name__ == '__main__':
     #seeds = np.array([[1,2,3], [1,2,10]])
 
     '''To test using Learning_Data.csv'''
-    data = standardise(np.loadtxt('sample_data/Learning_Data.csv', delimiter=',', dtype='float'))
-    seeds = standardise(np.array([[9.,  5.,  5.,  4.,  4.,  5.,  4.,  3.,  3.],
+    data = pu.standardise(np.loadtxt('sample_data/Learning_Data.csv', delimiter=',', dtype='float'))
+    seeds = pu.standardise(np.array([[9.,  5.,  5.,  4.,  4.,  5.,  4.,  3.,  3.],
                       [1.,  1.,  1.,  1.,  2.,  1.,  2.,  1.,  1.],
                       [9., 10., 10., 10., 10.,  5., 10., 10., 10.]]))
 
