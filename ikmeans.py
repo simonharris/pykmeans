@@ -50,7 +50,7 @@ def cluster(Data):
 
         centroids.append(c)
 
-        DataWorking = np.delete(Data, Ui, 0)
+        DataWorking = np.delete(DataWorking, Ui, 0)
 
         # TODO: investigate other stopping conditions
         if len(centroids) >= 3:
@@ -80,3 +80,5 @@ if __name__ == '__main__':
     print("U:\n", U, "\n")
     print("Centroids:\n", Z, "\n")
     print("Iterations: ", iterations, "\n")
+    #for cluster in clusters:
+    #    print("Cluster:\n", cluster, "\n")
