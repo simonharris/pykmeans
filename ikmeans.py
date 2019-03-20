@@ -5,22 +5,22 @@ def anomalous_pattern(Data):
     '''Locate the most anomalous cluster in a data set'''
 
     # i) Standardise the original data (idempotent)
-    DataStd = kmeans.standardise(Data)
+    Data = kmeans.standardise(Data)
 
     # ii) Initial setting
-    Origin = np.zeros((1, DataStd.shape[1]))
+    Origin = np.zeros((1, Data.shape[1]))
 
-    InitialDist = kmeans.distance_table(DataStd, Origin)
-    c = DataStd[InitialDist.argmax()]
+    InitialDist = kmeans.distance_table(Data, Origin)
+    c = Data[InitialDist.argmax()]
 
     # iii) Cluster update
     while True:
         Z = np.array([Origin[0], c])
 
-        AllDist = kmeans.distance_table(DataStd, Z)
+        AllDist = kmeans.distance_table(Data, Z)
         U = AllDist.argmin(1)
         Ui = np.where(U==1)             # Needed later to remove them from Data
-        S = DataStd[U==1, :]
+        S = Data[U==1, :]
 
         # iv) Centroid update
         cTentative = np.mean(S, 0)
@@ -34,8 +34,11 @@ def anomalous_pattern(Data):
     return c, S, Ui
 
 
-def ikmeans(Data):
+def cluster(Data):
     '''Intelligent K-Means algorithm'''
+
+    Data = kmeans.standardise(Data)
+    DataWorking = Data
 
     centroids = []
 
@@ -43,22 +46,18 @@ def ikmeans(Data):
     while True:
 
         # i) Anomalous Pattern
-        c, S, Ui = anomalous_pattern(Data)
+        c, S, Ui = anomalous_pattern(DataWorking)
 
         centroids.append(c)
 
-        Data = np.delete(Data, Ui, 0)
-
-        #print(Data)
-        #print("Len of data:", len(Data))
-        #print("================================\n")
+        DataWorking = np.delete(Data, Ui, 0)
 
         # TODO: investigate other stopping conditions
         if len(centroids) >= 3:
             break
 
     centroids = np.array(centroids)
-    print(centroids)
+    #print("Initial centroids from ikmeans:\n",  centroids, "\n")
 
     # iv) K-Means
     return kmeans.cluster(Data, len(centroids), centroids)
@@ -76,4 +75,8 @@ if __name__ == '__main__':
     #print('Indexes to remove: ', indexes, "\n")
 
     '''To test I-K-Means'''
-    Z, U, clusters, iterations = ikmeans(data)
+    Z, U, clusters, iterations = cluster(data)
+
+    print("U:\n", U, "\n")
+    print("Centroids:\n", Z, "\n")
+    print("Iterations: ", iterations, "\n")

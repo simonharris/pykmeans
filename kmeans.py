@@ -25,6 +25,8 @@ def distance_table(Data, Z):
 def cluster(Data, K, seeds=None):
     '''K-Means clustering algorithm rewritten'''
 
+    Data = standardise(Data)
+
     N, M = Data.shape
 
     # Randomly initialise Z unless seeds are supplied
@@ -76,8 +78,6 @@ if __name__ == '__main__':
     seeds = standardise(np.array([[9.,  5.,  5.,  4.,  4.,  5.,  4.,  3.,  3.],
                       [1.,  1.,  1.,  1.,  2.,  1.,  2.,  1.,  1.],
                       [9., 10., 10., 10., 10.,  5., 10., 10., 10.]]))
-
-    #K = len(seeds)
 
     Z, U, clusters, iterations = cluster(data, K, seeds)
 
