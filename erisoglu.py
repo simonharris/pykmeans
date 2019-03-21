@@ -2,7 +2,7 @@ import numpy as np
 import utils as pu
 
 #
-# Erisoglu 2001: A new algorithm for initial cluster centers in k-means algorithm
+# Erisoglu 2011: A new algorithm for initial cluster centers in k-means algorithm
 # See: https://www.sciencedirect.com/science/article/pii/S0167865511002248
 #
 

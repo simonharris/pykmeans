@@ -2,6 +2,11 @@ import numpy as np
 import utils as pu
 import kmeans
 
+#
+# Intelligent K-Means clustering algorithm
+# See: Mirkin 2005, Clustering for data mining: a data recovery approach
+#
+
 def anomalous_pattern(Data):
     '''Locate the most anomalous cluster in a data set'''
 
