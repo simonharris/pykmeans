@@ -3,7 +3,6 @@ from erisoglu import Erisoglu
 
 class ErisogluTestSuite(unittest.TestCase):
 
-    
     def setUp(self):
         self._e = Erisoglu()
         self._set_up_data()
@@ -17,7 +16,6 @@ class ErisogluTestSuite(unittest.TestCase):
     #def test_find_secondary_axis(self):
         #self.assertEqual(self._e.secondary_axis(self._data1), 4)
         #self.assertEqual(self._e.secondary_axis(self._data2), 5)
-  
   
     # misc setup methods -------------------------------------------------------
             
@@ -37,7 +35,6 @@ class ErisogluTestSuite(unittest.TestCase):
             [8, 1, 3, 1, -100, 8]
         ]
                 
-
 # ------------------------------------------------------------------------------
 
 if __name__ == '__main__':

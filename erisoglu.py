@@ -8,7 +8,6 @@ import scipy as sp
 # https://www.sciencedirect.com/science/article/pii/S0167865511002248
 #
 
-
 class Erisoglu():
 
     def _variation_coefficient(self, vector):
@@ -49,9 +48,4 @@ class Erisoglu():
     
         return np.array(data).T      
                
-
-# ------------------------------------------------------------------------------
-
-if __name__ == '__main__':
-    pass
 
