@@ -1,22 +1,42 @@
 import unittest
-#import numpy as np
-import erisoglu as e
+from erisoglu import Erisoglu
 
 class ErisogluTestSuite(unittest.TestCase):
 
-    def test_coefficient_of_variation(self):
-        '''Step i) Variation coefficient'''
+    
+    def setUp(self):
+        self._e = Erisoglu()
+        self._set_up_data()
         
-        # Interesting SE discussion: https://bit.ly/2JyDLkN
+
+    def test_find_main_axis(self):  
+        self.assertEqual(self._e.main_axis(self._data1), 4)
+        self.assertEqual(self._e.main_axis(self._data2), 5)
+        
+    # TODO   
+    #def test_find_secondary_axis(self):
+        #self.assertEqual(self._e.secondary_axis(self._data1), 4)
+        #self.assertEqual(self._e.secondary_axis(self._data2), 5)
+  
+  
+    # misc setup methods -------------------------------------------------------
+            
+    def _set_up_data(self):
+    
+        self._data1 = [
+            [1, 2, 3, 1000, 9],
+            [1, 3, 2,  -44, 8],
+            [1, 2, 3, 1001, 7],
+            [1, 3, 1, -100, 8]
+        ]
+
+        self._data2 = [
+            [9, 1, 2, 3, 1000, 9],
+            [9, 1, 3, 2,  -44, 8],
+            [7, 1, 2, 3, 1001, 7],
+            [8, 1, 3, 1, -100, 8]
+        ]
                 
-        # stddev is 0 so this will always be 0
-        self.assertEqual(e.coefficient_of_variation([4,4,4]), 0)
-        
-        # 50 / 50
-        self.assertEqual(e.coefficient_of_variation([0,100,0,100]), 1)
-        
-        # Check negatives are abs()ed
-        self.assertEqual(e.coefficient_of_variation([0,-100,0,-100]), 1)            
 
 # ------------------------------------------------------------------------------
 
