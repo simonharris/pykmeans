@@ -1,5 +1,5 @@
 init:
-	pip install -r requirements.txt
+	pip install -qr requirements.txt
 
 test:
 	python -m unittest discover
