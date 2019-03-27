@@ -1,5 +1,4 @@
 import numpy as np
-#import scipy as sp
 
 # Erisoglu 2011 "new" algorithm:
 # See: A new algorithm for initial cluster centers in k-means algorithm
@@ -13,18 +12,28 @@ class Erisoglu():
     def find_main_axis(self, data):
         '''Step i) Find the feature with greatest variance'''
 
-        max = 0
-        max_column = None
+        allvcs = np.array([self.variation_coefficient(feature) for feature in data])
+
+        return allvcs.argmax()
+
+
+    def find_secondary_axis(self, data):
+        '''Step ii) Find the feature with least correlation to the main axis'''
+
+        main = data[self.find_main_axis(data)]
+
+        min = 1
+        min_column = None
 
         for j in range(0, len(data)):
 
-            cvj = self.variation_coefficient(data[j])
+            ccj = abs(self.correlation_coefficient(main, data[j]))
 
-            if cvj > max:
-                max = cvj
-                max_column = j
+            if ccj < min:
+                min = ccj
+                min_column = j
 
-        return max_column
+        return min_column
 
 
     # Supporting calculations etc ----------------------------------------------
