@@ -27,6 +27,17 @@ class ErisogluTestSuite(unittest.TestCase):
         self.assertEqual(self._e.find_secondary_axis(self._data1), 4)
         self.assertEqual(self._e.find_secondary_axis(self._data2), 5)
 
+    def test_find_center(self):
+
+        # Some extra simple data. Nb. this assumes transposed
+        data = [[  1,    2,   3], # Should be secondary. Mean is 2
+                [200, -100, 200], # Should be main. Mean is 100
+                [100,  -50, 100]]
+        self.assertEqual(self._e.find_center(data), (100, 2))
+
+        self.assertEqual(self._e.find_center(self._data2), (1, 8))
+
+
     # misc setup methods -------------------------------------------------------
 
     def _set_up_data(self):

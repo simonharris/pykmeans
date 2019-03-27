@@ -25,6 +25,17 @@ class Erisoglu():
 
         return allccs.argmin()
 
+    def find_center(self, data):
+        '''Step iii) Find the center point of the data'''
+
+        main = self.find_main_axis(data)
+        second = self.find_secondary_axis(data)
+
+        print("M: ", main, "S:", second)
+
+        return np.mean(data[main]), np.mean(data[second])
+
+
     # Supporting calculations etc ----------------------------------------------
 
     def variation_coefficient(self, vector):
@@ -35,6 +46,9 @@ class Erisoglu():
 
     def correlation_coefficient(self, left, right): # column j, column j'
         '''Correlation coefficient between two vectors'''
+
+        # Vectorised implementation:
+        # https://waterprogramming.wordpress.com/2014/06/13/numpy-vectorized-correlation-coefficient/
 
         numerator = 0
         denominator_left = 0
