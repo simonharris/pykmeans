@@ -17,24 +17,29 @@ class Erisoglu():
         return allvcs.argmax()
 
 
-    def find_secondary_axis(self, data):
+    def find_secondary_axis(self, data, main_axis):
         '''Step ii) Find the feature with least correlation to the main axis'''
 
-        main = data[self.find_main_axis(data)]
+        main = data[main_axis]
         allccs = np.array([abs(self.correlation_coefficient(main, feature)) for feature in data])
 
         return allccs.argmin()
 
+
     def find_center(self, data):
         '''Step iii) Find the center point of the data'''
 
+        main = main, secondary = self._find_both_axes(data)
+
+        return np.mean(data[main]), np.mean(data[secondary])
+
+
+    def _find_both_axes(self, data):
+
         main = self.find_main_axis(data)
-        second = self.find_secondary_axis(data)
+        secondary = self.find_secondary_axis(data, main)
 
-        print("M: ", main, "S:", second)
-
-        return np.mean(data[main]), np.mean(data[second])
-
+        return main, secondary
 
     # Supporting calculations etc ----------------------------------------------
 
@@ -75,9 +80,3 @@ class Erisoglu():
         '''Since we're working with columns, it's simpler if we transpose first'''
 
         return np.array(data).T
-
-# ------------------------------------------------------------------------------
-
-
-if __name__ == '__main__':
-    pass

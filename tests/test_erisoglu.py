@@ -24,8 +24,8 @@ class ErisogluTestSuite(unittest.TestCase):
         self.assertAlmostEqual(self._e.correlation_coefficient([10,2,3,4,5,6,99], [1,2,3,4,3,2,1]), -0.546, 4)
 
     def test_find_secondary_axis(self):
-        self.assertEqual(self._e.find_secondary_axis(self._data1), 4)
-        self.assertEqual(self._e.find_secondary_axis(self._data2), 5)
+        self.assertEqual(self._e.find_secondary_axis(self._data1, 3), 4)
+        self.assertEqual(self._e.find_secondary_axis(self._data2, 4), 5)
 
     def test_find_center(self):
 
@@ -36,7 +36,6 @@ class ErisogluTestSuite(unittest.TestCase):
         self.assertEqual(self._e.find_center(data), (100, 2))
 
         self.assertEqual(self._e.find_center(self._data2), (1, 8))
-
 
     # misc setup methods -------------------------------------------------------
 
