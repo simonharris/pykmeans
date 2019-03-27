@@ -21,20 +21,9 @@ class Erisoglu():
         '''Step ii) Find the feature with least correlation to the main axis'''
 
         main = data[self.find_main_axis(data)]
+        allccs = np.array([abs(self.correlation_coefficient(main, feature)) for feature in data])
 
-        min = 1
-        min_column = None
-
-        for j in range(0, len(data)):
-
-            ccj = abs(self.correlation_coefficient(main, data[j]))
-
-            if ccj < min:
-                min = ccj
-                min_column = j
-
-        return min_column
-
+        return allccs.argmin()
 
     # Supporting calculations etc ----------------------------------------------
 
