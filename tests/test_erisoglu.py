@@ -1,5 +1,6 @@
 import unittest
 from erisoglu import Erisoglu
+import numpy as np
 
 class ErisogluTestSuite(unittest.TestCase):
 
@@ -7,14 +8,17 @@ class ErisogluTestSuite(unittest.TestCase):
         self._e = Erisoglu()
         self._set_up_data()
 
+
     def test_variation_coefficient(self):
         self.assertEqual(self._e.variation_coefficient([1,1,1]), 0)
         self.assertAlmostEqual(self._e.variation_coefficient([1,2,3]), 0.40824829046)
         self.assertAlmostEqual(self._e.variation_coefficient([-1,-2,-3]), 0.40824829046)
 
+
     def test_find_main_axis(self):
         self.assertEqual(self._e.find_main_axis(self._data1), 3)
         self.assertEqual(self._e.find_main_axis(self._data2), 4)
+
 
     # Note discrepancy between Erisoglu and Pearson. Currently I've used Pearson
     def test_correlation_coefficient(self):
@@ -23,9 +27,11 @@ class ErisogluTestSuite(unittest.TestCase):
         self.assertAlmostEqual(self._e.correlation_coefficient([1,2,3,4,5], [2,4,6,8,10]), 1)
         self.assertAlmostEqual(self._e.correlation_coefficient([10,2,3,4,5,6,99], [1,2,3,4,3,2,1]), -0.546, 4)
 
+
     def test_find_secondary_axis(self):
         self.assertEqual(self._e.find_secondary_axis(self._data1, 3), 4)
         self.assertEqual(self._e.find_secondary_axis(self._data2, 4), 5)
+
 
     def test_find_center(self):
 
@@ -36,6 +42,16 @@ class ErisogluTestSuite(unittest.TestCase):
         self.assertEqual(self._e.find_center(data), (100, 2))
 
         self.assertEqual(self._e.find_center(self._data2), (1, 8))
+        
+
+    def test_euclidean(self):
+        self.assertEqual(
+            self._e.euclidean_distance(np.array([-7,-4]), np.array([17,6])),
+            26)
+        self.assertAlmostEqual(
+            self._e.euclidean_distance(np.array([1,7,98,56,89]), np.array([8,6,56,5,0])),
+            111.06754701531857)
+
 
     # misc setup methods -------------------------------------------------------
 
