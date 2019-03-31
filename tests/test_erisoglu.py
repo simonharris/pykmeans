@@ -55,7 +55,7 @@ class ErisogluTestSuite(unittest.TestCase):
 
     def test_find_most_remote(self):
         # center is [1, 8]
-        self.assertEqual(self._e.find_most_remote(self._data1), 2)
+        self.assertEqual(self._e.find_initial_seed(self._data1), 2)
 
 
     # misc setup methods -------------------------------------------------------

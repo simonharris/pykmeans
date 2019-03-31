@@ -29,18 +29,36 @@ class Erisoglu():
         return [np.mean(data[main]), np.mean(data[secondary])]
 
 
-    def find_most_remote(self, data):
+    def find_initial_seed(self, data):
         '''iv) Find data point most remote from center'''
 
         main = self.find_main_axis(data.T)
         secondary = self.find_secondary_axis(data.T, main)
         center = self.find_center(data.T, main, secondary)
 
-        alldists = [self.euclidean_distance(center, [feature[main], feature[secondary]])
+        return self._find_most_remote(data, center, main, secondary)
+
+
+    # def find_seeds(self, data, K):
+    #     '''v) Incrementally find most remote points from latest seed'''
+    #
+    #     seeds = []
+    #     seed = self.find_initial_seed(data)
+    #     seeds.append(seed)
+    #
+    #     while (len(seeds) < K):
+    #         seed = self._find_most_remote(seed)
+    #         seeds.append(seed)
+    #
+    #     return seeds
+    
+
+    def _find_most_remote(self, data, start, main, secondary):
+
+        alldists = [self.euclidean_distance(start, [feature[main], feature[secondary]])
                  for feature in data]
 
         return np.argmax(alldists)
-
 
     # Supporting calculations etc ----------------------------------------------
 
@@ -50,11 +68,11 @@ class Erisoglu():
         return abs(np.std(vector) / np.mean(vector))
 
 
-    # Interesting vectorised implementation:
-    # https://waterprogramming.wordpress.com/2014/06/13/numpy-vectorized-correlation-coefficient/
-
-    def correlation_coefficient(self, left, right): # column j, column j'
+    def correlation_coefficient(self, left, right):
         '''Correlation coefficient between two vectors'''
+
+        # nb. interesting vectorised implementation:
+        # https://waterprogramming.wordpress.com/2014/06/13/numpy-vectorized-correlation-coefficient/
 
         numerator = 0
         denominator_left = 0
