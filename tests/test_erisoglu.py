@@ -16,8 +16,8 @@ class ErisogluTestSuite(unittest.TestCase):
 
 
     def test_find_main_axis(self):
-        self.assertEqual(self._e.find_main_axis(self._data1), 3)
-        self.assertEqual(self._e.find_main_axis(self._data2), 4)
+        self.assertEqual(self._e.find_main_axis(self._data1.T), 3)
+        self.assertEqual(self._e.find_main_axis(self._data2.T), 4)
 
 
     # Note discrepancy between Erisoglu and Pearson. Currently I've used Pearson
@@ -29,8 +29,8 @@ class ErisogluTestSuite(unittest.TestCase):
 
 
     def test_find_secondary_axis(self):
-        self.assertEqual(self._e.find_secondary_axis(self._data1, 3), 4)
-        self.assertEqual(self._e.find_secondary_axis(self._data2, 4), 5)
+        self.assertEqual(self._e.find_secondary_axis(self._data1.T, 3), 4)
+        self.assertEqual(self._e.find_secondary_axis(self._data2.T, 4), 5)
 
 
     def test_find_center(self):
@@ -39,10 +39,10 @@ class ErisogluTestSuite(unittest.TestCase):
         data = [[  1,    2,   3], # Should be secondary. Mean is 2
                 [200, -100, 200], # Should be main. Mean is 100
                 [100,  -50, 100]]
-        self.assertEqual(self._e.find_center(data), (100, 2))
+        self.assertEqual(self._e.find_center(data, 1, 0), [100, 2])
 
-        self.assertEqual(self._e.find_center(self._data2), (1, 8))
-        
+        self.assertEqual(self._e.find_center(self._data2.T, 4, 5), [1, 8])
+
 
     def test_euclidean(self):
         self.assertEqual(
@@ -53,18 +53,23 @@ class ErisogluTestSuite(unittest.TestCase):
             111.06754701531857)
 
 
+    def test_find_most_remote(self):
+        # center is [1, 8]
+        self.assertEqual(self._e.find_most_remote(self._data1), 2)
+
+
     # misc setup methods -------------------------------------------------------
 
     def _set_up_data(self):
 
-        self._data1 = self._e._prepare_data([
-            [0, 2, 3, 1000, 9],
-            [1, 3, 2, -999, 8],
-            [1, 2, 3, 1001, 7],
-            [1, 3, 1, -998, 8]
+        self._data1 = np.array([
+            [0, 190, 3, 1000, 9],
+            [1, 200, 2, -999, 8],
+            [1, 190, 3, 1001, 7],
+            [1, 189, 1, -998, 8]
         ])
 
-        self._data2 = self._e._prepare_data([
+        self._data2 = np.array([
             [9, 0, 2, 3, 1000, 9],
             [9, 1, 3, 2, -999, 8],
             [7, 1, 2, 3, 1001, 7],

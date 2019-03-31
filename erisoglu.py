@@ -26,14 +26,28 @@ class Erisoglu():
         return allccs.argmin()
 
 
-    def find_center(self, data):
+    def find_center(self, data, main, secondary):
         '''iii) Find the center point of the data'''
 
-        main, secondary = self._find_both_axes(data)
-
-        return np.mean(data[main]), np.mean(data[secondary])
+        return [np.mean(data[main]), np.mean(data[secondary])]
 
 
+    def find_most_remote(self, data):
+        '''iv) Find data point most remote from centre'''
+
+        main, secondary = self._find_both_axes(data.T)
+
+        center = self.find_center(data.T, main, secondary)
+
+        #print(center)
+
+        alldists = np.array([self.euclidean_distance(center, [feature[main], feature[secondary]]) for feature in data])
+
+        return alldists.argmax()
+        #print(alldists)
+
+
+    # TODO: remove
     def _find_both_axes(self, data):
 
         main = self.find_main_axis(data)
@@ -41,10 +55,11 @@ class Erisoglu():
 
         return main, secondary
 
+
     # Supporting calculations etc ----------------------------------------------
 
-    # No doubt all of these are provided by libraries, but the exercise here is
-    # to understand what's happening
+    # No doubt all of these are provided by libraries, but it's useful to
+    # understand what's happening
 
     def variation_coefficient(self, vector):
         '''Absolute value of std dev / mean.'''
@@ -80,14 +95,14 @@ class Erisoglu():
 
 
     def euclidean_distance(self, left, right):
-        '''Already implemented this for CE705, so won't spend time here :)'''
+        '''Already implemented this for CE705, so won't spend time here...'''
 
-        return np.linalg.norm(left - right, axis=0)
+        return np.linalg.norm(np.array(left) - np.array(right), axis=0)
 
 
     # basic utilities ----------------------------------------------------------
 
-    def _prepare_data(self, data):
-        '''Since we're working with columns, it's simpler if we transpose first'''
+    #def _prepare_data(self, data):
+    #    '''Since we're working with columns, it's simpler if we transpose first'''
 
-        return np.array(data).T
+    #    return np.array(data).T
