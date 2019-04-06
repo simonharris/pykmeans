@@ -13,7 +13,7 @@ dataset = datasets.load_iris()
 #wine = datasets.load_wine()
 #bc = datasets.load_breast_cancer()
 
-K =3
+K = 3
 
 data = utils.standardise(dataset.data)
 target = dataset.target
@@ -26,13 +26,14 @@ est1.fit(data)
 est2 = cluster.KMeans(n_clusters=K)
 est2.fit(data)
 
-print('Mine:', U)
-print("SKL (naive): ", est1.labels_)
-print("SKL (smarter): ", est2.labels_)
-print("Target:", target)
+print('Mine:\n', U)
+print("SKL (naive):\n", est1.labels_)
+print("SKL (smarter):\n", est2.labels_)
+print("Target:\n", target)
 
 score_me = metrics.adjusted_rand_score(target, U)
 score_them_n = metrics.adjusted_rand_score(target, est1.labels_)
 score_them_s = metrics.adjusted_rand_score(target, est2.labels_)
 
+print("----------------------------------------------------------------")
 print("Me:", score_me, "| SKLearn (naive):", score_them_n, "| SKLearn (smarter):", score_them_s)
