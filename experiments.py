@@ -26,7 +26,7 @@ parser.add_argument("-k", "--K", dest="K",
 
 args = parser.parse_args()
 
-print("Running experiments with configuration:", args, "\n")
+#print("Running experiments with configuration:", args, "\n")
 
 try:
     dataloader = datasets[args.dataset]
@@ -53,11 +53,22 @@ print("SKL (naive):\n", est1.labels_)
 print("SKL (smarter):\n", est2.labels_)
 print("Target:\n", target)
 
-score_me = skmetrics.adjusted_rand_score(target, U)
-score_them_n = skmetrics.adjusted_rand_score(target, est1.labels_)
-score_them_s = skmetrics.adjusted_rand_score(target, est2.labels_)
+# Run metrics ------------------------------------------------------------------
 
 print("\n----------------------------------------------------------------")
+print("Metrics:")
+
+acc_me = skmetrics.accuracy_score(target, U)
+acc_them_n = skmetrics.accuracy_score(target, est1.labels_)
+acc_them_s = skmetrics.accuracy_score(target, est2.labels_)
+
+print("\nAccuracy Score:")
+print("Me:", acc_me, "| SKL (naive):", acc_them_n, "| SKL (smarter):", acc_them_s)
+
+ari_me = skmetrics.adjusted_rand_score(target, U)
+ari_them_n = skmetrics.adjusted_rand_score(target, est1.labels_)
+ari_them_s = skmetrics.adjusted_rand_score(target, est2.labels_)
+
 print("\nAdjusted Rand Index:")
-print("Me:", score_me, "| SKL (naive):", score_them_n, "| SKL (smarter):", score_them_s)
+print("Me:", ari_me, "| SKL (naive):", ari_them_n, "| SKL (smarter):", ari_them_s)
 print("")
