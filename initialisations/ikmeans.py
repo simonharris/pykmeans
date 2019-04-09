@@ -2,10 +2,8 @@ import numpy as np
 import utils as pu
 import kmeans
 
-#
 # Intelligent K-Means clustering algorithm
 # See: Mirkin 2005, Clustering for data mining: a data recovery approach
-#
 
 def anomalous_pattern(Data):
     '''Locate the most anomalous cluster in a data set'''
@@ -40,17 +38,14 @@ def anomalous_pattern(Data):
     return c, S, Ui
 
 
-def cluster(Data):
+def generate(Data, K):
     '''Intelligent K-Means algorithm'''
 
     DataWorking = Data
-
     centroids = []
 
-    # ii) Control
     while True:
 
-        # i) Anomalous Pattern
         c, S, Ui = anomalous_pattern(DataWorking)
 
         centroids.append(c)
@@ -58,33 +53,7 @@ def cluster(Data):
         DataWorking = np.delete(DataWorking, Ui, 0)
 
         # TODO: investigate other stopping conditions
-        if len(centroids) >= 3:
+        if len(centroids) >= K:
             break
 
-    centroids = np.array(centroids)
-    #print("Initial centroids from ikmeans:\n",  centroids, "\n")
-
-    # iv) K-Means
-    return kmeans.cluster(Data, len(centroids), centroids)
-
-# ------------------------------------------------------------------------------
-
-if __name__ == '__main__':
-
-    data = np.loadtxt('sample_data/Learning_Data.csv', delimiter=',', dtype='float')
-    data = pu.standardise(data)
-
-    '''To test Anomalous Pattern'''
-    #c, S, indexes = anomalous_pattern(data)
-    #print('Most anomalous centroid:\n', c, "\n")
-    #print('Most anomalous cluster:\n', S, "\n")
-    #print('Indexes to remove: ', indexes, "\n")
-
-    '''To test I-K-Means'''
-    Z, U, clusters, iterations = cluster(data)
-
-    print("U:\n", U, "\n")
-    print("Centroids:\n", Z, "\n")
-    print("Iterations: ", iterations, "\n")
-    #for cluster in clusters:
-    #    print("Cluster:\n", cluster, "\n")
+    return np.array(centroids)

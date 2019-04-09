@@ -3,7 +3,7 @@ import sklearn.cluster as skcluster
 import sklearn.metrics as skmetrics
 import kmeans
 import utils
-from initialisations import random
+from initialisations import random, ikmeans
 import sys
 from argparse import ArgumentParser
 
@@ -20,7 +20,7 @@ datasets = {
 
 algorithms = {
     'random': random.generate,
-    #ikmeans
+    'ikmeans': ikmeans.generate,
     #erisolgiu
 }
 
