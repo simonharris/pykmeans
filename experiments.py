@@ -3,6 +3,7 @@ import sklearn.cluster as skcluster
 import sklearn.metrics as skmetrics
 import kmeans
 import utils
+from initialisations import random
 import sys
 from argparse import ArgumentParser
 
@@ -15,31 +16,51 @@ datasets = {
     'iris':  skdatasets.load_iris,
     'wine':  skdatasets.load_wine,
     'bc':    skdatasets.load_breast_cancer,
-    #'ce705': utils.get_learning_data
 }
 
-parser = ArgumentParser()
-parser.add_argument("-d", "--dataset", dest="dataset",
-                    help="Which dataset to use", default="iris")
-parser.add_argument("-k", "--K", dest="K",
-                    help="K", default=3)
+algorithms = {
+    'random': random.generate,
+    #ikmeans
+    #erisolgiu
+}
 
-args = parser.parse_args()
+# functions --------------------------------------------------------------------
 
-#print("Running experiments with configuration:", args, "\n")
+def parse_args():
+    parser = ArgumentParser()
+    parser.add_argument("-d", "--dataset", dest="dataset",
+                        help="Which dataset to use", default="iris")
+    parser.add_argument("-k", "--K", dest="K",
+                        help="K", default=3)
+    parser.add_argument("-a", "--algorithm", dest="algorithm",
+                        help="Which initialisation algorithm to use", default='random')
+
+    return parser.parse_args()
+
+# Run main script --------------------------------------------------------------
+
+args = parse_args()
+print("Running experiments with configuration:", args, "\n")
 
 try:
     dataloader = datasets[args.dataset]
-    dataset = dataloader()
-    K = int(args.K)
+    initialiser = algorithms[args.algorithm]
 except:
-    print("Helpful error message")
+    print("Helpful error message to follow")
     sys.exit()
+
+dataset = dataloader()
+K = int(args.K)
 
 data = utils.standardise(dataset.data)
 target = dataset.target
 
-Z, U, clusters, iterations = kmeans.cluster(data, K)
+# Run initialisation algorithm
+centroids = initialiser(data, K)
+print("Centroids:\n", centroids)
+
+# Run clustering algorithm
+Z, U, clusters, iterations = kmeans.cluster(data, K, centroids)
 
 est1 = skcluster.KMeans(n_clusters=K, n_init=1, init='random')
 est1.fit(data)

@@ -5,4 +5,4 @@ test:
 	@python -m unittest discover
 
 experiments:
-	@python experiments.py -d ${DS} -k ${K}
+	@python experiments.py -d ${DS} -k ${K} -a ${A}

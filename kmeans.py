@@ -1,10 +1,8 @@
 import numpy as np
 import utils as pu
 
-#
 # K-Means clustering algorithm
-# See: Mirkin 2005, Clustering for data mining: a data recovery approach
-#
+# See: Mirkin 2005 - Clustering for data mining: a data recovery approach
 
 def distance_table(Data, Z):
     '''Calculate distances between entities (1 per row) and centroids (1 per column)'''
