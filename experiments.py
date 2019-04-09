@@ -92,4 +92,7 @@ ari_them_s = skmetrics.adjusted_rand_score(target, est2.labels_)
 
 print("\nAdjusted Rand Index:")
 print("Me:", ari_me, "| SKL (naive):", ari_them_n, "| SKL (smarter):", ari_them_s)
+
+print("\nIterations:")
+print("Me:", iterations, "| SKL (naive):", est1.n_iter_ , "| SKL (smarter):", est2.n_iter_ )
 print("")
