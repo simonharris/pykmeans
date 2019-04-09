@@ -1,5 +1,5 @@
 import unittest
-from erisoglu import Erisoglu
+from initialisations.erisoglu import Erisoglu
 import numpy as np
 
 class ErisogluTestSuite(unittest.TestCase):
