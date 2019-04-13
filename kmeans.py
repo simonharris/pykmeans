@@ -34,6 +34,8 @@ def cluster(Data, K, seeds=None):
     # Main loop
     while True:
 
+        iterations += 1
+
         AllDist = distance_table(Data, Z)
 
         U = AllDist.argmin(1)
@@ -50,7 +52,6 @@ def cluster(Data, K, seeds=None):
             clusters.append(cluster)
 
         OldU = U
-        iterations += 1
 
     return Z, U, clusters, iterations
 
