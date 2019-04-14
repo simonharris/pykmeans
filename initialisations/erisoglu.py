@@ -7,7 +7,7 @@ from scipy.spatial import distance as spdistance
 
 class Erisoglu():
 
-    def find_main_axis(self, data):
+    def _find_main_axis(self, data):
         '''i) Find feature with greatest variance'''
 
         allvcs = [self.variation_coefficient(feature) for feature in data]
@@ -15,7 +15,7 @@ class Erisoglu():
         return np.argmax(allvcs)
 
 
-    def find_secondary_axis(self, data, main_axis):
+    def _find_secondary_axis(self, data, main_axis):
         '''ii) Find feature with least absolute correlation to the main axis'''
 
         main = data[main_axis]
@@ -24,38 +24,37 @@ class Erisoglu():
         return np.argmin(allccs)
 
 
-    def find_center(self, data, main, secondary):
+    def _find_center(self, data):
         '''iii) Find the center point of the data'''
 
-        return [np.mean(data[main]), np.mean(data[secondary])]
+        return [np.mean(data[self._main]), np.mean(data[self._secondary])]
 
 
-    def find_initial_seed(self, data):
+    def _find_initial_seed(self, data):
         '''iv) Find data point most remote from center'''
 
-        self._main = self.find_main_axis(data.T)
-        self._secondary = self.find_secondary_axis(data.T, self._main)
-        center = self.find_center(data.T, self._main, self._secondary)
+        self._main = self._find_main_axis(data.T)
+        self._secondary = self._find_secondary_axis(data.T, self._main)
+        center = self._find_center(data.T)
 
-        return self._find_most_remote_by_value(data, center, self._main, self._secondary)
+        return self._find_most_remote_from_center(data, center)
 
 
     def generate(self, data, K):
         '''v) Incrementally find most remote points from latest seed'''
 
         seeds = []
-        seed = self.find_initial_seed(data)
+        seed = self._find_initial_seed(data)
         seeds.append(seed)
 
         while (len(seeds) < K):
-            nextseed = self._find_most_remote_row(data, seeds)
-
+            nextseed = self._find_most_remote_from_seeds(data, seeds)
             seeds.append(nextseed)
 
         return data[seeds]
 
 
-    def _find_most_remote_row(self, data, seeds):
+    def _find_most_remote_from_seeds(self, data, seeds):
 
         main, secondary = self._main, self._secondary
 
@@ -67,9 +66,9 @@ class Erisoglu():
         return np.argmax(alldists)
 
 
-    def _find_most_remote_by_value(self, data, start, main, secondary):
+    def _find_most_remote_from_center(self, data, center):
 
-        alldists = [self.distance(start, [entity[main], entity[secondary]])
+        alldists = [self.distance(center, [entity[self._main], entity[self._secondary]])
                  for entity in data]
 
         return np.argmax(alldists)
@@ -118,3 +117,10 @@ class Erisoglu():
             dist += spdistance.euclidean(left, point)
 
         return dist
+
+# For more consistent integration with the notebook ----------------------------
+
+def generate(data, K):
+    e = Erisoglu()
+    return e.generate(data, K)
+

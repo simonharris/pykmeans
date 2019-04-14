@@ -8,14 +8,12 @@ class ErisogluTestSuite(unittest.TestCase):
         self._e = Erisoglu()
         self._set_up_data()
 
+    # Test a few calculation functions -----------------------------------------
+
     def test_variation_coefficient(self):
         self.assertEqual(self._e.variation_coefficient([1,1,1]), 0)
         self.assertAlmostEqual(self._e.variation_coefficient([1,2,3]), 0.40824829046)
         self.assertAlmostEqual(self._e.variation_coefficient([-1,-2,-3]), 0.40824829046)
-
-    def test_find_main_axis(self):
-        self.assertEqual(self._e.find_main_axis(self._data1.T), 3)
-        self.assertEqual(self._e.find_main_axis(self._data2.T), 4)
 
     # Note discrepancy between Erisoglu and Pearson. Currently I've used Pearson
     def test_correlation_coefficient(self):
@@ -23,20 +21,6 @@ class ErisogluTestSuite(unittest.TestCase):
         self.assertAlmostEqual(self._e.correlation_coefficient([2,1], [2,4]), -1)
         self.assertAlmostEqual(self._e.correlation_coefficient([1,2,3,4,5], [2,4,6,8,10]), 1)
         self.assertAlmostEqual(self._e.correlation_coefficient([10,2,3,4,5,6,99], [1,2,3,4,3,2,1]), -0.546, 4)
-
-    def test_find_secondary_axis(self):
-        self.assertEqual(self._e.find_secondary_axis(self._data1.T, 3), 4)
-        self.assertEqual(self._e.find_secondary_axis(self._data2.T, 4), 5)
-
-    def test_find_center(self):
-
-        # Some extra simple data. Nb. assume this already to be transposed
-        data = [[  1,    2,   3], # Should be secondary. Mean is 2
-                [200, -100, 200], # Should be main. Mean is 100
-                [100,  -50, 100]]
-        self.assertEqual(self._e.find_center(data, 1, 0), [100, 2])
-
-        self.assertEqual(self._e.find_center(self._data2.T, 4, 5), [1, 8])
 
     def test_distances(self):
         # Between two points
@@ -51,10 +35,7 @@ class ErisogluTestSuite(unittest.TestCase):
         mypoints = [[1,1], [1,1], [0,3]]
         self.assertEqual(self._e.distance([0,1], *mypoints), 4)
 
-    def test_find_initial_seed(self):
-
-        # Center is [1,8] - means of columns 3 and 4
-        self.assertEqual(self._e.find_initial_seed(self._data1), 2)
+    # Test the actually algorithm ----------------------------------------------
 
     def test_generate_1(self):
         K = 1
