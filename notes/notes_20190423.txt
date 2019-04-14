@@ -1,0 +1,9 @@
+Notes for 23rd
+
+Done:
+ - Jupyter notebook
+ - integrate ikmeans better so numbers match sklearn
+ - display confusion matrices
+ - Erisoglu finished and integrated
+
+ ...
