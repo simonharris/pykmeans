@@ -18,8 +18,7 @@ class Erisoglu():
     def _find_secondary_axis(self, data, main_axis):
         '''ii) Find feature with least absolute correlation to the main axis'''
 
-        main = data[main_axis]
-        allccs = [abs(self.correlation_coefficient(main, feature)) for feature in data]
+        allccs = [abs(self.correlation_coefficient(data[main_axis], feature)) for feature in data]
 
         return np.argmin(allccs)
 
@@ -43,9 +42,7 @@ class Erisoglu():
     def generate(self, data, K):
         '''v) Incrementally find most remote points from latest seed'''
 
-        seeds = []
-        seed = self._find_initial_seed(data)
-        seeds.append(seed)
+        seeds = [self._find_initial_seed(data)]
 
         while (len(seeds) < K):
             nextseed = self._find_most_remote_from_seeds(data, seeds)
@@ -58,7 +55,7 @@ class Erisoglu():
 
         main, secondary = self._main, self._secondary
 
-        strippedseeds = np.array([ [data[seed][main], data[seed][secondary]] for seed in seeds ])
+        strippedseeds = [ [data[seed][main], data[seed][secondary]] for seed in seeds ]
 
         alldists = [self.distance(np.array([entity[main], entity[secondary]]), *strippedseeds)
                             for entity in data]
@@ -87,9 +84,7 @@ class Erisoglu():
         # nb. interesting vectorised implementation:
         # https://waterprogramming.wordpress.com/2014/06/13/numpy-vectorized-correlation-coefficient/
 
-        numerator = 0
-        denominator_left = 0
-        denominator_right = 0
+        numerator = denominator_left = denominator_right = 0
 
         for i in range(0, len(left)):
 
@@ -111,16 +106,10 @@ class Erisoglu():
     def distance(self, left, *right):
         '''Sum of Euclidean distances between a given point and n others'''
 
-        dist = 0
-
-        for point in right:
-            dist += spdistance.euclidean(left, point)
-
-        return dist
+        return sum([spdistance.euclidean(left, point) for point in right])
 
 # For more consistent integration with the notebook ----------------------------
 
 def generate(data, K):
     e = Erisoglu()
     return e.generate(data, K)
-
