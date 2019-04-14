@@ -51,11 +51,11 @@ class Erisoglu():
     #         seeds.append(seed)
     #
     #     return seeds
-    
+
 
     def _find_most_remote(self, data, start, main, secondary):
 
-        alldists = [self.euclidean_distance(start, [feature[main], feature[secondary]])
+        alldists = [self.distance(start, [feature[main], feature[secondary]])
                  for feature in data]
 
         return np.argmax(alldists)
@@ -95,7 +95,12 @@ class Erisoglu():
         return (numerator / denominator)
 
 
-    def euclidean_distance(self, left, right):
-        '''Implemented this for CE705, so let's just use the libraries this time'''
+    def distance(self, left, *right):
+        '''Sum of Euclidean distances between a given point and n others'''
 
-        return np.linalg.norm(np.array(left) - np.array(right), axis=0)
+        distance = 0
+
+        for point in right:
+            distance += np.linalg.norm(left - point, axis=0)
+
+        return distance

@@ -35,7 +35,7 @@ class ErisogluTestSuite(unittest.TestCase):
 
     def test_find_center(self):
 
-        # Some extra simple data. Nb. this assumes transposed
+        # Some extra simple data. Nb. assume this already to be transposed
         data = [[  1,    2,   3], # Should be secondary. Mean is 2
                 [200, -100, 200], # Should be main. Mean is 100
                 [100,  -50, 100]]
@@ -44,19 +44,32 @@ class ErisogluTestSuite(unittest.TestCase):
         self.assertEqual(self._e.find_center(self._data2.T, 4, 5), [1, 8])
 
 
-    def test_euclidean(self):
+    def test_distances(self):
+        # Between two points
         self.assertEqual(
-            self._e.euclidean_distance(np.array([-7,-4]), np.array([17,6])),
+            self._e.distance(np.array([-7,-4]), np.array([17,6])),
+            26)
+        self.assertEqual(
+            self._e.distance(np.array([-7,-4]), np.array([17,6])),
             26)
         self.assertAlmostEqual(
-            self._e.euclidean_distance(np.array([1,7,98,56,89]), np.array([8,6,56,5,0])),
-            111.06754701531857)
+            self._e.distance(np.array([1,7,98,56,89]), np.array([8,6,56,5,0])),
+            111.0675470)
 
+        # Between n points
+        self.assertEqual(
+            self._e.distance(np.array([1]), np.array([1]), np.array([1])),
+            0)
+        self.assertEqual(
+            self._e.distance(np.array([0,1]), np.array([1,1]), np.array([1,1])),
+            2)
+        self.assertEqual(
+            self._e.distance(np.array([0,1]), np.array([1,1]), np.array([1,1]), np.array([0,3])),
+            4)
 
-    def test_find_most_remote(self):
-        # center is [1, 8]
-        self.assertEqual(self._e.find_initial_seed(self._data1), 2)
-
+        # And by unpacking a list
+        mypoints = [np.array([1,1]), np.array([1,1]), np.array([0,3])]
+        self.assertEqual(self._e.distance(np.array([0,1]), *mypoints), 4)
 
     # misc setup methods -------------------------------------------------------
 
