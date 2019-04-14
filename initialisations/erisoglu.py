@@ -23,37 +23,37 @@ class Erisoglu():
         return np.argmin(allccs)
 
 
-    def _find_center(self, data):
+    def _find_center(self, data, main, secondary):
         '''iii) Find the center point of the data'''
 
-        return [np.mean(data[self._main]), np.mean(data[self._secondary])]
+        return [np.mean(data[main]), np.mean(data[secondary])]
 
 
     def _find_initial_seed(self, data):
         '''iv) Find data point most remote from center'''
 
-        self._main = self._find_main_axis(data.T)
-        self._secondary = self._find_secondary_axis(data.T, self._main)
-        center = self._find_center(data.T)
+        main = self._find_main_axis(data.T)
+        secondary = self._find_secondary_axis(data.T, main)
+        center = self._find_center(data.T, main, secondary)
+        first = self._find_most_remote_from_center(data, center, main, secondary)
 
-        return self._find_most_remote_from_center(data, center)
+        return first, main, secondary
 
 
     def generate(self, data, K):
         '''v) Incrementally find most remote points from latest seed'''
 
-        seeds = [self._find_initial_seed(data)]
+        first, main, secondary = self._find_initial_seed(data)
+        seeds = [first]
 
         while (len(seeds) < K):
-            nextseed = self._find_most_remote_from_seeds(data, seeds)
+            nextseed = self._find_most_remote_from_seeds(data, seeds, main, secondary)
             seeds.append(nextseed)
 
         return data[seeds]
 
 
-    def _find_most_remote_from_seeds(self, data, seeds):
-
-        main, secondary = self._main, self._secondary
+    def _find_most_remote_from_seeds(self, data, seeds, main, secondary):
 
         strippedseeds = [ [data[seed][main], data[seed][secondary]] for seed in seeds ]
 
@@ -63,9 +63,9 @@ class Erisoglu():
         return np.argmax(alldists)
 
 
-    def _find_most_remote_from_center(self, data, center):
+    def _find_most_remote_from_center(self, data, center, main, secondary):
 
-        alldists = [self.distance(center, [entity[self._main], entity[self._secondary]])
+        alldists = [self.distance(center, [entity[main], entity[secondary]])
                  for entity in data]
 
         return np.argmax(alldists)
