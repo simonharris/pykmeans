@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.spatial import distance as spdistance
+from collections import namedtuple
 
 # Erisoglu 2011 "new" algorithm:
 # See: A new algorithm for initial cluster centers in k-means algorithm
@@ -23,49 +24,53 @@ class Erisoglu():
         return np.argmin(allccs)
 
 
-    def _find_center(self, data):
+    def _find_center(self, data, axes):
         '''iii) Find the center point of the data'''
 
-        return [np.mean(data[self._main]), np.mean(data[self._secondary])]
+        return [np.mean(data[axes.main]), np.mean(data[axes.secondary])]
 
 
-    def _find_initial_seed(self, data):
+    def _initialise(self, data):
         '''iv) Find data point most remote from center'''
 
-        self._main = self._find_main_axis(data.T)
-        self._secondary = self._find_secondary_axis(data.T, self._main)
-        center = self._find_center(data.T)
+        main = self._find_main_axis(data.T)
+        secondary = self._find_secondary_axis(data.T, main)
 
-        return self._find_most_remote_from_center(data, center)
+        Axes = namedtuple('Axes', 'main secondary')
+        axes = Axes(main, secondary)
+
+        center = self._find_center(data.T, axes)
+        first = self._find_most_remote_from_center(data, center, axes)
+
+        return first, axes
 
 
     def generate(self, data, K):
         '''v) Incrementally find most remote points from latest seed'''
 
-        seeds = [self._find_initial_seed(data)]
+        first, axes = self._initialise(data)
+        seeds = [first]
 
         while (len(seeds) < K):
-            nextseed = self._find_most_remote_from_seeds(data, seeds)
+            nextseed = self._find_most_remote_from_seeds(data, seeds, axes)
             seeds.append(nextseed)
 
         return data[seeds]
 
 
-    def _find_most_remote_from_seeds(self, data, seeds):
+    def _find_most_remote_from_seeds(self, data, seeds, axes):
 
-        main, secondary = self._main, self._secondary
+        strippedseeds = [ [data[seed][axes.main], data[seed][axes.secondary]] for seed in seeds ]
 
-        strippedseeds = [ [data[seed][main], data[seed][secondary]] for seed in seeds ]
-
-        alldists = [self.distance(np.array([entity[main], entity[secondary]]), *strippedseeds)
+        alldists = [self.distance(np.array([entity[axes.main], entity[axes.secondary]]), *strippedseeds)
                             for entity in data]
 
         return np.argmax(alldists)
 
 
-    def _find_most_remote_from_center(self, data, center):
+    def _find_most_remote_from_center(self, data, center, axes):
 
-        alldists = [self.distance(center, [entity[self._main], entity[self._secondary]])
+        alldists = [self.distance(center, [entity[axes.main], entity[axes.secondary]])
                  for entity in data]
 
         return np.argmax(alldists)
