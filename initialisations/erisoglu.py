@@ -8,29 +8,45 @@ from collections import namedtuple
 
 class Erisoglu():
 
+    def _find_main_axis(self, data):
+        '''i) Find feature with greatest variance'''
+
+        allvcs = [self.variation_coefficient(feature) for feature in data]
+
+        return np.argmax(allvcs)
+
+
+    def _find_secondary_axis(self, data, main_axis):
+        '''ii) Find feature with least absolute correlation to the main axis'''
+
+        allccs = [abs(self.correlation_coefficient(data[main_axis], feature)) for feature in data]
+
+        return np.argmin(allccs)
+
+
+    def _find_center(self, data, axes):
+        '''iii) Find the center point of the data'''
+
+        return [np.mean(data[axes.main]), np.mean(data[axes.secondary])]
+
+
     def _initialise(self, data):
+        '''iv) Find data point most remote from center'''
 
-        # i) Find feature with greatest variance
-        main = np.argmax([self.variation_coefficient(feature) for feature in data.T])
+        main = self._find_main_axis(data.T)
+        secondary = self._find_secondary_axis(data.T, main)
 
-        # ii) Find feature with least absolute correlation to the main axis
-        secondary = np.argmin([abs(self.correlation_coefficient(data.T[main], feature))
-                                for feature in data.T])
+        Axes = namedtuple('Axes', 'main secondary')
+        axes = Axes(main, secondary)
 
-        axes = namedtuple('Axes', 'main secondary')(main, secondary)
-
-        # iii) Find the center point of the data'''
-        center = [np.mean(data.T[axes.main]), np.mean(data.T[axes.secondary])]
-
-        # iv) Find data point most remote from center
+        center = self._find_center(data.T, axes)
         first = self._find_most_remote_from_center(data, center, axes)
 
         return first, axes
 
 
     def generate(self, data, K):
-
-        # v) Incrementally find most remote points from latest seed
+        '''v) Incrementally find most remote points from latest seed'''
 
         first, axes = self._initialise(data)
         seeds = [first]
@@ -42,17 +58,20 @@ class Erisoglu():
         return data[seeds]
 
 
-    def _find_most_remote_from_center(self, data, center, axes):
-        alldists = [self.distance(center, [entity[axes.main], entity[axes.secondary]])
-                 for entity in data]
+    def _find_most_remote_from_seeds(self, data, seeds, axes):
+
+        strippedseeds = [ [data[seed][axes.main], data[seed][axes.secondary]] for seed in seeds ]
+
+        alldists = [self.distance(np.array([entity[axes.main], entity[axes.secondary]]), *strippedseeds)
+                            for entity in data]
 
         return np.argmax(alldists)
 
 
-    def _find_most_remote_from_seeds(self, data, seeds, axes):
-        strippedseeds = [[data[seed][axes.main], data[seed][axes.secondary]] for seed in seeds]
-        alldists = [self.distance(np.array([entity[axes.main], entity[axes.secondary]]), *strippedseeds)
-                            for entity in data]
+    def _find_most_remote_from_center(self, data, center, axes):
+
+        alldists = [self.distance(center, [entity[axes.main], entity[axes.secondary]])
+                 for entity in data]
 
         return np.argmax(alldists)
 
@@ -84,6 +103,7 @@ class Erisoglu():
 
         # NB: This is where Erisoglu seems to differ from Pearson
         denominator = denominator_left**0.5 * denominator_right**0.5
+        #denominator = denominator_left * denominator_right
 
         return (numerator / denominator)
 
