@@ -1,4 +1,5 @@
 init:
+	git pull
 	pip install -qr requirements.txt
 
 test:
