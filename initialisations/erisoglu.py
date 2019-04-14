@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial import distance as spdistance
 
 # Erisoglu 2011 "new" algorithm:
 # See: A new algorithm for initial cluster centers in k-means algorithm
@@ -32,31 +33,44 @@ class Erisoglu():
     def find_initial_seed(self, data):
         '''iv) Find data point most remote from center'''
 
-        main = self.find_main_axis(data.T)
-        secondary = self.find_secondary_axis(data.T, main)
-        center = self.find_center(data.T, main, secondary)
+        self._main = self.find_main_axis(data.T)
+        self._secondary = self.find_secondary_axis(data.T, self._main)
+        center = self.find_center(data.T, self._main, self._secondary)
 
-        return self._find_most_remote(data, center, main, secondary)
-
-
-    # def find_seeds(self, data, K):
-    #     '''v) Incrementally find most remote points from latest seed'''
-    #
-    #     seeds = []
-    #     seed = self.find_initial_seed(data)
-    #     seeds.append(seed)
-    #
-    #     while (len(seeds) < K):
-    #         seed = self._find_most_remote(seed)
-    #         seeds.append(seed)
-    #
-    #     return seeds
+        return self._find_most_remote_by_value(data, center, self._main, self._secondary)
 
 
-    def _find_most_remote(self, data, start, main, secondary):
+    def generate(self, data, K):
+        '''v) Incrementally find most remote points from latest seed'''
 
-        alldists = [self.distance(start, [feature[main], feature[secondary]])
-                 for feature in data]
+        seeds = []
+        seed = self.find_initial_seed(data)
+        seeds.append(seed)
+
+        while (len(seeds) < K):
+            nextseed = self._find_most_remote_row(data, seeds)
+
+            seeds.append(nextseed)
+
+        return data[seeds]
+
+
+    def _find_most_remote_row(self, data, seeds):
+
+        main, secondary = self._main, self._secondary
+
+        strippedseeds = np.array([ [data[seed][main], data[seed][secondary]] for seed in seeds ])
+
+        alldists = [self.distance(np.array([entity[main], entity[secondary]]), *strippedseeds)
+                            for entity in data]
+
+        return np.argmax(alldists)
+
+
+    def _find_most_remote_by_value(self, data, start, main, secondary):
+
+        alldists = [self.distance(start, [entity[main], entity[secondary]])
+                 for entity in data]
 
         return np.argmax(alldists)
 
@@ -98,9 +112,9 @@ class Erisoglu():
     def distance(self, left, *right):
         '''Sum of Euclidean distances between a given point and n others'''
 
-        distance = 0
+        dist = 0
 
         for point in right:
-            distance += np.linalg.norm(left - point, axis=0)
+            dist += spdistance.euclidean(left, point)
 
-        return distance
+        return dist
