@@ -1,6 +1,7 @@
 import unittest
 from initialisations.erisoglu import Erisoglu
 import numpy as np
+import sklearn.datasets as skdatasets
 
 class ErisogluTestSuite(unittest.TestCase):
 
@@ -35,7 +36,7 @@ class ErisogluTestSuite(unittest.TestCase):
         mypoints = [[1,1], [1,1], [0,3]]
         self.assertEqual(self._e.distance([0,1], *mypoints), 4)
 
-    # Test the actually algorithm ----------------------------------------------
+    # Test the actual algorithm ------------------------------------------------
 
     def test_generate_1(self):
         K = 1
@@ -58,6 +59,14 @@ class ErisogluTestSuite(unittest.TestCase):
         self.assertListEqual(list(centroids[1]), [1, 200, 2, -999, 8])
         self.assertListEqual(list(centroids[2]), [0, 190, 3, 1000, 9])
         ## TODO: the fourth one isn't what you'd hope it to be...
+
+    def XXtest_iris(self):
+        K = 3
+        dataset = skdatasets.load_iris()
+        data = dataset.data
+        centroids = self._e.generate(data, K)
+
+
 
     # misc setup methods -------------------------------------------------------
 
