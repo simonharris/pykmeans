@@ -1,6 +1,13 @@
 from scipy.spatial import distance as spdistance
 import numpy as np
 
+'''
+Yuan et al 2004 "new" algorithm
+
+See: A new algorithm to get the initial centroids
+https://ieeexplore.ieee.org/abstract/document/1382371
+'''
+
 #TODO: this is brute force and won't scale. Try to find better (vectorised?) solution
 def distance_table(data):
     '''Calculate distances between each data point'''
@@ -50,9 +57,9 @@ def generate(data, K):
         U = np.delete(U, list(pair), 0)
 
         while len(Am) < (alpha * (n/K)):
-            next = find_next_closest(U, Am)
-            Am.append(U[next])
-            np.delete(U, next)
+            nc = find_next_closest(U, Am)
+            Am.append(U[nc])
+            np.delete(U, nc)
 
         A.append(Am)
 

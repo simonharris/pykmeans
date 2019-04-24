@@ -2,9 +2,12 @@ import numpy as np
 from scipy.spatial import distance as spdistance
 from collections import namedtuple
 
-# Erisoglu 2011 "new" algorithm:
-# See: A new algorithm for initial cluster centers in k-means algorithm
-# https://www.sciencedirect.com/science/article/pii/S0167865511002248
+'''
+Erisoglu 2011 "new" algorithm:
+
+See: A new algorithm for initial cluster centers in k-means algorithm
+https://www.sciencedirect.com/science/article/pii/S0167865511002248
+'''
 
 class Erisoglu():
 
