@@ -1,9 +1,19 @@
 Notes for 23rd
 
 Done:
- - Jupyter notebook
+ - Jupyter notebook(s):
+ - - me vs. SKL
  - integrate ikmeans better so numbers match sklearn
  - display confusion matrices
- - Erisoglu finished and integrated
+ - Erisoglu finished and integrated better
+ - - with some metrics
+ - - found an error (I think)
+ - - found some contradictory numbers?
 
- ...
+ I/P:
+  - another algorithm eg. Yuan
+
+ Todo:
+ - anything around Sillhouette score
+ - Experiments/stats notebook
+ - ...

@@ -1,0 +1,18 @@
+Done:
+ - Yuan working, numbers adding up
+ - that confusion matric alg
+
+
+Questions:
+ - that confusion matrix algorithm - has a name?
+
+
+
+Todo:
+ - email Erisoglu
+ - implement i
+ - implement ii
+
+ - tentative start prop
+ - tentative start proj
+ - start combined experiments notebook
