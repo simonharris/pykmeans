@@ -56,10 +56,4 @@ def generate(data, K):
 
         A.append(Am)
 
-    # Sum the vectors in U
-    centroids = []
-
-    for pointset in A:
-        centroids.append(np.mean(pointset, 0))
-
-    return np.array(centroids)
+    return np.mean(A, 1)
