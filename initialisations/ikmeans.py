@@ -1,5 +1,5 @@
 import numpy as np
-import utils as pu
+from sklearn import preprocessing
 import kmeans
 
 # Intelligent K-Means clustering algorithm
@@ -9,7 +9,7 @@ def anomalous_pattern(Data):
     '''Locate the most anomalous cluster in a data set'''
 
     # i) Standardise the original data (idempotent)
-    Data = pu.standardise(Data)
+    Data = standardise(Data)
 
     # ii) Initial setting
     Origin = np.zeros((1, Data.shape[1]))
@@ -57,3 +57,10 @@ def generate(Data, K):
             break
 
     return np.array(centroids)
+
+
+def standardise(data):
+    '''Scale data from -1 to 1, with 0 mean and unit variance'''
+
+    min_max_scaler = preprocessing.MinMaxScaler((-1,1))
+    return min_max_scaler.fit_transform(data)

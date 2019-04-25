@@ -2,7 +2,6 @@ import sklearn.datasets as skdatasets
 import sklearn.cluster as skcluster
 import sklearn.metrics as skmetrics
 import kmeans
-import utils
 from initialisations import random, ikmeans
 import sys
 from argparse import ArgumentParser
@@ -51,7 +50,7 @@ except:
 dataset = dataloader()
 K = int(args.K)
 
-data = utils.standardise(dataset.data)
+data = ikmeans.standardise(dataset.data)
 target = dataset.target
 
 # Run initialisation algorithm
