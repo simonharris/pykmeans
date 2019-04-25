@@ -1,5 +1,4 @@
 import numpy as np
-import utils as pu
 
 '''
 K-Means clustering algorithm
@@ -58,28 +57,3 @@ def cluster(Data, K, seeds=None):
 
     return {'centroids':Z, 'labels':U, 'clusters':clusters, 'iterations':iterations}
 
-# ------------------------------------------------------------------------------
-
-if __name__ == '__main__':
-
-    # Some defaults
-    seeds = None
-    K = 3
-
-    '''To test using trivial arrays'''
-    #data = np.array([[7,2,3], [5,6,10], [4,5,6], [1,9,10]])
-    #seeds = np.array([[1,2,3], [1,2,10]])
-
-    '''To test using Learning_Data.csv'''
-    data = pu.standardise(np.loadtxt('sample_data/Learning_Data.csv', delimiter=',', dtype='float'))
-    seeds = pu.standardise(np.array([[9.,  5.,  5.,  4.,  4.,  5.,  4.,  3.,  3.],
-                      [1.,  1.,  1.,  1.,  2.,  1.,  2.,  1.,  1.],
-                      [9., 10., 10., 10., 10.,  5., 10., 10., 10.]]))
-
-    Z, U, clusters, iterations = cluster(data, K, seeds)
-
-    #for cluster in clusters:
-    #    print("Cluster:\n", cluster, "\n")
-    print("U:\n", U, "\n")
-    print("Centroids:\n", Z, "\n")
-    print("Iterations: ", iterations, "\n")
