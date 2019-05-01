@@ -1,24 +1,24 @@
 Done:
  - Yuan working, numbers adding up
- - that confusion matrix alg
+ - that confusion matrix alg (ie. when labels are different)
  - emailed Erisoglu
  - started Hatamlou
- -
+ - tentative start project outline
 
 H/Questions:
  - 'objective function'?
- - summing function?
+ - 'termination criterion'?
+ - summing function (metric)? (Suspect this is simple)
+ - versus k-means
 
 Questions:
  - that confusion matrix algorithm - has a name?
 
-
-
 Todo:
-
  - [implement i]
- - implement ii
-
- - tentative start prop
- - tentative start proj
+ - implement...
+ - [tentative start prop?]
  - start combined experiments notebook
+
+ Nb also:
+  - Claire etc
