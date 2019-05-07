@@ -1,0 +1,23 @@
+Done:
+ - more time on Erisoglu. Finally get those "initial" means (M).
+ - - now to reproduce some metrics
+ - that confusion matrix alg (ie. when labels are different)
+ - kmeans++
+ - further on Hatamlou - not there yet
+
+H/Questions:
+ - 'objective function' versus summing function (metric)? (Suspect this is simple)
+ - versus k-means
+
+Questions:
+ -
+
+Todo:
+ - continue with Hatamlou
+ - implement more
+ - implement a metric eg from Erisoglu
+ - start combined experiments notebook
+ - somethign with F-score
+
+ Nb also:
+  - Claire etc
