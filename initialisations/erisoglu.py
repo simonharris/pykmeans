@@ -77,7 +77,7 @@ class Erisoglu():
             cluster = data[mins==k, :]
             M[k] = np.mean(cluster, 0)
 
-        return M
+        return np.array(M)
 
 
     def _find_most_remote_from_seeds(self, data, seeds, axes):
