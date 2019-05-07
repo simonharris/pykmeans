@@ -6,12 +6,16 @@ K-Means clustering algorithm
 See: Mirkin 2005 - Clustering for data mining: a data recovery approach
 '''
 
-def distance_table(Data, Z):
+def distance_table(Data, Z, columns=None):
     '''Calculate distances between entities (1 per row) and centroids (1 per column)'''
 
     K = len(Z)
 
     AllDist = np.zeros((Data.shape[0], K))
+
+    if columns:
+        Data = Data[:, columns]
+        Z = Z[:, columns]
 
     for k in range(K):
         AllDist[:, k] = np.sum((Data - Z[k, :])**2, 1)
@@ -56,4 +60,3 @@ def cluster(Data, K, seeds=None):
         OldU = U
 
     return {'centroids':Z, 'labels':U, 'clusters':clusters, 'iterations':iterations}
-
