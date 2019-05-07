@@ -17,6 +17,7 @@ class ErisogluTestSuite(unittest.TestCase):
         self.assertAlmostEqual(self._e.variation_coefficient([-1,-2,-3]), 0.40824829046)
 
     # Note discrepancy between Erisoglu and Pearson. Currently I've used Pearson
+    # which provides the published numbers
     def test_correlation_coefficient(self):
         self.assertAlmostEqual(self._e.correlation_coefficient([1,2], [2,4]), 1)
         self.assertAlmostEqual(self._e.correlation_coefficient([2,1], [2,4]), -1)
@@ -38,35 +39,17 @@ class ErisogluTestSuite(unittest.TestCase):
 
     # Test the actual algorithm ------------------------------------------------
 
-    def test_generate_1(self):
-        K = 1
-        centroids = self._e.generate(self._data1, K)
-        self.assertEqual(len(centroids), K)
-        self.assertListEqual(list(centroids[0]), [1, 190, 3, 1001, 7])
-
-    def test_generate_2(self):
-        K = 2
-        centroids = self._e.generate(self._data1, K)
-        self.assertEqual(len(centroids), K)
-        self.assertListEqual(list(centroids[0]), [1, 190, 3, 1001, 7])
-        self.assertListEqual(list(centroids[1]), [1, 200, 2, -999, 8])
-
-    def test_generate_3(self):
-        K = 3
-        centroids = self._e.generate(self._data1, K)
-        self.assertEqual(len(centroids), K)
-        self.assertListEqual(list(centroids[0]), [1, 190, 3, 1001, 7])
-        self.assertListEqual(list(centroids[1]), [1, 200, 2, -999, 8])
-        self.assertListEqual(list(centroids[2]), [0, 190, 3, 1000, 9])
-        ## TODO: the fourth one isn't what you'd hope it to be...
-
-    def XXtest_iris(self):
+    def test_iris(self):
         K = 3
         dataset = skdatasets.load_iris()
         data = dataset.data
-        centroids = self._e.generate(data, K)
 
+        m1 = [5.1774, 3.6516, 1.4903, 0.2677]
+        m2 = [6.4024, 2.9506, 5.1193, 1.7916]
+        m3 = [5.1278, 2.7917, 2.5722, 0.6361]
+        expected = [m1, m2, m3]
 
+        np.testing.assert_array_almost_equal(self._e.generate(data, K), expected, decimal=4)
 
     # misc setup methods -------------------------------------------------------
 
