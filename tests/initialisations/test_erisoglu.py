@@ -1,5 +1,5 @@
 import unittest
-from initialisations.erisoglu import Erisoglu
+from initialisations.erisoglu2011 import Erisoglu
 import numpy as np
 import sklearn.datasets as skdatasets
 
