@@ -54,9 +54,16 @@ def cluster(Data, K, seeds=None):
         # Generate new centroids and clusters
         for k in range(K):
             cluster = Data[U==k, :]
+
+
             Z[k, :] = np.mean(cluster, 0)
             clusters.append(cluster)
 
         OldU = U
 
-    return {'centroids':Z, 'labels':U, 'clusters':clusters, 'iterations':iterations}
+    return {'centroids':Z,
+            'labels':U,
+            'clusters':clusters,
+            'iterations':iterations,
+            'inertia':np.sum(AllDist.min(1)),
+            }
