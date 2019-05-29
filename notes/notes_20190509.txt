@@ -1,26 +1,23 @@
-Nb date in filename wrong (paternity)
-
 
 Done:
  - more time on Erisoglu. Finally get those "initial" means (M).
  - - now to reproduce some metrics
  - that confusion matrix alg (ie. when labels are different)
  - kmeans++
- - further on Hatamlou (binary search) - not there yet (not getting numbers)
- - stat on Babu (GA) - will take some time
+ - further on Hatamlou (binary search) - (need to confirm numbers)
+ - Babu (GA) - taking a while but no real problems yet
+ - Started on Khan - early days
 
 H/Questions:
  - 'objective function' versus summing function (metric)? (Suspect this is simple)
  - versus k-means
 
-
-Questions:
- - is SSE same as SSD? (nb. Residuals)
- - - and vs. Euclidean?
- - - - check understanding on how it fits with k-means?
+B/questions:
+ - T is "threshold error"? (p.766)
+ - m is "a constant"?
 
 Todo:
- - continue with Hatamlou
+ - continue with GA, Khan
  - implement more
  - implement a metric eg from Erisoglu
  - start combined experiments notebook
@@ -30,3 +27,5 @@ Todo:
   - Claire etc
   - - emailed PGRE team myself...
   - - - should continue to escalate?
+
+  - bit of direction re abstract
