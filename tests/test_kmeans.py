@@ -23,7 +23,6 @@ class DistanceTableTestSuite(unittest.TestCase):
         '''Compare results with scikit-learn implementation'''
 
         data = skdatasets.load_iris().data
-
         K = 3
 
         # Use Erisoglu as it is deterministic
@@ -31,7 +30,7 @@ class DistanceTableTestSuite(unittest.TestCase):
 
         mine = mykm.cluster(data, K, seeds)
 
-        theirs = skcluster.KMeans(n_clusters=K, n_init=1, init=seeds.copy())
+        theirs = skcluster.KMeans(n_clusters=K, n_init=1, init=seeds)
         theirs.fit(data)
 
         # Assert same centroids
@@ -41,9 +40,6 @@ class DistanceTableTestSuite(unittest.TestCase):
 
         # Assert SSE calculated correctly
         self.assertEqual(mine['inertia'], theirs.inertia_)
-
-        #print("\nTheirs:\t", theirs.inertia_)
-        #print("Mine:\t", mine['inertia'], "\n")
 
 # ------------------------------------------------------------------------------
 

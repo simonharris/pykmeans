@@ -55,7 +55,6 @@ def cluster(Data, K, seeds=None):
         for k in range(K):
             cluster = Data[U==k, :]
 
-
             Z[k, :] = np.mean(cluster, 0)
             clusters.append(cluster)
 
