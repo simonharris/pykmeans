@@ -8,4 +8,6 @@ using a genetic algorithm
 https://www.sciencedirect.com/science/article/abs/pii/016786559390058L
 '''
 
-#
+def find_bounds(data):
+
+    return np.min(data, 0), np.max(data, 0)
