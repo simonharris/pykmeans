@@ -9,14 +9,14 @@ https://www.sciencedirect.com/science/article/pii/S1568494612003377
 '''
 
 def sort_by_magnitude(data):
-    ''' Step i) Sort data by magnitude'''
+    ''' Step a) Sort data by magnitude'''
     idxs = np.argsort(np.linalg.norm(data, axis=1))
 
     return data[idxs]
 
 
 def find_distances(data):
-    '''Step ii) Find Euclidean distances between sorted rows'''
+    '''Step b) Find Euclidean distances between sorted rows'''
 
     distances = []
 
@@ -26,8 +26,8 @@ def find_distances(data):
     return np.array(distances)
 
 
-def find_furthest(distances, K):
-    '''Step iii) Find the largest distances between adjacent rows'''
+def find_split_points(distances, K):
+    '''Step c) Find the largest distances between adjacent rows'''
 
     howmany = K-1
 

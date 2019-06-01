@@ -18,10 +18,10 @@ class BabuTestSuite(unittest.TestCase):
         expected = np.array([1.7320508075688772, 3.1622776601683795, 11.74734012447073])
         np.testing.assert_equal(distances, expected)
 
-    def test_find_furthest(self):
+    def test_find_split_points(self):
         distances = khan.find_distances(self._sorted)
 
-        np.testing.assert_equal(khan.find_furthest(distances, 3), [2, 1])
+        np.testing.assert_equal(khan.find_split_points(distances, 3), [2, 1])
 
 
     # Utilities ----------------------------------------------------------------
