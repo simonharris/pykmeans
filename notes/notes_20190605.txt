@@ -1,0 +1,16 @@
+So far:
+ - slow progress on GA/Babu
+ - progress on Khan
+
+Qu:
+ - Khan - why cluster on split points
+ - Khan - Jenks algorithm
+ - Khan - why 5 cluster for Iris
+
+
+In progress:
+  - that list
+
+To start:
+ - outline of abstract
+ - progress on switch
