@@ -32,7 +32,7 @@ Possibilities?
 
 H. Ismkhan (accepted 2018) i-k-means-+
 
-Redmond Heneghan 2007 KD tree (via Ismkhan)
+Redmond Heneghan 2007 KD tree (via Ismkhan) Pattern Recognition Letters
 
 Tzortzis 2014 - MinMax (via Ismkhan)
 

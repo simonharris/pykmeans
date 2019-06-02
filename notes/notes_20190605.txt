@@ -1,16 +1,22 @@
 So far:
- - slow progress on GA/Babu
- - progress on Khan
+ - implemented Khan, couple of qus
+ - Likas/Global
+ - - weird behaviour
+ - progress on Babu (GA; 228 citations)
+ - - stuck on encoding/decoding
+ - Abstract/proposal start...
+ - - ...
 
 Qu:
- - Khan - why cluster on split points
- - Khan - Jenks algorithm
- - Khan - why 5 cluster for Iris
+ - Khan: why/how cluster on one attribute
+ - Khan: that normalized metric
+ - Khan: why 5 clusters for Iris? Does it matter?
+ - (Khan: Jenks algorithm)
 
+ - What if a paper uses own initialisation, *and* modified kmeans? (Ismkhan, Khan-Jenks, possibly Likas/Global (for performance), Tzortzis/MinMax)
+ - - fair to compare
+ - - would need to implement?
 
-In progress:
-  - that list
-
-To start:
+To do:
  - outline of abstract
- - progress on switch
+ - progress on switching
