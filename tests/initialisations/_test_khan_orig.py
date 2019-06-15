@@ -7,22 +7,22 @@ class KhanTestSuite(unittest.TestCase):
 
     def setUp(self):
         self._setUpData()
-        self._column = 0
+
 
     def test_sort_by_magnitude(self):
-        np.testing.assert_equal(khan.sort_by_magnitude(self._data, self._column), self._sorted)
+        np.testing.assert_equal(khan.sort_by_magnitude(self._data), self._sorted)
 
 
     def test_find_distances(self):
-        distances = khan.find_distances(self._sorted, self._column)
-        expected = np.array([3, 7, 5])
+        distances = khan.find_distances(self._sorted)
+        expected = np.array([1.7320508075688772, 3.1622776601683795, 11.74734012447073])
         np.testing.assert_equal(distances, expected)
 
 
     def test_find_split_points(self):
-        distances = khan.find_distances(self._sorted, self._column)
+        distances = khan.find_distances(self._sorted)
 
-        np.testing.assert_equal(khan.find_split_points(distances, 3), [1, 2])
+        np.testing.assert_equal(khan.find_split_points(distances, 3), [2, 1])
 
 
     # Utilities ----------------------------------------------------------------
@@ -31,13 +31,13 @@ class KhanTestSuite(unittest.TestCase):
         self._data = np.array([
                 [10,10,10],
                 [ 1, 1, 1],
-                [-2,21, 2],
+                [ 2, 2, 2],
                 [ 5, 3, 2],
             ])
 
         self._sorted = np.array([
                 [ 1, 1, 1],
-                [-2,21, 2],
+                [ 2, 2, 2],
                 [ 5, 3, 2],
                 [10,10,10],
             ])

@@ -1,0 +1,19 @@
+So far:
+ - reimplemented Khan
+ - - can't get numbers, confused about normalization, Jenks
+ - Likas/Global
+ - - weird behaviour
+ - Abstract/proposal progress
+ - - further info from Jenny
+
+Qu:
+ - Khan: that normalized metric
+ - Khan: Jenks algorithm...relevant/important, maybe hence some of the variation in numbers
+
+ - What if a paper uses own initialisation, *and* modified kmeans? (Ismkhan, Khan-Jenks, possibly Likas/Global (for performance), Tzortzis/MinMax)
+ - - fair to compare
+ - - would need to implement?
+
+To do:
+ - progress on switching
+ 
