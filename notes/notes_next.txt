@@ -5,6 +5,7 @@ So far:
  - - weird behaviour
  - Abstract/proposal progress
  - - further info from Jenny
+ - - need more on why special/interesting/challenging
 
 Qu:
  - Khan: that normalized metric
@@ -16,4 +17,5 @@ Qu:
 
 To do:
  - progress on switching
+ - the MinMax one
  
