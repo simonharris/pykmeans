@@ -1,7 +1,9 @@
 import numpy as np
 from sklearn.cluster import KMeans
 from initialisations import random as randinit
-from kmeans import distance_table
+from kmeans import distance_table, cluster
+from sklearn.exceptions import ConvergenceWarning
+from sklearn.utils.testing import ignore_warnings
 
 '''
 Bradley & Fayyad 1998
@@ -9,7 +11,6 @@ Bradley & Fayyad 1998
 See: Refining Initial Points for K-Means Clustering
 http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.50.8528&rep=rep1&type=pdf
 '''
-
 
 def refine(seeds, data, K, J):
     '''Main algorithm'''
@@ -46,9 +47,10 @@ def refine(seeds, data, K, J):
     return best.cluster_centers_
 
 
+@ignore_warnings(category=ConvergenceWarning)
 def k_means(seeds, data, K):
     '''Calls the standard k-means with the given seeds'''
-    
+  
     est = KMeans(n_clusters=K, init=seeds, n_init=1)
     est.fit(data)
     return est  
@@ -59,12 +61,22 @@ def k_means_mod(seeds, sample, K):
     
     while True:
     
-        centroids = k_means(seeds, sample, K).cluster_centers_ 
-                
+        km = k_means(seeds, sample, K)
+        
+        centroids = km.cluster_centers_ 
+        
+        ## Because labels_ returned by kmeans are arbitrarily numbered
         distances = distance_table(sample, centroids)
         
-        labels = set(distances.argmin(1))
+        labels = distances.argmin(1)
+
         sought = set(range(0, K))
+        
+        print("Labels:", labels)
+        
+        labels = set(labels)
+        
+        print("Label set:", labels)
         
         missing = sought - labels
         
@@ -75,20 +87,21 @@ def k_means_mod(seeds, sample, K):
             
         else:
             
-            print(missing)
+            print("Missing:", missing)
             print("Before:", seeds)
+            print("Sample:", sample)
             
-            #furthest = _find_furthest(distances, missingcount)
-            #i = 0
-            #for clusterid in missing:
-            #    seeds[clusterid] = sample[furthest[i]]
-            #    i += 1
-                
-            #print("After:", seeds)
-            break
-                
-             
+            furthest = _find_furthest(distances, missingcount)
             
+            print("Furthest-nearest:", furthest)
+            
+            i = 0
+            for clusterid in missing:
+                seeds[clusterid] = sample[furthest[i]]
+                i += 1
+                
+            print("After:", seeds)
+            #break
     
     return centroids
     
@@ -104,9 +117,11 @@ def generate(data, K, opts={}):
 def _find_furthest(distances, howmany=1):
     '''The largest smallest one'''
 
+    print("Distances:\n", distances)
+
     mins = distances.min(1)
     
-    print(mins)
+    print("Mins:\n", mins)
     
     return np.argpartition(mins, -howmany)[-howmany:]
     
