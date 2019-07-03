@@ -4,7 +4,7 @@ from sklearn.cluster import KMeans
 '''
 Likas 1993 Global K-Means algorithm
 
-The global k-means clustering algorithm
+See: The global k-means clustering algorithm
 https://www.sciencedirect.com/science/article/pii/S0031320302000602
 '''
 
