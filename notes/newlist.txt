@@ -1,0 +1,72 @@
+Forgy 1965
+Biometrics, 21, 768-780.
+Cluster Analysis of Multivariate Data: Efficiency vs Interpretability of Classifications
+https://www.scirp.org/(S(351jmbntvnsjt1aadkposzje))/reference/ReferencesPapers.aspx?ReferenceID=1785698
+
+
+Intelligent K-Means
+Mirkin book 
+(nb. only 1/4 stopping conditions implemented)
+
+
+Erisoglu 2011 
+"A new algorithm for initial cluster centers in k-means algorithm"
+Pattern Recognition Letters
+
+
+Yuan 2004 
+"New" algorithm
+(Starts with two closest points then clusters around them until (n/k * Alpha). Repeats until K)
+Proceedings of 2004 International Conference on Machine Learning and Cybernetics
+
+
+Hatamlou 2012 
+Binary search
+Pattern Recognition Letters
+
+
+Arthur & Vassilvitskii 2007 
+K-Means++
+Proceedings of the eighteenth annual ACM-SIAM symposium on Discrete algorithms
+
+
+Khan 2012
+magnitude vs Euclidean distance
+Applied Soft Computing
+
+
+Likas 2003 
+"Global K-Means"
+Pattern Recognition
+https://www.sciencedirect.com/science/article/pii/S0031320302000602
+
+
+Bradley & Fayyad 1998
+Refining Initial Points for K-Means Clustering
+Proceedings of the 15th International Conference on Machine Learning (ICML98)
+http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.50.8528&rep=rep1&type=pdf
+
+
+In Progress
+===========
+
+Redmond Heneghan 2007 
+KD tree (via Ismkhan) 
+Pattern Recognition Letters
+
+
+Onoda 2012
+Careful seeding method based on independent components analysis for k-means clustering
+JOURNAL OF EMERGING TECHNOLOGIES IN WEB INTELLIGENCE, VOL. 4, NO. 1
+
+
+On hold
+=======
+
+Babu 1993 
+A near-optimal initial seed value selection in K-means means algorithm using a genetic algorithm
+Pattern Recognition Letters
+
+
+
+
