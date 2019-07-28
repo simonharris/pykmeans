@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.cluster import KMeans
-from initialisations import random as randinit
+from initialisations import forgy1965 as forgy
 from kmeans import distance_table, cluster
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.utils.testing import ignore_warnings
@@ -72,11 +72,11 @@ def k_means_mod(seeds, sample, K):
 
         sought = set(range(0, K))
         
-        print("Labels:", labels)
+        #print("Labels:", labels)
         
         labels = set(labels)
         
-        print("Label set:", labels)
+        #print("Label set:", labels)
         
         missing = sought - labels
         
@@ -109,7 +109,7 @@ def k_means_mod(seeds, sample, K):
 def generate(data, K, opts={}):
     '''Provide a consistent interface'''
     
-    seeds = randinit.generate(data, K)
+    seeds = forgy.generate(data, K)
     
     return refine(seeds, data, K, opts['J'])
    
