@@ -19,13 +19,9 @@ def _run_pca(data, K):
 def _run_ica(data, K):
     '''Run Independent Component Analysis'''
     
-    # Compute ICA
-    #ica = FastICA(n_components=K) # return 3x4
-    #ica = FastICA() # returns 4x4 - completely different numbers
-    #S_ = ica.fit_transform(data)  # Reconstruct signals
-    #A_ = ica.mixing_  # Get estimated mixing matrix
-
-    #print(ica.components_) # The unmixing matrix
+    ica = FastICA(n_components=K) 
+    ica.fit_transform(data) 
+    return ica.components_
 
 
 def _find_centroids(data, components):
@@ -43,8 +39,7 @@ def _find_centroids(data, components):
 def _calc_distance(row, component):
     '''Used in Step 1b from the algorithm'''
     
-    def mag(vector):
-        return np.linalg.norm(vector)
+    mag = np.linalg.norm
     
     return np.dot(component, row) / (mag(component) * mag(row))
 
@@ -52,14 +47,13 @@ def _calc_distance(row, component):
 # Main interface ---------------------------------------------------------------
 
     
-def generate(data, K, opts={'method':'PCA'}):
+def generate(data, K, opts={'method':'ICA'}):
     '''Provide consistent interface'''
 
-    #if (opts['method'] == 'PCA'):
-    #    
-    components = _run_pca(data, K)
-    #else:
-    #    components = _run_ica(data, K)
+    if (opts['method'] == 'PCA'):
+        components = _run_pca(data, K)
+    else:
+        components = _run_ica(data, K)
     #print(components)
     
     return _find_centroids(data, components)
