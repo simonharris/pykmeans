@@ -3,6 +3,7 @@
 import os
 
 import numpy as np
+import sklearn.datasets as skdatasets
 
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -27,10 +28,19 @@ def _load_local(which):
     )
 
 
-def load_wbco():
-    return _load_local('wbco')
+## The loaders to be exposed --------------------------------------------------- 
     
-# TODO: Iris
 
-# TODO: Wine
+def load_iris():
+    return skdatasets.load_iris()
+
+
+def load_wine():
+    return skdatasets.load_wine ()
+
+
+def load_wbco():
+    return _load_local('wbco') 
+    
+    
 
