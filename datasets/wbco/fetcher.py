@@ -4,13 +4,15 @@ import numpy as np
 import pandas as pd
 
 
-#URL = 'https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/breast-cancer-wisconsin.data'
+## Config ----------------------------------------------------------------------
 
-URL = 'breast-cancer-wisconsin.data.csv'
 
+URL = 'https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/breast-cancer-wisconsin.data'
+
+INT_FMT = '%1i'
 
 names = [
-    'SCN',                         # id number
+    'SCN',                          # id number
     'Clump Thickness',              # 1 - 10
     'Uniformity of Cell Size',      # 1 - 10
     'Uniformity of Cell Shape',     # 1 - 10
@@ -24,6 +26,10 @@ names = [
 ]
 
 
+## Run -------------------------------------------------------------------------
+
+
+# Read data from UCI
 ds = pd.read_csv(URL, names=names, na_values=['?'])
 
 # Lose the ID column
@@ -32,15 +38,11 @@ ds = ds.drop('SCN', axis=1)
 # Drop rows with missing data
 ds = ds.dropna()
 
-labels = ds.loc[:,'Class'].values
+# Convert the 2/4 labels to 1/0 and move to another dataframe
+labels = ds.loc[:,'Class'].values > 3
+ds = ds.drop('Class', axis=1)
 
-labels = labels > 3
-
-labels = labels.astype('int')
-
-
-np.savetxt('labels.csv', labels)		
-
-
-
-
+# Save files
+np.savetxt('labels.csv', labels, fmt=INT_FMT)
+np.savetxt('data.csv', ds, fmt=INT_FMT)
+		
