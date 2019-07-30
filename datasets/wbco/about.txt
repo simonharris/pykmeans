@@ -1,0 +1,11 @@
+Breast Cancer Wisconsin (Original) Data Set
+
+Information:
+https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/breast-cancer-wisconsin.data
+
+Data source:
+https://archive.ics.uci.edu/ml/datasets/breast+cancer+wisconsin+(original)
+
+Notes:
+Original has 699 samples, though 16 contain missing data, leaving the 683 that Onoda 2012 use. Column 0 is an unique ID, which we discard, while column 10 is the labels, which we translate to 0 and 1. 
+
