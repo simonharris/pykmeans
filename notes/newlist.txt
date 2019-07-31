@@ -46,6 +46,10 @@ Refining Initial Points for K-Means Clustering
 Proceedings of the 15th International Conference on Machine Learning (ICML98)
 http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.50.8528&rep=rep1&type=pdf
 
+Onoda 2012
+Careful seeding method based on independent components analysis for k-means clustering
+JOURNAL OF EMERGING TECHNOLOGIES IN WEB INTELLIGENCE, VOL. 4, NO. 1
+
 
 In Progress
 ===========
@@ -55,11 +59,6 @@ KD tree (via Ismkhan)
 Pattern Recognition Letters
 
 
-Onoda 2012
-Careful seeding method based on independent components analysis for k-means clustering
-JOURNAL OF EMERGING TECHNOLOGIES IN WEB INTELLIGENCE, VOL. 4, NO. 1
-
-
 On hold
 =======
 
@@ -67,6 +66,7 @@ Babu 1993
 A near-optimal initial seed value selection in K-means means algorithm using a genetic algorithm
 Pattern Recognition Letters
 
-
+Redmon Heneghan
+kd tree approach
 
 
