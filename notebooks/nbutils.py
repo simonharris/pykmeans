@@ -2,7 +2,6 @@
 
 from sklearn.cluster import KMeans
 
-
 from datasets import loader
 from metrics import accuracy, nmi, ari
 
@@ -10,7 +9,7 @@ from metrics import accuracy, nmi, ari
 SEP = '=====================================================\n'
 
 
-def run_clustering(algorithm, opts):
+def run_clustering(algorithm, opts={}):
     '''Run all datasets'''
 
     _run_dataset('IRIS', loader.load_iris(), 3, algorithm, opts)
@@ -53,5 +52,4 @@ def _run_metrics(target, est):
     print("NMI:", nsc)
     print("Inertia:", est.inertia_)
     print("\n")
-    
-    
+
