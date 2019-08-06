@@ -34,13 +34,12 @@ def _load_local(which):
 def load_iris():
     return skdatasets.load_iris()
 
-
 def load_wine():
     return skdatasets.load_wine ()
 
+def load_hartigan():
+    return _load_local('hartigan1975')
 
 def load_wbco():
     return _load_local('wbco') 
-    
-    
 

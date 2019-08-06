@@ -1,0 +1,10 @@
+Hartigan 1975 nutrition dataset, as used in Steinley 2003
+
+Information:
+
+Data source:
+https://people.inf.elte.hu/fekete/algoritmusok_msc/klaszterezes/John%20A.%20Hartigan-Clustering%20Algorithms-John%20Wiley%20&%20Sons%20(1975).pdf
+
+Notes:
+Labels are not supplied, so labels.csv contains those derived by sklearn K-means with default settings, ie. kmeans++, 10 restarts
+
