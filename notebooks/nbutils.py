@@ -12,6 +12,7 @@ SEP = '=====================================================\n'
 def run_clustering(algorithm, opts={}):
     '''Run all datasets'''
 
+    _run_dataset('HART', loader.load_hartigan(), 3, algorithm, opts)
     _run_dataset('IRIS', loader.load_iris(), 3, algorithm, opts)
     _run_dataset('WINE', loader.load_wine(), 3, algorithm, opts)
     _run_dataset('WBCO', loader.load_wbco(), 2, algorithm, opts)

@@ -1,0 +1,12 @@
+Done:
+
+ - B/Cancer dataset - fetch, clean, drop 16 NaNs, extract + convert labels
+ - consistency (metrics, algorithms, data sets)
+ - - reducing code from notebooks
+ - Half of MacQueen 1967
+ - - 
+ - Steinley:
+ - - is it really an initialisation?
+ - - isn't he just running k-means with many restarts?
+ - - nb Hartigan data
+ - - seem to get same SSE as hime, anyway
