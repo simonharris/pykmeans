@@ -42,13 +42,14 @@ Onoda 2012
 Careful seeding method based on independent components analysis for k-means clustering
 JOURNAL OF EMERGING TECHNOLOGIES IN WEB INTELLIGENCE, VOL. 4, NO. 1
 
+Steinley 2003
+Local Optima in K-Means Clustering: What You Don't Know May Hurt You
+https://psycnet.apa.org/fulltext/2003-09632-004.html
 
 In Progress
 ===========
 
 MacQueen 1967
-
-Steinley 2003
 
 
 On hold
