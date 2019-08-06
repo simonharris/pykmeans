@@ -44,5 +44,5 @@ ds = ds.drop('Class', axis=1)
 
 # Save files
 np.savetxt('labels.csv', labels, fmt=INT_FMT)
-np.savetxt('data.csv', ds, fmt=INT_FMT)
+np.savetxt('data.csv', ds, fmt=INT_FMT, delimiter=',')
 		
