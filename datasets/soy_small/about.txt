@@ -1,0 +1,14 @@
+Soybean (Small) Data Set
+
+Information:
+https://archive.ics.uci.edu/ml/datasets/soybean+(small)
+			
+Data source:
+https://archive.ics.uci.edu/ml/machine-learning-databases/soybean/soybean-small.data
+
+Notes:
+
+
+Number of clusters:
+4
+

@@ -39,7 +39,11 @@ def load_wine():
 
 def load_hartigan():
     return _load_local('hartigan1975')
+    
+def load_soy_small():
+    return _load_local('soy_small')
 
 def load_wbco():
     return _load_local('wbco') 
+    
 
