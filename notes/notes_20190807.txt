@@ -1,6 +1,7 @@
 Done:
 
  - B/Cancer dataset - fetch, clean, drop 16 NaNs, extract + convert labels
+ - Soybean-small
  - consistency (metrics, algorithms, data sets)
  - - reducing code from notebooks
  - Half of MacQueen 1967
@@ -8,5 +9,8 @@ Done:
  - Steinley:
  - - is it really an initialisation?
  - - isn't he just running k-means with many restarts?
- - - nb Hartigan data
- - - seem to get same SSE as hime, anyway
+ - - nb Hartigan data - 8 rows!
+ - - seem to get same SSE as him, anyway
+ 
+ Odd:
+  - varying numbers eg. NMI even when algorithms are supposedly deterministic?
