@@ -1,11 +1,12 @@
+'''
+Faber 1994 version of random initialisation
+
+See: Clustering and the continuous k-means algorithm
+https://www.semanticscholar.org/paper/Clustering-and-the-Continuous-k-Means-Algorithm-Faber/94ab7d7cef96a447d15c81ac3b9f1134575785b2
+'''
+
 import numpy as np
 
-'''
-Forgy 1965 version of random initialisation
-
-See: Cluster Analysis of Multivariate Data: Efficiency vs Interpretability of Classifications
-https://www.scirp.org/(S(351jmbntvnsjt1aadkposzje))/reference/ReferencesPapers.aspx?ReferenceID=1785698
-'''
 
 def generate(data, K, opts={}):
     '''Select random data points as initial seeds'''
