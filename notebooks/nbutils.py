@@ -9,7 +9,7 @@ from metrics import accuracy, nmi, ari
 SEP = '====================================================='
 
 
-def run_clustering(algorithm, opts={}):
+def run_clustering(algorithm, opts):
     '''Run all datasets'''
 
     _run_dataset('HART', loader.load_hartigan(), 3, algorithm, opts)
