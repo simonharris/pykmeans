@@ -54,3 +54,17 @@ def _run_metrics(target, est):
     print("NMI:", nsc)
     print("Inertia:", est.inertia_, "\n")
     
+    
+def run_kmeans_verbose(dataset, seeds):
+    '''Allow the notebook in one line to run kmeans and print detailed results'''
+    
+    est = KMeans(n_clusters=len(seeds), n_init=1, init=seeds)
+    est.fit(dataset.data)
+    
+    print("Discovered centroids:")
+    print(est.cluster_centers_, "\n")
+    print("Labels:")
+    print(est.labels_, "\n")
+    
+    _run_metrics(dataset.target, est)
+    
