@@ -1,6 +1,3 @@
-Forgy 1965 - Biometrics, 21, 768-780.
-Cluster Analysis of Multivariate Data: Efficiency vs Interpretability of Classifications
-
 Intelligent K-Means - Mirkin book 
 (nb. only 1/4 stopping conditions implemented)
 
@@ -34,15 +31,24 @@ Psychological Methods (via Renato/Matlab)
 Milligan 1980
 Pattern Recognition (via Renato/Matlab)
 
+Forgy 1965 - Biometrics, 21, 768-780.
+Cluster Analysis of Multivariate Data: Efficiency vs Interpretability of Classifications
+
+Faber 1994 - Los Alamos Science
+Clustering and the continuous k-means algorithm
+
 
 In Progress
 ===========
 
+
 MacQueen 1967
+
 Hand 2005 (via Renato/Matlab)
 
 Onoda 2012 - Careful seeding method based on independent components analysis for k-means clustering
 JOURNAL OF EMERGING TECHNOLOGIES IN WEB INTELLIGENCE, VOL. 4, NO. 1
+
 
 On hold
 =======
@@ -59,5 +65,7 @@ To consider:
 ============
 
 KKZ
+Kanungo
+Franti GA
 
 
