@@ -1,4 +1,4 @@
-Onoda/ICA. return different numbes before I get to it!
+Onoda/ICA. return different numbers before I get to it!
 
 NEW: Forgy vs. Faber
  - Forgy paper seems unavailable, conflicting reports
@@ -8,14 +8,18 @@ NEW: KKZ 1994
  
 Looked at KD trees but it seems the implementations don't expose the tree (nearest neighbours only)
 
-Steinley vs k-means
- - seems different so implemented another version
+UPDATED: Steinley (vs k-means)
+ - have two of these! seems different so implemented another version
  - Spath reassignment step? (rarely in practice)
+ - is it really an init?
+ 
+MacQueen 1967
+ - more involved/subtle than previously thought
+ - chosing C/R accurately for datasets could be burdensome
+  
 
 Anything from university?
 
 --
 
-TODO: investigate MacQueen status
- 
 
