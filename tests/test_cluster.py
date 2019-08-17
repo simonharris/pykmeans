@@ -67,3 +67,23 @@ class ClusterTestSuite(unittest.TestCase):
         
         self.assertEqual(c.get_distance([2, 2, 2, 2]), 2)
         
+        
+    def test_merge(self):
+    
+        a = Cluster()
+        a.assign([1, 2, 3])
+        a.assign([2, 3, 4])
+        
+        b = Cluster()
+        b.assign([3, 4, 5])
+        b.assign([4, 5, 6])
+        
+        a.merge(b)
+        
+        # test values (order not important)
+        self.assertCountEqual(a.get_samples(), 
+                [[1, 2, 3], [4, 5, 6], [2, 3, 4], [3, 4, 5]])
+              
+        # test recalculated mean
+        np.testing.assert_array_equal(a.get_mean(), [2.5, 3.5, 4.5])
+        

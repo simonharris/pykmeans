@@ -11,9 +11,11 @@ class Cluster():
         self._samples = []
 
     
-    def assign(self, vector):
+    def assign(self, vector, recalc_mean=True):
         self._samples.append(vector)
-        self._calculate_mean()
+        
+        if recalc_mean:
+            self._calculate_mean()
     
     
     def get_samples(self):
@@ -26,7 +28,14 @@ class Cluster():
     
     def get_distance(self, vector):
         return spdistance.euclidean(self.get_mean(), vector)
+    
+    
+    def merge(self, other):
+        for sample in other.get_samples():
+            self.assign(sample, recalc_mean=False)
         
+        # just done once at the end for efficiency
+        self._calculate_mean()
         
     def _calculate_mean(self):
         self._mean = np.mean(np.array(self._samples), axis=0)
