@@ -17,7 +17,7 @@ Proceedings of the eighteenth annual ACM-SIAM symposium on Discrete algorithms
 Khan 2012 -magnitude vs Euclidean distance
 Applied Soft Computing
 
-Likas 2003  - "Global K-Means"
+Likas 2003 - "Global K-Means"
 Pattern Recognition
 
 Bradley & Fayyad 1998 - Refining Initial Points for K-Means Clustering
@@ -27,30 +27,35 @@ Proceedings of the 15th International Conference on Machine Learning (ICML98)
 
 Steinley 2003 - Local Optima in K-Means Clustering: What You Don't Know May Hurt You
 Psychological Methods (via Renato/Matlab)
+* nb. TWO versions
 
-Milligan 1980
-Pattern Recognition (via Renato/Matlab)
+Milligan 1980 (via Renato/Matlab)
+Pattern Recognition 
 
-Forgy 1965 - Biometrics, 21, 768-780.
+Forgy 1965 
 Cluster Analysis of Multivariate Data: Efficiency vs Interpretability of Classifications
+Biometrics, 21, 768-780.
 
-Faber 1994 - Los Alamos Science
+Faber 1994
 Clustering and the continuous k-means algorithm
+Los Alamos Science
 
+Hand 2005 (via Renato/Matlab)
+Optimising k-means clustering results with standard software packages
+Computational Statistics & Data Analysis
+
+KKZ - "New Initialization Technique" 1994
+IEEE Signal Processing Letters
 
 In Progress
 ===========
 
-
 MacQueen 1967
-
-Hand 2005 (via Renato/Matlab)
 
 Onoda 2012 - Careful seeding method based on independent components analysis for k-means clustering
 JOURNAL OF EMERGING TECHNOLOGIES IN WEB INTELLIGENCE, VOL. 4, NO. 1
 
-
-On hold
+On Hold
 =======
 
 Babu 1993 
@@ -61,11 +66,13 @@ Redmond Heneghan 2007
 KD tree (via Ismkhan) 
 Pattern Recognition Letters
 
-To consider:
-============
+Kanungo - KD tree
 
-KKZ
-Kanungo
-Franti GA
+To Consider
+===========
+ 
+"MaxMin" algorithms
+sciencedirect emails
+search for more, including surverys
 
 
