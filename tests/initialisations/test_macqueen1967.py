@@ -5,7 +5,6 @@ import numpy as np
 from initialisations import macqueen1967 as macqueen
 
 
-
 class SteinleyTestCase(unittest.TestCase):
 
     def test_get_pairs(self):
