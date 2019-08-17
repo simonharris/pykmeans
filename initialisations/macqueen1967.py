@@ -5,6 +5,17 @@ import sklearn.datasets as skdatasets
 
 from cluster import Cluster
 
+ 
+def get_pairs(alist):
+    
+    pairs = []
+    
+    for i in range(0, len(alist)-1):
+        for ii in range(i+1, len(alist)):
+            pairs.append([alist[i], alist[ii]])
+            
+    return pairs 
+
 
 def generate(data, K, opts={}):
 
