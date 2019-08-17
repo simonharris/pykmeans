@@ -1,20 +1,48 @@
-'''MacQueen 1967'''
+'''
+MacQueen 1967 algorithm
+
+See: Some methods for classification and analysis of multivariate observations
+https://books.google.co.uk/books?id=IC4Ku_7dBFUC&pg=PA281#v=onepage&q&f=false
+'''
+
+from itertools import combinations
 
 import numpy as np
 import sklearn.datasets as skdatasets
 
 from cluster import Cluster
 
+
+R = C = 2
+
  
 def get_pairs(alist):
+   
+    return list(combinations(alist, 2))
     
-    pairs = []
+
+def consolidate(clusters):
+
+    if len(clusters) == 1:
+        return clusters
     
-    for i in range(0, len(alist)-1):
-        for ii in range(i+1, len(alist)):
-            pairs.append([alist[i], alist[ii]])
-            
-    return pairs 
+    pairs = get_pairs(clusters)
+    
+    distances = [pair[0].get_distance(pair[1].get_mean()) for pair in pairs]
+    print(distances)
+    
+    if min(distances) < C:
+
+        pair_to_merge = pairs[np.argmin(distances)]
+
+        left = pair_to_merge[0]
+        right = pair_to_merge[1]
+
+        left.merge(right)
+
+        del clusters[clusters.index(right)]
+        
+    return clusters
 
 
 def generate(data, K, opts={}):
@@ -28,15 +56,23 @@ def generate(data, K, opts={}):
             c = Cluster()
             c.assign(data[i])
             clusters.append(c)
+            continue
+        
+        clusters = consolidate(clusters)
+
+        # get distance from each cluster
+        distances = [c.get_distance(data[i]) for c in clusters]
             
-        # then assign the rest to whichever they're nearest to
+        if min(distances) > R:
+            c = Cluster()
+            c.assign(data[i])
+            clusters.append(c)
+                
         else:
-            
-            # get distance for each cluster
-            distances = [c.get_distance(data[i]) for c in clusters]
-            
             # assign to nearest
             clusters[np.argmin(distances)].assign(data[i])
+                                
+        clusters = consolidate(clusters)
             
-    return np.array([cl.get_mean() for cl in clusters])
+    return np.array([cl.get_mean() for cl in clusters])     
     
