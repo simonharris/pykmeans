@@ -1,19 +1,20 @@
 Onoda/ICA. return different numbes before I get to it!
 
-Forgy vs. Faber
+NEW: Forgy vs. Faber
  - Forgy paper seems unavailable, conflicting reports
+ - nb Steinley 2003 uses what I have as Forgy
 NEW: KKZ 1994
  - mentioned a lot, 387 citation
  
 Looked at KD trees but it seems the implementations don't expose the tree (nearest neighbours only)
 
+Steinley vs k-means
+ - seems different so implemented another version
+ - Spath reassignment step? (rarely in practice)
+
 Anything from university?
 
-
 --
-
-Steinley vs k-means
- - see notes for last week
 
 TODO: investigate MacQueen status
  
