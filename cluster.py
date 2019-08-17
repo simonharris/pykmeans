@@ -39,4 +39,7 @@ class Cluster():
         
     def _calculate_mean(self):
         self._mean = np.mean(np.array(self._samples), axis=0)
+        
+    def __str__(self):
+        return str(self._mean)
 
