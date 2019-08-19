@@ -13,7 +13,7 @@ import sklearn.datasets as skdatasets
 from cluster import Cluster
 
 
-R = C = 2
+R = C = 1.7 # Seems about right for Iris, but other datasets will vary
 
  
 def get_pairs(alist):
@@ -22,16 +22,19 @@ def get_pairs(alist):
     
 
 def consolidate(clusters):
+    
+    # "Until all the means are separated by an amount of C or more"
+    while True:
+    
+        if len(clusters) == 1:
+            return clusters
 
-    if len(clusters) == 1:
-        return clusters
+        pairs = get_pairs(clusters)
     
-    pairs = get_pairs(clusters)
-    
-    distances = [pair[0].get_distance(pair[1].get_mean()) for pair in pairs]
-    print(distances)
-    
-    if min(distances) < C:
+        distances = [pair[0].get_distance(pair[1].get_mean()) for pair in pairs]
+        
+        if min(distances) > C:
+            return clusters
 
         pair_to_merge = pairs[np.argmin(distances)]
 
@@ -41,8 +44,6 @@ def consolidate(clusters):
         left.merge(right)
 
         del clusters[clusters.index(right)]
-        
-    return clusters
 
 
 def generate(data, K, opts={}):
@@ -66,8 +67,7 @@ def generate(data, K, opts={}):
         if min(distances) > R:
             c = Cluster()
             c.assign(data[i])
-            clusters.append(c)
-                
+            clusters.append(c)     
         else:
             # assign to nearest
             clusters[np.argmin(distances)].assign(data[i])
