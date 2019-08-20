@@ -27,7 +27,7 @@ class CCIA():
         self._num_attrs = data.shape[1]
 
 
-    def find_centers(self, ):
+    def find_centers(self):
         '''Find centers corresponding to each attribute'''
         
         cluster_string = np.zeros((self._num_samples, self._num_attrs))
