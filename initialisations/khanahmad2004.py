@@ -8,6 +8,7 @@ Heavily inspired by the author's own Java implementation:
 https://github.com/titubeta/ccia/
 '''
 
+from collections import Counter
 import math
 
 import numpy as np
@@ -44,9 +45,11 @@ class CCIA():
         # end for each attribute
          
         cstr = self._extract_cluster_strings(cluster_string, self._data)
-        print(cstr)
-        #Map<String, Integer> distinctClassStr = findUniqueClusterStrings(cstr);
+        #print("C:", cstr)
+        dist_class_str = self._find_unique_cluster_strings(cstr)
+        #print(dist_class_str)
         #double [][] initCenters = findInitialCenters(cstr,distinctClassStr, data);
+        return self._find_initial_centers(cstr, dist_class_str, self._data);
         #return initCenters;
 
 
@@ -109,21 +112,45 @@ class CCIA():
 
 
     def _extract_cluster_strings(self, cluster_string, data):
-        '''Extract clustering strings for the whole data'''
+        '''
+        Extract clustering strings for the whole data
+        
+        TODO: can be heavily refactored
+        '''
             
         cstr = []
 
         for i in range(0, self._num_samples):
-            cstr.append("")
+            cstr.append('')
             
             for j in range(0, self._num_attrs-1):
-                cstr[i] = cstr[i] + str(cluster_string[i][j]) + ","
+                cstr[i] = cstr[i] + str(int(cluster_string[i][j])) + ','
             
-            cstr[i] += str(cluster_string[i][self._num_attrs-1])
+            cstr[i] += str(int(cluster_string[i][self._num_attrs-1]))
+    
+        return cstr
+         
+        
+    def _find_unique_cluster_strings(self, cstr):
+        '''Not sure why this method exists just to call another...'''
+        
+        return self._distinct_attributes(cstr)
+		
+		
+    def _distinct_attributes(self, args):	
+        '''Count distinct attribute values'''
 
-        print(cstr)
+        return Counter(args)
+        
+    #public double [][] findInitialCenters(String [] cstr, Map<String, Integer> distinctClassStr, Instances data) throws Exception {
+		
+    def _find_initial_centers(cstr, dist_class_str, data):
+        # TODO
+        pass
+    
+       		
 
-     
+## -----------------------------------------------------------------------------
 
 def generate(data, K, opts):
     '''The common interface'''
