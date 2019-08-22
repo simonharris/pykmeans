@@ -9,12 +9,12 @@ Yuan 2004  - "New" algorithm
 Proceedings of 2004 International Conference on Machine Learning and Cybernetics
 
 Hatamlou 2012  - Binary search
-Pattern Recognition Letters
+Pattern Recognition Letters - 39 citations
 
 Arthur & Vassilvitskii 2007 - K-Means++
-Proceedings of the eighteenth annual ACM-SIAM symposium on Discrete algorithms
+Proceedings of the eighteenth annual ACM-SIAM symposium on Discrete algorithms - 4,265 citations
 
-Khan 2012 -magnitude vs Euclidean distance
+Khan 2012 - magnitude vs Euclidean distance
 Applied Soft Computing
 
 Likas 2003 - "Global K-Means"
@@ -22,8 +22,6 @@ Pattern Recognition
 
 Bradley & Fayyad 1998 - Refining Initial Points for K-Means Clustering
 Proceedings of the 15th International Conference on Machine Learning (ICML98)
-
-- Onoda
 
 Steinley 2003 - Local Optima in K-Means Clustering: What You Don't Know May Hurt You
 Psychological Methods (via Renato/Matlab)
@@ -47,13 +45,20 @@ Computational Statistics & Data Analysis
 KKZ - "New Initialization Technique" 1994
 IEEE Signal Processing Letters
 
+MacQueen 1967
+
+
 In Progress
 ===========
 
-MacQueen 1967
+Khan & Ahmad 2004 - CCIA 
+Pattern Recognitions Letters - 635 citations
 
 Onoda 2012 - Careful seeding method based on independent components analysis for k-means clustering
 JOURNAL OF EMERGING TECHNOLOGIES IN WEB INTELLIGENCE, VOL. 4, NO. 1
+
+SPSS
+
 
 On Hold
 =======
@@ -73,6 +78,6 @@ To Consider
  
 "MaxMin" algorithms
 sciencedirect emails
-search for more, including surverys
+have found more, including surverys
 
 

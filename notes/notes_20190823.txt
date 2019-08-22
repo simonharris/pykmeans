@@ -1,22 +1,27 @@
 Onoda/ICA. return different numbers before I get to it!
+ - nb Renato's code
 
 NEW: Forgy vs. Faber
  - Forgy paper seems unavailable, conflicting reports
  - nb Steinley 2003 uses what I have as Forgy
 NEW: KKZ 1994
- - mentioned a lot, 387 citation
- 
-Looked at KD trees but it seems the implementations don't expose the tree (nearest neighbours only)
-
+ - mentioned a lot, 387 citations
 UPDATED: Steinley (vs k-means)
  - have two of these! seems different so implemented another version
  - Spath reassignment step? (rarely in practice)
  - is it really an init?
- 
-MacQueen 1967
+UPDATED: MacQueen 1967 done
  - more involved/subtle than previously thought
  - chosing C/R accurately for datasets could be burdensome
-  
+
+
+ONGOING: Khan & Ahmad CCIA - PRL - c.635 citations
+ 
+ NB. SPSS (not SPSS)
+ 
+Looked at KD trees but it seems the implementations don't expose the tree (nearest neighbours only)
+
+Teaching role paperwork  
 
 Anything from university?
 
