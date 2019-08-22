@@ -3,17 +3,40 @@ from scipy.spatial import distance as spdistance
 from collections import namedtuple
 import kmeans
 
-'''
+"""
 Erisoglu 2011 "new" algorithm:
 
 See: A new algorithm for initial cluster centers in k-means algorithm
 https://www.sciencedirect.com/science/article/pii/S0167865511002248
-'''
+"""
 
-class Erisoglu():
+from initialisations.Initialisation import Initialisation
+
+
+class Erisoglu(Initialisation):
+
+
+    def find_centers(self):
+        """vi) Turn the candidates into means of initial clusters"""
+
+        first, axes = self._initialise()
+
+        candidates = self._generate_candidates(self._data, self._K, first, axes)
+
+        distances = kmeans.distance_table(self._data, candidates, axes)
+        mins = distances.argmin(1)
+
+        M = [None] * self._K
+
+        for k in range(self._K):
+            cluster = self._data[mins==k, :]
+            M[k] = np.mean(cluster, 0)
+
+        return np.array(M)
+
 
     def _find_main_axis(self, dataT):
-        '''i) Find feature with greatest variance'''
+        """i) Find feature with greatest variance"""
 
         allvcs = [self.variation_coefficient(feature) for feature in dataT]
 
@@ -21,36 +44,37 @@ class Erisoglu():
 
 
     def _find_secondary_axis(self, dataT, main_axis):
-        '''ii) Find feature with least absolute correlation to the main axis'''
+        """ii) Find feature with least absolute correlation to the main axis"""
 
-        allccs = [abs(self.correlation_coefficient(dataT[main_axis], feature)) for feature in dataT]
+        allccs = [abs(self.correlation_coefficient(dataT[main_axis], feature)) 
+                            for feature in dataT]
 
         return np.argmin(allccs)
 
 
     def _find_center(self, dataT, axes):
-        '''iii) Find the center point of the data'''
+        """iii) Find the centre point of the data"""
 
         return [np.mean(dataT[axes.main]), np.mean(dataT[axes.secondary])]
 
 
-    def _initialise(self, data):
-        '''iv) Find data point most remote from center'''
+    def _initialise(self):
+        """iv) Find data point most remote from center"""
 
-        main = self._find_main_axis(data.T)
-        secondary = self._find_secondary_axis(data.T, main)
+        main = self._find_main_axis(self._data.T)
+        secondary = self._find_secondary_axis(self._data.T, main)
 
         Axes = namedtuple('Axes', 'main secondary')
         axes = Axes(main, secondary)
 
-        center = self._find_center(data.T, axes)
-        first = self._find_most_remote_from_center(data, center, axes)
+        center = self._find_center(self._data.T, axes)
+        first = self._find_most_remote_from_center(self._data, center, axes)
 
         return first, axes
 
 
     def _generate_candidates(self, data, K, first, axes):
-        '''v) Incrementally find most remote points from latest seed'''
+        """v) Incrementally find most remote points from latest seed"""
 
         seeds = [first]
 
@@ -61,28 +85,10 @@ class Erisoglu():
         return data[seeds]
 
 
-    def generate(self, data, K):
-        '''vi) Turn the candidates into means of initial clusters'''
-
-        first, axes = self._initialise(data)
-
-        candidates = self._generate_candidates(data, K, first, axes)
-
-        distances = kmeans.distance_table(data, candidates, axes)
-        mins = distances.argmin(1)
-
-        M = [None] * K
-
-        for k in range(K):
-            cluster = data[mins==k, :]
-            M[k] = np.mean(cluster, 0)
-
-        return np.array(M)
-
-
     def _find_most_remote_from_seeds(self, data, seeds, axes):
 
-        strippedseeds = [ [data[seed][axes.main], data[seed][axes.secondary]] for seed in seeds ]
+        strippedseeds = [ [data[seed][axes.main], data[seed][axes.secondary]] 
+                            for seed in seeds ]
 
         alldists = [self.distance(np.array([entity[axes.main], entity[axes.secondary]]), *strippedseeds)
                             for entity in data]
@@ -100,13 +106,13 @@ class Erisoglu():
     # Supporting calculations etc ----------------------------------------------
 
     def variation_coefficient(self, vector):
-        '''Absolute value of std dev / mean.'''
+        """Absolute value of std dev / mean."""
 
         return abs(np.std(vector) / np.mean(vector))
 
 
     def correlation_coefficient(self, left, right):
-        '''Correlation coefficient between two vectors'''
+        """Correlation coefficient between two vectors"""
 
         # nb. interesting vectorised implementation:
         # https://waterprogramming.wordpress.com/2014/06/13/numpy-vectorized-correlation-coefficient/
@@ -131,12 +137,17 @@ class Erisoglu():
 
 
     def distance(self, left, *right):
-        '''Sum of Euclidean distances between a given point and n others'''
+        """Sum of Euclidean distances between a given point and n others"""
 
         return sum([spdistance.euclidean(left, point) for point in right])
 
-# For more consistent integration with the notebook ----------------------------
 
-def generate(data, K):
-    e = Erisoglu()
-    return e.generate(data, K)
+## -----------------------------------------------------------------------------
+
+
+def generate(data, K, opts):
+    """The common interface"""
+
+    e = Erisoglu(data, K, opts)
+    return e.find_centers()
+    
