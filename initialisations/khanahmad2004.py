@@ -144,7 +144,7 @@ class CCIA():
         
     #public double [][] findInitialCenters(String [] cstr, Map<String, Integer> distinctClassStr, Instances data) throws Exception {
 		
-    def _find_initial_centers(cstr, dist_class_str, data):
+    def _find_initial_centers(self, cstr, dist_class_str, data):
         # TODO
         pass
     
