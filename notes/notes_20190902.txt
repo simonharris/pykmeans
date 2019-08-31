@@ -1,0 +1,3 @@
+what did he say about categorical data?
+ - eg. Ecoli has one categorical column?
+

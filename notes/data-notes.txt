@@ -1,0 +1,31 @@
+Data notes:
+-----------
+
+Avila
+ * from images but is just numbers. Labelled in 12 clusters
+ - https://archive.ics.uci.edu/ml/datasets/Avila
+ * Z-normalization (?)
+
+Ecoli
+ * has one categorical column, dropped it for now
+ * data appears to be scaled from 0-1
+
+ISOLET:
+ - 6238x617 - 26cl (alphabet)
+ - scaled -1 to 1
+
+WBCO:
+ * c.16 rows with missing data. Seem to general be dropped
+
+
+--
+
+Blood Transfusion - 747x4 - 2cl
+Breast Tissue (brtiss)
+Iris
+Letter Recognition
+Musk (dropped first column as test+categorical+redundant
+Optdigits - 3823x64 - 10cl
+Pageblocks
+Pendigits
+Wine
