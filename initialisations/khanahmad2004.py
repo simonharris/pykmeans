@@ -1,5 +1,5 @@
 """
-Khan & Ahmad 2004 "Cluster center initialization algorithm"
+Khan & Ahmad 2004 "Cluster Center Initialization Algorithm"
 
 See: Cluster center initialization algorithm for K-means clustering
 https://www.sciencedirect.com/science/article/abs/pii/S0167865504000996
@@ -36,11 +36,14 @@ class CCIA():
 
             mystr = self._cluster_numeric_attribute(val, self._data)
 
-            print(mystr)
+            # print(mystr)
 
-            '''
+
             membership = self._generate_cluster_string(mystr, self._data)
 
+            print(membership)
+
+            '''
             for l in range(0, self._num_samples):
                 cluster_string[l][i] = membership[l]
             '''
@@ -92,12 +95,12 @@ class CCIA():
 
 
     def _generate_cluster_string(self, mystr, data):
-        '''
+        """
         Find new centers corresponding to this attribute's cluster
         allotments and allot data objects based on cluster allotments
 
         TODO: this is just calculating means. Vectorise it
-        '''
+        """
 
         clust = np.zeros((self._K, self._num_attrs))
         count = [0] * self._K
