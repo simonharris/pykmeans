@@ -35,28 +35,24 @@ class CCIA():
             val = self._data[:, i]
 
             mystr = self._cluster_numeric_attribute(val, self._data)
-
             # print(mystr)
 
-
             membership = self._generate_cluster_string(mystr, self._data)
+            # print(membership)
 
-            print(membership)
-
-            '''
             for l in range(0, self._num_samples):
                 cluster_string[l][i] = membership[l]
-            '''
+
         # end for each attribute
-        '''
+
         cstr = self._extract_cluster_strings(cluster_string, self._data)
         #print("C:", cstr)
+
         dist_class_str = self._find_unique_cluster_strings(cstr)
         #print(dist_class_str)
-        #double [][] initCenters = findInitialCenters(cstr,distinctClassStr, data);
+
         return self._find_initial_centers(cstr, dist_class_str, self._data)
-        #return initCenters;
-        '''
+
 
     # Private methods ---------------------------------------------------------
 
@@ -156,8 +152,9 @@ class CCIA():
     #public double [][] findInitialCenters(String [] cstr, Map<String, Integer> distinctClassStr, Instances data) throws Exception {
 
     def _find_initial_centers(self, cstr, dist_class_str, data):
-        # TODO
-        pass
+
+        print(cstr)
+        print(dist_class_str)
 
 
 # ------------------------------------------------------------------------------
