@@ -17,6 +17,7 @@ from sklearn.cluster import KMeans
 
 
 class CCIA():
+    """Cluster Center Initialization Algorithm"""
 
     def __init__(self, data, K):
         self._data = data
@@ -46,10 +47,7 @@ class CCIA():
         # end for each attribute
 
         cstr = self._extract_cluster_strings(cluster_string, self._data)
-        #print("C:", cstr)
-
         dist_class_str = self._find_unique_cluster_strings(cstr)
-        #print(dist_class_str)
 
         return self._find_initial_centers(cstr, dist_class_str, self._data)
 
@@ -70,19 +68,17 @@ class CCIA():
 
         xs = []
 
-        mn = np.mean(attrib)
+        attr_mean = np.mean(attrib)
 
         # using non-default ddof=1 gives same as Khan's Java and Gnumeric
-        sd = np.std(attrib, ddof=1)
+        attr_sd = np.std(attrib, ddof=1)
 
         # print("m=" + str(mn) + " sd=" + str(sd))
 
         for i in range(0, self._K):
             percentile = (2*(i+1)-1) / (2*self._K)
             z = math.sqrt(2) * erfcinv(2*percentile)
-            xs.append(z * sd + mn)
-
-            # print("z=" + str(z) + " xs[" + str(i) + "]=" + str(xs[i]))
+            xs.append(z * attr_sd + attr_mean)
 
         ad = attrib.reshape(-1, 1)
         seeds = np.array(xs).reshape(-1, 1)
@@ -149,7 +145,6 @@ class CCIA():
 
         return Counter(args)
 
-    #public double [][] findInitialCenters(String [] cstr, Map<String, Integer> distinctClassStr, Instances data) throws Exception {
 
     def _find_initial_centers(self, cstr, dist_class_str, data):
 
@@ -164,5 +159,4 @@ def generate(data, K, opts):
     '''The common interface'''
 
     ccia = CCIA(data, K)
-    foo = ccia.find_centers()
-
+    return ccia.find_centers()
