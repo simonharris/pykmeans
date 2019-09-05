@@ -5,5 +5,6 @@ init:
 test:
 	@python -m unittest discover
 
-experiments:
-	@python experiments.py -d ${DS} -k ${K} -a ${A}
+lint:
+	pylint initialisations
+
