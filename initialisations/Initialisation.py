@@ -6,18 +6,18 @@ from abc import abstractmethod
 
 import numpy as np
 
+
 class Initialisation:
+    """Common structure for all initialisations"""
 
-
-    def __init__(self, data: np.array, K: int, opts: dict):
+    def __init__(self, data: np.array, num_clusters: int, opts: dict):
         self._data = data
-        self._K = K
+        self._K = num_clusters  # DEPRECATED: use num_clusters
+        self._num_clusters = num_clusters
         self._opts = opts
         self._num_samples = data.shape[0]
         self._num_attrs = data.shape[1]
-        
 
     @abstractmethod
     def find_centers(self) -> np.array:
-        pass       
-
+        """The main method that all initialisations must implement"""
