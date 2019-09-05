@@ -1,4 +1,4 @@
-'''Mainly to remove duplicated code from many notebooks'''
+"""Mainly to remove duplicated code from many notebooks"""
 
 from sklearn.cluster import KMeans
 
@@ -10,7 +10,7 @@ SEP = '====================================================='
 
 
 def run_clustering(algorithm, opts):
-    '''Run all datasets'''
+    """Run all datasets"""
 
     _run_dataset('HART', loader.load_hartigan(), 3, algorithm, opts)
     _run_dataset('IRIS', loader.load_iris(), 3, algorithm, opts)
@@ -19,26 +19,26 @@ def run_clustering(algorithm, opts):
     _run_dataset('WBCO', loader.load_wbco(), 2, algorithm, opts)
 
 
-def _run_dataset(name, dataset, K, algorithm, opts):
-    '''Run individual dataset'''
+def _run_dataset(name, dataset, num_clusters, algorithm, opts):
+    """Run individual dataset"""
 
     print("Running " + name)
     print(SEP)
-    
+
     data = dataset.data
     target = dataset.target
 
-    centroids = algorithm.generate(data, K, opts)
+    centroids = algorithm.generate(data, num_clusters, opts)
 
-    #print("Initial seeds:")
-    #print(centroids, "\n")
+    # print("Initial seeds:")
+    # print(centroids, "\n")
 
-    est = KMeans(n_clusters=K, n_init=1, init=centroids)
+    est = KMeans(n_clusters=num_clusters, n_init=1, init=centroids)
     est.fit(data)
-    
-    #print("Discovered centroids:")
-    #print(est.cluster_centers_, "\n")
-    
+
+    # print("Discovered centroids:")
+    # print(est.cluster_centers_, "\n")
+
     _run_metrics(target, est)
 
 
@@ -53,18 +53,17 @@ def _run_metrics(target, est):
     print("Adjusted Rand Index:", asc)
     print("NMI:", nsc)
     print("Inertia:", est.inertia_, "\n")
-    
-    
+
+
 def run_kmeans_verbose(dataset, seeds):
-    '''Allow the notebook in one line to run kmeans and print detailed results'''
-    
+    """Run kmeans and print detailed results"""
+
     est = KMeans(n_clusters=len(seeds), n_init=1, init=seeds)
     est.fit(dataset.data)
-    
+
     print("Discovered centroids:")
     print(est.cluster_centers_, "\n")
     print("Labels:")
     print(est.labels_, "\n")
-    
+
     _run_metrics(dataset.target, est)
-    
