@@ -14,7 +14,7 @@ import math
 
 import numpy as np
 
-from initialisations.Initialisation import Initialisation
+from initialisations.base import Initialisation
 
 
 class Steinley(Initialisation):

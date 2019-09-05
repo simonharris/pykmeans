@@ -1,23 +1,28 @@
+"""Tests for Erisoglu 2011 algorithm"""
+
 import unittest
-from initialisations.erisoglu2011 import Erisoglu
+
 import numpy as np
 import sklearn.datasets as skdatasets
+
+from initialisations.erisoglu2011 import Erisoglu
+
 
 class ErisogluTestSuite(unittest.TestCase):
 
     def setUp(self):
-        self._e = Erisoglu(np.array([[1], [2]       ]), 3, {})
+        self._e = Erisoglu(np.array([[1], [2]]), 3, {})
         self._set_up_data()
 
-    # Test a few calculation functions -----------------------------------------
+    # Test a few calculation functions ----------------------------------------
 
     def test_variation_coefficient(self):
         self.assertEqual(self._e.variation_coefficient([1,1,1]), 0)
         self.assertAlmostEqual(self._e.variation_coefficient([1,2,3]), 0.40824829046)
         self.assertAlmostEqual(self._e.variation_coefficient([-1,-2,-3]), 0.40824829046)
 
-    # Note discrepancy between Erisoglu and Pearson. Currently I've used Pearson
-    # which provides the published numbers
+    # Note discrepancy between Erisoglu and Pearson. Currently I've used
+    # Pearson which provides the published numbers
     def test_correlation_coefficient(self):
         self.assertAlmostEqual(self._e.correlation_coefficient([1,2], [2,4]), 1)
         self.assertAlmostEqual(self._e.correlation_coefficient([2,1], [2,4]), -1)
@@ -37,7 +42,7 @@ class ErisogluTestSuite(unittest.TestCase):
         mypoints = [[1,1], [1,1], [0,3]]
         self.assertEqual(self._e.distance([0,1], *mypoints), 4)
 
-    # Test the actual algorithm ------------------------------------------------
+    # Test the actual algorithm -----------------------------------------------
 
     def test_iris(self):
         K = 3
@@ -48,20 +53,22 @@ class ErisogluTestSuite(unittest.TestCase):
         m2 = [6.4024, 2.9506, 5.1193, 1.7916]
         m3 = [5.1278, 2.7917, 2.5722, 0.6361]
         expected = [m1, m2, m3]
-        
+
         my_e = Erisoglu(data, K, {})
 
-        np.testing.assert_array_almost_equal(my_e.find_centers(), expected, decimal=4)
+        np.testing.assert_array_almost_equal(my_e.find_centers(),
+                                             expected,
+                                             decimal=4)
 
-    # misc setup methods -------------------------------------------------------
+    # misc setup methods ------------------------------------------------------
 
     def _set_up_data(self):
 
         # Center is [1,8] - means of columns 3 and 4
         self._data1 = np.array([
-            [0, 190, 3, 1000, 9], # Furthest from ...,-999,8 so third centroid
-            [1, 200, 2, -999, 8], # Furthest from ...,1001,7 so second centroid
-            [1, 190, 3, 1001, 7], # Furthest from ...,1,8 so initial centroid
+            [0, 190, 3, 1000, 9],  # Furthest from ...,-999,8 so third centroid
+            [1, 200, 2, -999, 8],  # Furthest from ...,1001,7 so second centroid
+            [1, 190, 3, 1001, 7],  # Furthest from ...,1,8 so initial centroid
             [1, 189, 1, -998, 8]
         ])
 
@@ -72,7 +79,8 @@ class ErisogluTestSuite(unittest.TestCase):
             [8, 1, 3, 1, -998, 8]
         ])
 
-# ------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -43,7 +43,6 @@ class CCIA():
 
             for l in range(0, self._num_samples):
                 cluster_string[l][i] = membership[l]
-
         # end for each attribute
 
         cstr = self._extract_cluster_strings(cluster_string, self._data)
