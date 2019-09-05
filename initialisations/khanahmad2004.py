@@ -148,11 +148,37 @@ class CCIA():
 
     def _find_initial_centers(self, cstr, dist_class_str, data):
 
-        print(cstr)
-        print(dist_class_str)
+        init_centers = np.zeros((len(dist_class_str), data.shape[1]))
+        cnt = np.zeros(len(dist_class_str))
+
+        # print(cstr)
+        # print(dist_class_str)
+
+        for key, val in enumerate(cstr):
+            j = 0
+
+            # for each pairs
+            for item in dist_class_str:
+                # print(str(item) + " = " + str(dist_class_str[item])
+                #      + ' --> ' + str(item == val))
+
+                if item == val:
+                    for k in range(0, data.shape[1]):
+                        init_centers[j][k] += data[key][k]
+                    cnt[j] += 1
+                    break
+                j += 1
+
+        for i in range(0, len(dist_class_str)):
+            for j in range(0, data.shape[1]):
+                init_centers[i][j] = init_centers[i][j] / cnt[i]
+
+        # TODO: MergeDBMSDC
+
+        return init_centers
 
 
-# ------------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 
 def generate(data, K, opts):
