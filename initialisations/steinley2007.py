@@ -1,50 +1,68 @@
-'''
-Steinley 2003 algorithm
+"""
+Steinley 2007 algorithm
 
-See: Local Optima in K-Means Clustering: What You Don't Know May Hurt You
+See: Initializing K-means Batch Clustering: A Critical Evaluation...
+https://link.springer.com/article/10.1007/s00357-007-0003-0
+
+Which references, but presents a slightly different algorithm to:
+
+Local Optima in K-Means Clustering: What You Don't Know May Hurt You
 https://psycnet.apa.org/fulltext/2003-09632-004.html
-'''
+"""
 
 import math
 
 import numpy as np
 
+from initialisations.Initialisation import Initialisation
 
-def generate(data, K, opts={}):
 
-    N = data.shape[0]
+class Steinley(Initialisation):
+    """Steinley 2007 algorithm"""
 
-    Z_init = New_Z_init = np.zeros((K, data.shape[1]))
+    def find_centers(self):
+        """Main method"""
 
-    SSE = math.inf
+        z_init = new_z_init = np.zeros((self._num_clusters, self._num_attrs))
 
-    for i in range(0, opts['restarts']):
+        sse = math.inf
 
-        U = np.random.randint(low=0, high=K, size=N)
-        
-        EmptyCluster = False;
+        for _ in range(0, self._opts['restarts']):
 
-        NewSSE = 0;
+            labels = np.random.randint(low=0,
+                                       high=self._num_clusters,
+                                       size=self._num_samples)
 
-        for k in range(0, K):
-            if np.sum(U==k) == 0:
-                EmptyCluster = True  
-                #print("Empty cluster found")
-            else :
-            
-                centroid = np.mean(data[U==k,:], axis=0);
-             
-                New_Z_init[k,:] = centroid
-                
-                NewSSE += np.sum(np.sum((data[U==k,:] - centroid)**2, axis=1))        
-        
-        if EmptyCluster: 
-            continue # goto next restart
+            empty_cluster = False
 
-        if NewSSE < SSE:
-            Z_init = New_Z_init;
-            SSE = NewSSE;
-            print("SSE is now: %s" % (SSE))
+            new_sse = 0
 
-    return Z_init
+            for k in range(0, self._num_clusters):
+                if np.sum(labels == k) == 0:
+                    empty_cluster = True
 
+                else:
+                    centroid = np.mean(self._data[labels == k, :], axis=0)
+                    new_z_init[k, :] = centroid
+                    new_sse += np.sum(np.sum(
+                        (self._data[labels == k, :] - centroid)**2,
+                        axis=1))
+
+            if empty_cluster:
+                continue  # goto next restart
+
+            if new_sse < sse:
+                z_init = new_z_init
+                sse = new_sse
+
+        return z_init
+
+
+# -----------------------------------------------------------------------------
+
+
+def generate(data, num_clusters, opts):
+    """The common interface"""
+
+    init = Steinley(data, num_clusters, opts)
+    return init.find_centers()
