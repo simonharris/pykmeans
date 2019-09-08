@@ -15,16 +15,11 @@ import numpy as np
 from scipy.special import erfcinv
 from sklearn.cluster import KMeans
 
+from initialisations.base import Initialisation
 
-class CCIA():
+
+class CCIA(Initialisation):
     """Cluster Center Initialization Algorithm"""
-
-    def __init__(self, data, K):
-        self._data = data
-        self._K = K
-        self._num_samples = data.shape[0]
-        self._num_attrs = data.shape[1]
-
 
     def find_centers(self):
         '''Find centers corresponding to each attribute'''
@@ -35,17 +30,17 @@ class CCIA():
         for i in range(0, self._num_attrs):
             val = self._data[:, i]
 
-            mystr = self._cluster_numeric_attribute(val, self._data)
+            mystr = self._cluster_numeric_attribute(val)
             # print(mystr)
 
-            membership = self._generate_cluster_string(mystr, self._data)
+            membership = self._generate_cluster_string(mystr)
             # print(membership)
 
             for l in range(0, self._num_samples):
                 cluster_string[l][i] = membership[l]
         # end for each attribute
 
-        cstr = self._extract_cluster_strings(cluster_string, self._data)
+        cstr = self._extract_cluster_strings(cluster_string)
         dist_class_str = self._find_unique_cluster_strings(cstr)
 
         return self._find_initial_centers(cstr, dist_class_str, self._data)
@@ -53,17 +48,17 @@ class CCIA():
 
     # Private methods ---------------------------------------------------------
 
-
-    def _k_means_clustering(self, data, means, K):
+    @staticmethod
+    def _k_means_clustering(data, means, num_clusters):
         '''Simple wrapper for K-means'''
 
-        est = KMeans(K, init=means, n_init=1)
+        est = KMeans(num_clusters, init=means, n_init=1)
         est.fit(data)
         return est.labels_
 
 
-    def _cluster_numeric_attribute(self, attrib, data):
-        '''Run K-means on a single attribute'''
+    def _cluster_numeric_attribute(self, attrib):
+        """Run K-means on a single attribute"""
 
         xs = []
 
@@ -74,18 +69,18 @@ class CCIA():
 
         # print("m=" + str(mn) + " sd=" + str(sd))
 
-        for i in range(0, self._K):
-            percentile = (2*(i+1)-1) / (2*self._K)
+        for i in range(0, self._num_clusters):
+            percentile = (2*(i+1)-1) / (2*self._num_clusters)
             z = math.sqrt(2) * erfcinv(2*percentile)
             xs.append(z * attr_sd + attr_mean)
 
         ad = attrib.reshape(-1, 1)
         seeds = np.array(xs).reshape(-1, 1)
 
-        return self._k_means_clustering(ad, seeds, self._K)
+        return self._k_means_clustering(ad, seeds, self._num_clusters)
 
 
-    def _generate_cluster_string(self, mystr, data):
+    def _generate_cluster_string(self, mystr):
         """
         Find new centers corresponding to this attribute's cluster
         allotments and allot data objects based on cluster allotments
@@ -93,8 +88,8 @@ class CCIA():
         TODO: this is just calculating means. Vectorise it
         """
 
-        clust = np.zeros((self._K, self._num_attrs))
-        count = [0] * self._K
+        clust = np.zeros((self._num_clusters, self._num_attrs))
+        count = [0] * self._num_clusters
 
         # for each data point label
         for i in range(0, len(mystr)):
@@ -106,19 +101,19 @@ class CCIA():
             count[mystr[i]] += 1
 
         # same loops again to get means
-        for i in range(0, self._K):
+        for i in range(0, self._num_clusters):
             for j in range(0, self._num_attrs):
                 clust[i][j] = clust[i][j]/count[i]
 
-        return self._k_means_clustering(self._data, clust, self._K)
+        return self._k_means_clustering(self._data, clust, self._num_clusters)
 
 
-    def _extract_cluster_strings(self, cluster_string, data):
-        '''
+    def _extract_cluster_strings(self, cluster_string):
+        """
         Extract clustering strings for the whole data
 
         TODO: can be heavily refactored
-        '''
+        """
 
         cstr = []
 
@@ -138,14 +133,14 @@ class CCIA():
 
         return self._distinct_attributes(cstr)
 
-
-    def _distinct_attributes(self, args):
-        '''Count distinct attribute values'''
+    @staticmethod
+    def _distinct_attributes(args):
+        """Count distinct attribute values"""
 
         return Counter(args)
 
-
-    def _find_initial_centers(self, cstr, dist_class_str, data):
+    @staticmethod
+    def _find_initial_centers(cstr, dist_class_str, data):
 
         init_centers = np.zeros((len(dist_class_str), data.shape[1]))
         cnt = np.zeros(len(dist_class_str))
@@ -180,8 +175,8 @@ class CCIA():
 # ----------------------------------------------------------------------------
 
 
-def generate(data, K, opts):
-    '''The common interface'''
+def generate(data, num_clusters, opts):
+    """The common interface"""
 
-    ccia = CCIA(data, K)
+    ccia = CCIA(data, num_clusters, opts)
     return ccia.find_centers()
