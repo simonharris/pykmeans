@@ -45,7 +45,6 @@ class CCIA(Initialisation):
 
         return self._find_initial_centers(cstr, dist_class_str, self._data)
 
-
     # Private methods ---------------------------------------------------------
 
     @staticmethod
@@ -172,7 +171,7 @@ class CCIA(Initialisation):
         return init_centers
 
 
-# ----------------------------------------------------------------------------
+# -----------------------------------------------------------------------------
 
 
 def generate(data, num_clusters, opts):
