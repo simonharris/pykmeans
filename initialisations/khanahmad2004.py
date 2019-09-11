@@ -138,8 +138,8 @@ class CCIA(Initialisation):
 
         return Counter(args)
 
-    @staticmethod
-    def _find_initial_centers(cstr, dist_class_str, data):
+
+    def _find_initial_centers(self, cstr, dist_class_str, data):
 
         init_centers = np.zeros((len(dist_class_str), data.shape[1]))
         cnt = np.zeros(len(dist_class_str))
@@ -167,8 +167,13 @@ class CCIA(Initialisation):
                 init_centers[i][j] = init_centers[i][j] / cnt[i]
 
         # TODO: MergeDBMSDC
+        if len(dist_class_str) == self._num_clusters:
+            return init_centers
+        else:
+            print("TODO: merge algorithm")
+            # return MergeDBMSDC(initCenters,distinctClassStr,data);
 
-        return init_centers
+        # return init_centers
 
 
 # -----------------------------------------------------------------------------
