@@ -32,6 +32,13 @@ def _load_local(which):
 
 # The loaders to be exposed ---------------------------------------------------
 
+def load_fossil():
+    return _load_local('fossil')
+
+
+def load_hartigan():
+    return _load_local('hartigan1975')
+
 
 def load_iris():
     return skdatasets.load_iris()
@@ -48,17 +55,13 @@ def load_iris_ccia():
     return Dataset(iris[:, 0:4].astype('float'), pd.factorize(iris[:, 4]))
 
 
-def load_wine():
-    return skdatasets.load_wine()
-
-
-def load_hartigan():
-    return _load_local('hartigan1975')
-
-
 def load_soy_small():
     return _load_local('soy_small')
 
 
 def load_wbco():
     return _load_local('wbco')
+
+
+def load_wine():
+    return skdatasets.load_wine()
