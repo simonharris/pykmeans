@@ -1,6 +1,6 @@
 init:
 	git pull
-	pip install -qr requirements.txt
+	pip install -Ur requirements.txt
 
 test:
 	@python -m unittest discover
