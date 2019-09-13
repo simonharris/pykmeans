@@ -1,5 +1,5 @@
 """
-Pavan et al. 2011 Single Pass Sees Selection (SPSS) algorithm
+Pavan et al. 2011 Single Pass Seed Selection (SPSS) algorithm
 
 See: Single pass seed selection algorithm for k-means (2010)
 http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.165.8956
