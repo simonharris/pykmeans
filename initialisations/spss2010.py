@@ -15,7 +15,7 @@ from kmeans import distance_table
 
 
 class SPSS(Initialisation):
-    """Single Pass Sees Selection (SPSS) algorithm"""
+    """Single Pass Seed Selection (SPSS) algorithm"""
 
     def find_centers(self):
         """Main method"""
