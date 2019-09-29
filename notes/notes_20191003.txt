@@ -1,0 +1,13 @@
+realworld data:
+ - removed categorical data, now have exactly 30
+ - generate info CSV for table, import to LaTeX (is ugly)
+
+synthetic data:
+ - have their parameters
+ - - checking what we can specify
+ - couple of paragraphs I don't follow
+
+todo:
+ - maybe look at that other library
+ 
+
