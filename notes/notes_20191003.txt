@@ -5,9 +5,15 @@ realworld data:
 synthetic data:
  - have their parameters
  - - checking what we can specify
+ - - trying to find tools that will do it
+ - they don't seem to say how many rows
  - couple of paragraphs I don't follow
 
 todo:
- - maybe look at that other library
+ - look at that other library
+ 
+--
+
+was going to send some stuff about confusion matrix thing
  
 
