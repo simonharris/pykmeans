@@ -1,4 +1,5 @@
 liac-arff
+git+https://github.com/CN-TU/mdcgenpy
 numpy
 scikit-learn
 scipy
