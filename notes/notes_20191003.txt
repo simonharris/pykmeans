@@ -4,13 +4,22 @@ realworld data:
 
 synthetic data:
  - have their parameters
- - - checking what we can specify
- - - trying to find tools that will do it
+ - - trying to find tools that will do it incl. sklearn mdcgen, ran out of time
  - they don't seem to say how many rows
  - couple of paragraphs I don't follow
 
-todo:
- - look at that other library
+document:
+ - a few mods as per Renato. eg. titles for algs
+ - started on defining conventions
+ - - c&p k-means from proposal
+ - started on adding algorithms ie. Yuan 2004
+ - - c&p Euclidean from proposal
+ - * def need feedback here before get too far
+
+yuan:
+ - moved to built-in sklearn and numbers don't match (Iris worse, Wine better)
+ - nearest means to the mean?
+ - operator precedence is ambiguous? 
  
 --
 
