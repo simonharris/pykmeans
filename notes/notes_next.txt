@@ -1,0 +1,3 @@
+Data gen:
+ - 0.05...but if K is 20...
+ - with random cardinality, getting 1000 is hard
