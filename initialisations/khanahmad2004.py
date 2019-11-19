@@ -21,6 +21,8 @@ from initialisations.base import Initialisation
 class CCIA(Initialisation):
     """Cluster Center Initialization Algorithm"""
 
+    # NN = 1  # No idea. See the Java source code
+
     def find_centers(self):
         '''Find centers corresponding to each attribute'''
 
@@ -170,10 +172,40 @@ class CCIA(Initialisation):
         if len(dist_class_str) == self._num_clusters:
             return init_centers
         else:
-            print("TODO: merge algorithm")
-            # return MergeDBMSDC(initCenters,distinctClassStr,data);
+            # print("TODO: merge algorithm")
+            return self._merge_dbmsdc(init_centers, dist_class_str)  # ,data);
 
-        # return init_centers
+
+    def _merge_dbmsdc(self, init_centers, dist_class_str):
+
+        centers = np.zeros((self._num_clusters, self._num_attrs))
+
+        B = list(range(0, len(dist_class_str)))
+
+        for L in range(0, self._num_clusters):
+            # if len(B) <= self._NN:
+            #       throw new Exception ("\n***ATTENTION*** The number of
+            # nearest neighbours are more than the centers. "
+
+            R = np.zeros((1, len(B)))
+
+            print(R)
+
+            for i in range(0, len(B)):
+
+                distance = np.zeros((1, len(B)))
+                print(distance)
+
+                '''for (int j=0;j<B.length;j++) {
+					EuclideanDistance ed = new EuclideanDistance();
+					distance[j]=ed.compute(initCenters[i], initCenters[j]);
+				}
+				double [] sort= Arrays.copyOf(distance, distance.length);
+				Arrays.sort(sort);
+				R[i]=sort[getNN()];
+			}'''
+
+
 
 
 # -----------------------------------------------------------------------------
