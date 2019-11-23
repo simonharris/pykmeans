@@ -14,7 +14,7 @@ class Initialisation:
         self._data = data
         self._K = num_clusters  # DEPRECATED: use num_clusters
         self._num_clusters = num_clusters
-        self._opts = {}
+        self._opts = {}  # DEPRECATED
         self._num_samples = data.shape[0]
         self._num_attrs = data.shape[1]
 
