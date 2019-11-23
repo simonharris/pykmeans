@@ -1,16 +1,21 @@
-from scipy.spatial import distance as spdistance
-import numpy as np
-
-'''
+"""
 Yuan et al 2004 "new" algorithm
 
 See: A new algorithm to get the initial centroids
 https://ieeexplore.ieee.org/abstract/document/1382371
-'''
+"""
 
-#TODO: this is brute force and won't scale. Try to find better (vectorised?) solution
+import numpy as np
+from scipy.spatial import distance as spdistance
+
+ALPHA = 0.75
+
+# This seems a little brute force and may not scale. Maybe try to find a
+# better (eg. vectorised?) solution when time permits
+
+
 def distance_table(data):
-    '''Calculate distances between each data point'''
+    """Calculate distances between each data point"""
 
     numrows = len(data)
 
@@ -25,7 +30,7 @@ def distance_table(data):
 
 
 def find_closest(data):
-    '''Find the closest two data points in the dataset'''
+    """Find the closest two data points in the dataset"""
 
     distances = distance_table(data)
     ind = np.unravel_index(np.nanargmin(distances, axis=None), distances.shape)
@@ -33,34 +38,38 @@ def find_closest(data):
     return list(ind)
 
 
-def find_next_closest(Am, U):
-    mean = np.mean(Am, 0)
-    return np.argmin([spdistance.euclidean(mean, point) for point in U])
+def find_next_closest(mydata, pointset):
+    """Find the point nearest to an already discovered subset"""
+
+    mean = np.mean(mydata, 0)
+    return np.argmin([spdistance.euclidean(mean, point) for point in pointset])
 
 
-def generate(data, K):
-    # Holder for the point sets
-    A = []
+def generate(data, num_clusters):
+    """The common interface"""
 
-    U = data.copy()
-    n = len(U)
-    alpha = 0.75
+    # Holder for the point sets, called A in the paper
+    pointsets = []
 
-    while len(A) < K:
+    mydata = data.copy()  # U in the paper
+    num_points = len(mydata)
 
-        Am = []
-        pair = find_closest(U)
+    # for each cluster
+    while len(pointsets) < num_clusters:
 
-        Am.append(U[pair[0]])
-        Am.append(U[pair[1]])
+        pointset = []  # Am in the paper
+        pair = find_closest(mydata)
 
-        U = np.delete(U, list(pair), 0)
+        pointset.append(mydata[pair[0]])
+        pointset.append(mydata[pair[1]])
 
-        while len(Am) < (alpha * (n/K)):
-            nc = find_next_closest(U, Am)
-            Am.append(U[nc])
-            np.delete(U, nc)
+        mydata = np.delete(mydata, list(pair), 0)
 
-        A.append(Am)
+        while len(pointset) < (ALPHA * (num_points/num_clusters)):
+            next_closest = find_next_closest(mydata, pointset)
+            pointset.append(mydata[next_closest])
+            mydata = np.delete(mydata, next_closest, 0)
 
-    return np.mean(A, 1)
+        pointsets.append(pointset)
+
+    return np.mean(pointsets, 1)
