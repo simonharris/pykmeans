@@ -9,17 +9,17 @@ from metrics import accuracy, nmi, ari
 SEP = '====================================================='
 
 
-def run_clustering(algorithm, opts):
+def run_clustering(algorithm):
     """Run all datasets"""
 
-    _run_dataset('HART', loader.load_hartigan(), 3, algorithm, opts)
-    _run_dataset('IRIS', loader.load_iris(), 3, algorithm, opts)
-    _run_dataset('SOYS', loader.load_soy_small(), 4, algorithm, opts)
-    _run_dataset('WINE', loader.load_wine(), 3, algorithm, opts)
-    _run_dataset('WBCO', loader.load_wbco(), 2, algorithm, opts)
+    _run_dataset('HART', loader.load_hartigan(), 3, algorithm)
+    _run_dataset('IRIS', loader.load_iris(), 3, algorithm)
+    _run_dataset('SOYS', loader.load_soy_small(), 4, algorithm)
+    _run_dataset('WINE', loader.load_wine(), 3, algorithm)
+    _run_dataset('WBCO', loader.load_wbco(), 2, algorithm)
 
 
-def _run_dataset(name, dataset, num_clusters, algorithm, opts):
+def _run_dataset(name, dataset, num_clusters, algorithm):
     """Run individual dataset"""
 
     print("Running " + name)
@@ -28,7 +28,7 @@ def _run_dataset(name, dataset, num_clusters, algorithm, opts):
     data = dataset.data
     target = dataset.target
 
-    centroids = algorithm.generate(data, num_clusters, opts)
+    centroids = algorithm.generate(data, num_clusters)
 
     # print("Initial seeds:")
     # print(centroids, "\n")
