@@ -10,7 +10,7 @@ from sklearn.cluster import KMeans
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.utils.testing import ignore_warnings
 
-from initialisations import forgy1965 as forgy
+from initialisations import random as randominit
 from kmeans import distance_table
 
 
@@ -104,7 +104,8 @@ def k_means_mod(seeds, sample, K):
 def generate(data, K, opts={}):
     """Provide a consistent interface"""
 
-    seeds = forgy.generate(data, K)
+    # TODO: check this is the correct type of random
+    seeds = randominit.generate(data, K)
 
     return refine(seeds, data, K, opts['J'])
 

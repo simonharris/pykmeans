@@ -21,3 +21,7 @@ class Initialisation:
     @abstractmethod
     def find_centers(self, data: np.array, num_clusters: int) -> np.array:
         """The main method that all initialisations must implement"""
+
+
+class EmptyClusterException(Exception):
+    """If empty clusters cannot be avoided after several retries"""
