@@ -19,7 +19,7 @@ class Initialisation:
         self._num_attrs = data.shape[1]
 
     @abstractmethod
-    def find_centers(self, data: np.array, num_clusters: int) -> np.array:
+    def find_centers(self) -> np.array:
         """The main method that all initialisations must implement"""
 
 
