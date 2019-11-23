@@ -36,11 +36,12 @@ class Onoda(Initialisation):
         return np.dot(component, row) / (mag(component) * mag(row))
 
     @abstractmethod
-    def _find_components(self) -> np.array:
+    @staticmethod
+    def _find_components(data: np.array, num_clusters: int) -> np.array:
         """Each algorithm must implement this"""
 
-    def find_centers(self, data, K):
+    def find_centers(self, data, num_clusters):
         """Main method"""
 
-        components = self._find_components(data, K)
+        components = self._find_components(data, num_clusters)
         return self._find_centroids(data, components)

@@ -8,12 +8,13 @@ from initialisations.onoda2012 import Onoda
 
 
 class OnodaICA(Onoda):
+    """Onoda 2012 ICA implementation"""
 
     @staticmethod
-    def _find_components(data, num_components):
+    def _find_components(data, num_clusters):
         """Run Independent Component Analysis"""
 
-        ica = FastICA(n_components=num_components)
+        ica = FastICA(n_components=num_clusters)
         ica.fit_transform(data)
         return ica.components_
 
