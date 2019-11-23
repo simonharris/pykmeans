@@ -16,14 +16,14 @@ from initialisations.base import Initialisation
 class Onoda(Initialisation):
     """Base class for the two Onoda 2012 initialisation algorithms"""
 
-    def _find_centroids(self, data, components):
+    def _find_centroids(self, components):
         """Step 1b from the algorithms"""
 
         centroids = []
 
         for component in components:
-            distances = [self._calc_distance(x, component) for x in data]
-            centroids.append(data[np.argmin(distances)])
+            distances = [self._calc_distance(x, component) for x in self._data]
+            centroids.append(self._data[np.argmin(distances)])
 
         return np.array(centroids)
 
@@ -35,13 +35,12 @@ class Onoda(Initialisation):
 
         return np.dot(component, row) / (mag(component) * mag(row))
 
-    @abstractmethod
     @staticmethod
-    def _find_components(data: np.array, num_clusters: int) -> np.array:
+    @abstractmethod
+    def _find_components() -> np.array:
         """Each algorithm must implement this"""
 
-    def find_centers(self, data, num_clusters):
+    def find_centers(self):
         """Main method"""
 
-        components = self._find_components(data, num_clusters)
-        return self._find_centroids(data, components)
+        return self._find_centroids(self._find_components())
