@@ -20,6 +20,8 @@ from initialisations.base import Initialisation
 class Steinley(Initialisation):
     """Steinley 2007 algorithm"""
 
+    _restarts = 50
+
     def find_centers(self):
         """Main method"""
 
@@ -27,7 +29,7 @@ class Steinley(Initialisation):
 
         sse = math.inf
 
-        for _ in range(0, self._opts['restarts']):
+        for _ in range(0, self._restarts):
 
             labels = np.random.randint(low=0,
                                        high=self._num_clusters,
@@ -61,8 +63,8 @@ class Steinley(Initialisation):
 # -----------------------------------------------------------------------------
 
 
-def generate(data, num_clusters, opts):
+def generate(data, num_clusters):
     """The common interface"""
 
-    init = Steinley(data, num_clusters, opts)
+    init = Steinley(data, num_clusters)
     return init.find_centers()

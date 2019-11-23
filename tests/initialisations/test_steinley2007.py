@@ -23,7 +23,6 @@ class SteinleyTestSuite(unittest.TestCase):
 
         K = 3
 
-        opts = {'restarts': 50}
-        centroids = steinley.generate(iris.data, K, opts)
+        centroids = steinley.generate(iris.data, K)
 
         self.assertEqual(centroids.shape, (3, 4))

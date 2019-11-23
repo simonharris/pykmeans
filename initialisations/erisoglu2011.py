@@ -151,8 +151,8 @@ class Erisoglu(Initialisation):
 # -----------------------------------------------------------------------------
 
 
-def generate(data, num_clusters, opts):
+def generate(data, num_clusters):
     """The common interface"""
 
-    alg = Erisoglu(data, num_clusters, opts)
+    alg = Erisoglu(data, num_clusters)
     return alg.find_centers()

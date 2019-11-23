@@ -13,7 +13,7 @@ class KhanAhmadTestSuite(unittest.TestCase):
 
         iris = skdatasets.load_iris()
 
-        seeds = ccia.generate(iris.data, 3, {})
+        seeds = ccia.generate(iris.data, 3)
 
         expected = np.array([[5.006, 3.428, 1.462, 0.246],
                              [6.85384615, 3.07692308, 5.71538462, 2.05384615],

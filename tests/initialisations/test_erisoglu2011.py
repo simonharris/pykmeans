@@ -11,7 +11,7 @@ from initialisations.erisoglu2011 import Erisoglu
 class ErisogluTestSuite(unittest.TestCase):
 
     def setUp(self):
-        self._e = Erisoglu(np.array([[1], [2]]), 3, {})
+        self._e = Erisoglu(np.array([[1], [2]]), 3)
         self._set_up_data()
 
     # Test a few calculation functions ----------------------------------------
@@ -54,7 +54,7 @@ class ErisogluTestSuite(unittest.TestCase):
         m3 = [5.1278, 2.7917, 2.5722, 0.6361]
         expected = [m1, m2, m3]
 
-        my_e = Erisoglu(data, K, {})
+        my_e = Erisoglu(data, K)
 
         np.testing.assert_array_almost_equal(my_e.find_centers(),
                                              expected,

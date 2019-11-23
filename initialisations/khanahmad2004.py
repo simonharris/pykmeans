@@ -211,8 +211,8 @@ class CCIA(Initialisation):
 # -----------------------------------------------------------------------------
 
 
-def generate(data, num_clusters, opts):
+def generate(data, num_clusters):
     """The common interface"""
 
-    ccia = CCIA(data, num_clusters, opts)
+    ccia = CCIA(data, num_clusters)
     return ccia.find_centers()

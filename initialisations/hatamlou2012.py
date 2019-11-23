@@ -21,11 +21,7 @@ from kmeans import distance_table
 class Hatamlou(Initialisation):
     """Hatamlou 2012 initialisation algoprithm"""
 
-    def __init__(self, data, num_clusters, opts):
-        """Constructor"""
-
-        self._max_loops = opts['max_loops']
-        super().__init__(data, num_clusters, opts)
+    _max_loops = 1
 
     def find_centers(self):
         """Main method"""
@@ -89,10 +85,10 @@ class Hatamlou(Initialisation):
 # -----------------------------------------------------------------------------
 
 
-def generate(data, num_clusters, opts):
+def generate(data, num_clusters):
     """The common interface"""
 
     opts['max_loops'] = 300
 
-    htmlu = Hatamlou(data, num_clusters, opts)
+    htmlu = Hatamlou(data, num_clusters)
     return htmlu.find_centers()

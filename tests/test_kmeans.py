@@ -26,7 +26,7 @@ class DistanceTableTestSuite(unittest.TestCase):
         K = 3
 
         # Use Erisoglu as it is deterministic
-        seeds = erisoglu.generate(data, K, {})
+        seeds = erisoglu.generate(data, K)
 
         mine = mykm.cluster(data, K, seeds)
 
