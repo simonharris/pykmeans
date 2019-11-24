@@ -7,8 +7,8 @@ https://ieeexplore.ieee.org/abstract/document/329844/
 
 import numpy as np
 
-from kmeans import distance_table
 from initialisations.base import Initialisation
+from kmeans import distance_table
 
 
 class KKZ(Initialisation):
@@ -17,6 +17,7 @@ class KKZ(Initialisation):
     def find_centers(self):
         """Main method"""
 
+        # L2/Euclidean norm, as suggested by the R kkz() documentation
         norms = np.linalg.norm(self._data, axis=1)
 
         first = self._data[np.argmax(norms)]
@@ -32,11 +33,8 @@ class KKZ(Initialisation):
         return codebook
 
 
-# -----------------------------------------------------------------------------
-
-
-def generate(data, num_clusters, opts):
+def generate(data, num_clusters):
     """The common interface"""
 
-    kkz = KKZ(data, num_clusters, opts)
+    kkz = KKZ(data, num_clusters)
     return kkz.find_centers()
