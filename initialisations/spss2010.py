@@ -23,7 +23,7 @@ class SPSS(Initialisation):
         centroids = np.array([self._find_hdp()])
 
         # Remaining required centroids (exactly as per k-means++)
-        while len(centroids) < self._K:
+        while len(centroids) < self._num_clusters:
 
             distances = distance_table(self._data, centroids)
             probabilities = distances.min(1)**2 / np.sum(distances.min(1)**2)
