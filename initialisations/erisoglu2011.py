@@ -35,14 +35,12 @@ class Erisoglu(Initialisation):
 
         return np.array(means)
 
-
     def _find_main_axis(self, data_t):
         """i) Find feature with greatest variance"""
 
         allvcs = [self.variation_coefficient(feature) for feature in data_t]
 
         return np.argmax(allvcs)
-
 
     def _find_secondary_axis(self, data_t, main_axis):
         """ii) Find feature with least absolute correlation to the main axis"""
@@ -58,7 +56,6 @@ class Erisoglu(Initialisation):
 
         return [np.mean(data_t[axes.main]), np.mean(data_t[axes.secondary])]
 
-
     def _initialise(self):
         """iv) Find data point most remote from center"""
 
@@ -73,7 +70,6 @@ class Erisoglu(Initialisation):
 
         return first, axes
 
-
     def _generate_candidates(self, first, axes):
         """v) Incrementally find most remote points from latest seed"""
 
@@ -87,7 +83,6 @@ class Erisoglu(Initialisation):
 
         return self._data[seeds]
 
-
     def _find_most_remote_from_seeds(self, data, seeds, axes):
 
         strippedseeds = [[data[seed][axes.main], data[seed][axes.secondary]]
@@ -99,7 +94,6 @@ class Erisoglu(Initialisation):
                     for entity in data]
 
         return np.argmax(alldists)
-
 
     def _find_most_remote_from_center(self, data, center, axes):
 
@@ -120,9 +114,6 @@ class Erisoglu(Initialisation):
     @staticmethod
     def correlation_coefficient(left, right):
         """Correlation coefficient between two vectors"""
-
-        # nb. interesting vectorised implementation:
-        # https://waterprogramming.wordpress.com/2014/06/13/numpy-vectorized-correlation-coefficient/
 
         numerator = denominator_left = denominator_right = 0
 
