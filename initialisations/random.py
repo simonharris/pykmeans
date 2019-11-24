@@ -5,6 +5,9 @@ At least, I think it is. The paper does not seem to be available and accounts
 are contradictory, often describing Forgy as random data points. However, many
 papers credit that idea to Faber 1994. Steinley 2003 uses this method.
 
+Celebi 2013 states this waas Forgy's approach and cites Anderberg 1973.
+Pena et al directly contradicts this and cites Anderberg 1973!
+
 See: Cluster Analysis of Multivariate Data: Efficiency vs Interpretability
 Classifications
 https://www.scirp.org/(S(351jmbntvnsjt1aadkposzje))/reference/ReferencesPapers.aspx?ReferenceID=1785698
