@@ -35,21 +35,16 @@ class SPSS(Initialisation):
 
         return centroids
 
-
     def _find_hdp(self):
         """The highest density point"""
 
-        dist = distance_table(self._data, self._data)
-        sum_v = np.sum(dist, axis=1)  # doesn't matter which axis
-
+        distances = distance_table(self._data, self._data)
+        sum_v = np.sum(distances, axis=1)  # doesn't matter which axis
         return self._data[np.argmin(sum_v)]
 
 
-# -----------------------------------------------------------------------------
-
-
-def generate(data, num_clusters, opts):
+def generate(data, num_clusters):
     """The common interface"""
 
-    spss = SPSS(data, num_clusters, opts)
+    spss = SPSS(data, num_clusters)
     return spss.find_centers()
