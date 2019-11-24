@@ -1,2 +1,5 @@
 [BASIC]
-min-public-methods=0 
+min-public-methods=0
+
+[MESSAGES CONTROL]
+disable=R0801,E1101 
