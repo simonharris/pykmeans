@@ -7,16 +7,10 @@ import numpy as np
 import pandas as pd
 import sklearn.datasets as skdatasets
 
+from dataset import Dataset
+
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__)) + '/test/'
-
-
-class Dataset():
-    """Mimics the sklearn dataset interface"""
-
-    def __init__(self, data, target):
-        self.data = data
-        self.target = target
 
 
 def _load_local(which):
@@ -26,6 +20,7 @@ def _load_local(which):
     labelfile = DIR_PATH + which + '/labels.csv'
 
     return Dataset(
+        which,
         np.loadtxt(datafile, delimiter=',', dtype=np.int),
         np.loadtxt(labelfile, delimiter=',', dtype=np.int),
     )
