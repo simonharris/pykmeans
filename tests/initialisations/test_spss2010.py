@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from datasets import loader
+from datasets import testloader
 from initialisations import spss2010 as spss
 
 # pylint: disable=R0201
@@ -18,7 +18,7 @@ class SPSSTestSuite(unittest.TestCase):
     def test_code_runs(self):
         """This needs more, but at least prove it runs"""
 
-        dataset = loader.load_iris()
+        dataset = testloader.load_iris()
         centroids = spss.generate(dataset.data, 3)
         self.assertEqual((3, 4), centroids.shape)
 

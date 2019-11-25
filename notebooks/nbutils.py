@@ -2,7 +2,7 @@
 
 from sklearn.cluster import KMeans
 
-from datasets import loader
+from datasets import testloader
 from metrics import accuracy, nmi, ari
 
 
@@ -12,11 +12,11 @@ SEP = '====================================================='
 def run_clustering(algorithm):
     """Run all datasets"""
 
-    _run_dataset('HART', loader.load_hartigan(), 3, algorithm)
-    _run_dataset('IRIS', loader.load_iris(), 3, algorithm)
-    _run_dataset('SOYS', loader.load_soy_small(), 4, algorithm)
-    _run_dataset('WINE', loader.load_wine(), 3, algorithm)
-    _run_dataset('WBCO', loader.load_wbco(), 2, algorithm)
+    _run_dataset('HART', testloader.load_hartigan(), 3, algorithm)
+    _run_dataset('IRIS', testloader.load_iris(), 3, algorithm)
+    _run_dataset('SOYS', testloader.load_soy_small(), 4, algorithm)
+    _run_dataset('WINE', testloader.load_wine(), 3, algorithm)
+    _run_dataset('WBCO', testloader.load_wbco(), 2, algorithm)
 
 
 def _run_dataset(name, dataset, num_clusters, algorithm):

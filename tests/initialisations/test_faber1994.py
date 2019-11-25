@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from datasets import loader
+from datasets import testloader
 from initialisations import faber1994 as faber
 
 
@@ -18,7 +18,7 @@ class FaberTestSuite(unittest.TestCase):
 
         num_clusters = 3
 
-        dataset = loader.load_iris()
+        dataset = testloader.load_iris()
         centroids = faber.generate(dataset.data, num_clusters)
         self.assertEqual((num_clusters, 4), centroids.shape)
 

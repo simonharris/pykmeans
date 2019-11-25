@@ -8,7 +8,7 @@ import unittest
 import numpy as np
 from sklearn.cluster import KMeans
 
-from datasets import loader
+from datasets import testloader
 from initialisations import yuan2004 as yuan
 from metrics import accuracy
 
@@ -88,7 +88,7 @@ class YuanTestSuite(unittest.TestCase):
     def test_against_iris(self):
         """Test run against Iris dataset, as used in the paper"""
 
-        dataset = loader.load_iris()
+        dataset = testloader.load_iris()
         data = dataset.data
         target = dataset.target
 
