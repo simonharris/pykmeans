@@ -18,7 +18,7 @@ opts_stdev = [0.5, 1, 1.5]
 N_EACH = 50
 
 NAME_SEP = '_'
-OUTPUT_DIR = './_synthetic/'
+OUTPUT_DIR = './synthetic/'
 
 
 def gen_dataset(no_clusters, no_feats, no_samps, card, stdev):
