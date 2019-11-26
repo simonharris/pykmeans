@@ -11,4 +11,5 @@ import numpy as np
 def generate(data, num_clusters):
     """Select random data points as initial seeds"""
 
-    return data[np.random.choice(data.shape[0], num_clusters, replace=False), :]
+    indices = np.random.choice(data.shape[0], num_clusters, replace=False)
+    return data[indices, :]
