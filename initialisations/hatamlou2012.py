@@ -19,22 +19,25 @@ from kmeans import distance_table
 
 
 class Hatamlou(Initialisation):
-    """Hatamlou 2012 initialisation algoprithm"""
+    """Hatamlou 2012 initialisation algorithm"""
 
-    _max_loops = 1
+    # "Termination criterion" is not clearly defined in the paper
+    _max_loops = 10
 
     def find_centers(self):
         """Main method"""
 
         # How "big" the initial partitions are eg. 1/3 of the data for Iris
         min_ds, max_ds = self._find_min_max(self._data)
-        G = (max_ds - min_ds)/self._num_clusters
+
+        # G in the paper
+        partition_range = (max_ds - min_ds)/self._num_clusters
 
         centroids = []
 
         for i in range(0, self._num_clusters):
-            Ci = min_ds + i * G
-            centroids.append(Ci)
+            centroid_i = min_ds + i * partition_range
+            centroids.append(centroid_i)
 
         centroids = np.array(centroids)
 
@@ -82,13 +85,8 @@ class Hatamlou(Initialisation):
         return np.sum(distances.min(1))
 
 
-# -----------------------------------------------------------------------------
-
-
 def generate(data, num_clusters):
     """The common interface"""
-
-    opts['max_loops'] = 300
 
     htmlu = Hatamlou(data, num_clusters)
     return htmlu.find_centers()
