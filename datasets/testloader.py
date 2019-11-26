@@ -21,8 +21,8 @@ def _load_local(which):
 
     return Dataset(
         which,
-        np.loadtxt(datafile, delimiter=',', dtype=np.int),
-        np.loadtxt(labelfile, delimiter=',', dtype=np.int),
+        np.loadtxt(datafile, delimiter=','),
+        np.loadtxt(labelfile, delimiter=','),
     )
 
 
