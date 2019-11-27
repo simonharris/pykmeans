@@ -12,6 +12,7 @@ from collections import Counter
 import math
 
 import numpy as np
+from scipy.spatial.distance import euclidean
 from scipy.special import erfcinv
 from sklearn.cluster import KMeans
 
@@ -21,7 +22,7 @@ from initialisations.base import Initialisation
 class CCIA(Initialisation):
     """Cluster Center Initialization Algorithm"""
 
-    # NN = 1  # No idea. See the Java source code
+    _NN = 1  # No idea. See the Java source code
 
     def find_centers(self):
         '''Find centers corresponding to each attribute'''
@@ -108,7 +109,6 @@ class CCIA(Initialisation):
 
         return self._k_means_clustering(self._data, clust, self._num_clusters)
 
-
     def _extract_cluster_strings(self, cluster_string):
         """
         Extract clustering strings for the whole data
@@ -127,7 +127,6 @@ class CCIA(Initialisation):
             cstr[i] += str(int(cluster_string[i][self._num_attrs-1]))
 
         return cstr
-
 
     def _find_unique_cluster_strings(self, cstr):
         '''Not sure why this method exists just to call another...'''
@@ -173,41 +172,87 @@ class CCIA(Initialisation):
             return init_centers
         else:
             # print("TODO: merge algorithm")
-            return self._merge_dbmsdc(init_centers, dist_class_str, data);
+            return self._merge_dbmsdc(init_centers, dist_class_str, data)
 
     def _merge_dbmsdc(self, init_centers, dist_class_str, data):
 
-        print("Entering merge")
-        print(init_centers)
+        # print("Entering merge")
+        # print(init_centers)
 
         centers = np.zeros((self._num_clusters, self._num_attrs))
 
         B = list(range(0, len(dist_class_str)))
 
-        for L in range(0, self._num_clusters):
+        for L in range(0, self._num_clusters-1):
             # if len(B) <= self._NN:
             #       throw new Exception ("\n***ATTENTION*** The number of
             # nearest neighbours are more than the centers. "
 
-            R = np.zeros((1, len(B)))
+            R = np.zeros(len(B))
 
             # print(R)
 
+            # TODO: try using distance table
             for i in range(0, len(B)):
 
-                distance = np.zeros((1, len(B)))
-                #print(distance)
+                distance = np.zeros(len(B))
+                # print(distance)
 
-                '''for (int j=0;j<B.length;j++) {
-					EuclideanDistance ed = new EuclideanDistance();
-					distance[j]=ed.compute(initCenters[i], initCenters[j]);
-				}
-				double [] sort= Arrays.copyOf(distance, distance.length);
-				Arrays.sort(sort);
-				R[i]=sort[getNN()];
-			}'''
+                for j in range(0, len(B)):
+                    distance[j] = euclidean(init_centers[i], init_centers[j])
+
+                # print(distance)
+
+                dist_sort = sorted(distance)
+                # print(dist_sort)
+                R[i] = dist_sort[self._NN]
+
+            minR = min(R)
+
+            print(minR)
+
+            index = 0
+
+            for i in range(0, len(R)):
+                if R[i] == minR:
+                    index = i
+                    break
+            # print("index:", index)
+
+            S = []
+
+            for i in range(0, len(B)):
+
+                if B[i] in S:
+                    continue
+
+                dist = euclidean(init_centers[index], init_centers[i])
+
+                if dist < (1.5 * minR):
+                    S.append(B[i])
+
+            #print(S)
+            #print(B)
 
 
+            temp = np.zeros(self._num_attrs)
+
+            for i in range(0, len(S)):
+                for j in range(0, self._num_attrs):
+                    temp[j] += init_centers[S[i]][j] / len(S)
+
+            centers[L] = temp
+
+            temp = np.zeros(self._num_attrs)
+
+            for i in range(0, len(B)):
+                for j in range(0, self._num_attrs):
+                    temp[j] = init_centers[B[i]][j] / len(B)
+
+            centers[L] = temp
+
+
+        print(centers)
 
 
 # -----------------------------------------------------------------------------
