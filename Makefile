@@ -9,6 +9,7 @@ lint:
 	pylint initialisations
 
 exp:
-	#@rm -f _output/output*
 	@python runner.py
 
+expclean:
+	rm -rf _output/out*

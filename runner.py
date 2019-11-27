@@ -1,6 +1,7 @@
 """Initial test runner so we can get some idea of timings"""
 
 import csv
+from datetime import datetime
 import importlib
 import itertools
 import os
@@ -16,10 +17,21 @@ from metrics import ari
 # pylint: disable=C0103
 
 
+DIR_OUTPUT = '_output/'
+
 DIR_REAL = 'datasets/realworld/'
 DIR_SYNTH = 'datasets/synthetic/'
 
 MY_DIR = DIR_REAL
+
+
+def make_output_dir():
+    """Create a directory for all the output from the run"""
+
+    dir_name = DIR_OUTPUT + 'out_' + \
+        datetime.today().strftime('%Y-%m-%d_%H%M') + '/'
+    os.makedirs(dir_name)
+    return dir_name
 
 
 def find_datasets(directory):
@@ -55,12 +67,24 @@ def run_kmeans(dataset, algorithm):
     return est.labels_, est.inertia_
 
 
-def save_log_file(info):
+def save_label_file(output_dir, config, labels):
+    """Write discovered clustering to disk"""
+
+    labelfile = output_dir + config[1] + '-' + config[0] + '.labels.csv'
+
+    print('Saving labels to:', labelfile)
+    with open(labelfile, 'w+') as my_csv:
+        csvwriter = csv.writer(my_csv, delimiter=',')
+        csvwriter.writerow(labels)
+
+
+def save_log_file(output_dir, info):
     """Write info to disk"""
 
-    outfile = '_output/output-' + str(time.time()) + '.csv'
-    print("Saving to:", outfile)
-    with open(outfile, 'w+') as my_csv:
+    infofile = output_dir + 'output.csv'
+
+    print('Saving info to:', infofile)
+    with open(infofile, 'w+') as my_csv:
         csvwriter = csv.writer(my_csv, delimiter=',')
         csvwriter.writerows(info)
 
@@ -79,6 +103,8 @@ configs = itertools.product(datasets, algorithms)
 
 output = []
 
+output_dir = make_output_dir()
+
 for dsname, algname in configs:
 
     log = []
@@ -95,14 +121,16 @@ for dsname, algname in configs:
     labels, inertia = run_kmeans(dset, my_init)
     log.append(inertia)
 
+    save_label_file(output_dir, (dsname, algname), labels)
+
     ari_score = ari.score(dset.target, labels)
     log.append(ari_score)
 
-    # add time
+    # add time taken
     end = time.perf_counter()
     log.append(end - start)
 
     print(log)
     output.append(log)
 
-save_log_file(output)
+save_log_file(output_dir, output)

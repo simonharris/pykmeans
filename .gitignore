@@ -2,5 +2,5 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .~*
-_output/output*
+_output/out*
 Untitled.ipynb
