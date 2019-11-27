@@ -33,16 +33,17 @@ class CCIA(Initialisation):
             val = self._data[:, i]
 
             mystr = self._cluster_numeric_attribute(val)
-            # print(mystr)
+            # print("CNA:", mystr)
 
             membership = self._generate_cluster_string(mystr)
-            # print(membership)
+            # print("GCS: ", membership)
 
             for l in range(0, self._num_samples):
                 cluster_string[l][i] = membership[l]
         # end for each attribute
 
         cstr = self._extract_cluster_strings(cluster_string)
+        # print("ECS:", cstr)
         dist_class_str = self._find_unique_cluster_strings(cstr)
 
         return self._find_initial_centers(cstr, dist_class_str, self._data)
@@ -56,7 +57,6 @@ class CCIA(Initialisation):
         est = KMeans(num_clusters, init=means, n_init=1)
         est.fit(data)
         return est.labels_
-
 
     def _cluster_numeric_attribute(self, attrib):
         """Run K-means on a single attribute"""
@@ -140,28 +140,28 @@ class CCIA(Initialisation):
 
         return Counter(args)
 
-
     def _find_initial_centers(self, cstr, dist_class_str, data):
 
         init_centers = np.zeros((len(dist_class_str), data.shape[1]))
         cnt = np.zeros(len(dist_class_str))
 
-        # print(cstr)
-        # print(dist_class_str)
-
-        for key, val in enumerate(cstr):
+        for i in range(0, len(cstr)):
+            # print("i:", i)
             j = 0
 
             # for each pairs
-            for item in dist_class_str:
+            for key in dist_class_str:
+                # print("Key:", key)
+                # print("foo")
                 # print(str(item) + " = " + str(dist_class_str[item])
                 #      + ' --> ' + str(item == val))
 
-                if item == val:
+                if key == cstr[i]:
                     for k in range(0, data.shape[1]):
-                        init_centers[j][k] += data[key][k]
+                        init_centers[j][k] += data[i][k]
                     cnt[j] += 1
                     break
+
                 j += 1
 
         for i in range(0, len(dist_class_str)):
@@ -173,10 +173,12 @@ class CCIA(Initialisation):
             return init_centers
         else:
             # print("TODO: merge algorithm")
-            return self._merge_dbmsdc(init_centers, dist_class_str)  # ,data);
+            return self._merge_dbmsdc(init_centers, dist_class_str, data);
 
+    def _merge_dbmsdc(self, init_centers, dist_class_str, data):
 
-    def _merge_dbmsdc(self, init_centers, dist_class_str):
+        print("Entering merge")
+        print(init_centers)
 
         centers = np.zeros((self._num_clusters, self._num_attrs))
 
@@ -189,12 +191,12 @@ class CCIA(Initialisation):
 
             R = np.zeros((1, len(B)))
 
-            print(R)
+            # print(R)
 
             for i in range(0, len(B)):
 
                 distance = np.zeros((1, len(B)))
-                print(distance)
+                #print(distance)
 
                 '''for (int j=0;j<B.length;j++) {
 					EuclideanDistance ed = new EuclideanDistance();
