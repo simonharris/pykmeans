@@ -38,7 +38,7 @@ def find_datasets(directory):
     """Find all datasets in a given directory"""
 
     return [d for d in os.listdir(directory)
-            if os.path.isdir(os.path.join(DIR_REAL, d))]
+            if os.path.isdir(os.path.join(MY_DIR, d))]
 
 
 def load_dataset(datadir, which):
@@ -67,21 +67,21 @@ def run_kmeans(dataset, algorithm):
     return est.labels_, est.inertia_
 
 
-def save_label_file(output_dir, config, labels):
+def save_label_file(outdir, config, partition):
     """Write discovered clustering to disk"""
 
-    labelfile = output_dir + config[1] + '-' + config[0] + '.labels.csv'
+    labelfile = outdir + config[1] + '-' + config[0] + '.labels.csv'
 
     print('Saving labels to:', labelfile)
     with open(labelfile, 'w+') as my_csv:
         csvwriter = csv.writer(my_csv, delimiter=',')
-        csvwriter.writerow(labels)
+        csvwriter.writerow(partition)
 
 
-def save_log_file(output_dir, info):
+def save_log_file(outdir, info):
     """Write info to disk"""
 
-    infofile = output_dir + 'output.csv'
+    infofile = outdir + 'output.csv'
 
     print('Saving info to:', infofile)
     with open(infofile, 'w+') as my_csv:
@@ -101,9 +101,8 @@ algorithms = [
 datasets = find_datasets(MY_DIR)
 configs = itertools.product(datasets, algorithms)
 
-output = []
-
 output_dir = make_output_dir()
+output = []
 
 for dsname, algname in configs:
 
