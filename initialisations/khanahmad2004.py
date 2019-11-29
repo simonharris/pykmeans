@@ -175,41 +175,34 @@ class CCIA(Initialisation):
             return self._merge_dbmsdc(init_centers, dist_class_str, data)
 
     def _merge_dbmsdc(self, init_centers, dist_class_str, data):
+        """A nasty hybrid of the original Java, and my best guess
+        at how to fix the bugs in it"""
 
-        # print("Entering merge")
-        # print(init_centers)
+        init_centers = init_centers[init_centers[:, 0].argsort()]
 
-        centers = np.zeros((self._num_clusters, self._num_attrs))
+        centers = []
 
         B = list(range(0, len(dist_class_str)))
 
-        for L in range(0, self._num_clusters-1):
-            # if len(B) <= self._NN:
-            #       throw new Exception ("\n***ATTENTION*** The number of
-            # nearest neighbours are more than the centers. "
+        for L in range(0, self._num_clusters):
+
+            #print("\n\nLooping for L ==", L)
 
             R = np.zeros(len(B))
 
-            # print(R)
-
-            # TODO: try using distance table
             for i in range(0, len(B)):
 
                 distance = np.zeros(len(B))
-                # print(distance)
 
                 for j in range(0, len(B)):
                     distance[j] = euclidean(init_centers[i], init_centers[j])
 
-                # print(distance)
-
                 dist_sort = sorted(distance)
-                # print(dist_sort)
+                # print("\nDISTANCES:\n", dist_sort)
                 R[i] = dist_sort[self._NN]
 
             minR = min(R)
-
-            print(minR)
+            # print("Min R:", minR)
 
             index = 0
 
@@ -217,42 +210,31 @@ class CCIA(Initialisation):
                 if R[i] == minR:
                     index = i
                     break
-            # print("index:", index)
 
             S = []
 
-            for i in range(0, len(B)):
+            # print("Will compare to:", init_centers[index])
 
-                if B[i] in S:
-                    continue
+            to_remove = []
+            for i in range(0, len(B)):
 
                 dist = euclidean(init_centers[index], init_centers[i])
+                # print("Dist:", dist)
 
                 if dist < (1.5 * minR):
-                    S.append(B[i])
+                    S.append(init_centers[B[i]])
+                    #print("Adding", init_centers[B[i]], "to S")
+                    to_remove.append(i)
 
-            #print(S)
-            #print(B)
+            # print("TR:", to_remove)
+            B = np.delete(B, to_remove, axis=0)
 
+            # print("S: ", S)
+            # print("B: ", B)
 
-            temp = np.zeros(self._num_attrs)
+            centers.append(np.mean(S, axis=0))
 
-            for i in range(0, len(S)):
-                for j in range(0, self._num_attrs):
-                    temp[j] += init_centers[S[i]][j] / len(S)
-
-            centers[L] = temp
-
-            temp = np.zeros(self._num_attrs)
-
-            for i in range(0, len(B)):
-                for j in range(0, self._num_attrs):
-                    temp[j] = init_centers[B[i]][j] / len(B)
-
-            centers[L] = temp
-
-
-        print(centers)
+        return centers
 
 
 # -----------------------------------------------------------------------------
