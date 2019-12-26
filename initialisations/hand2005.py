@@ -1,71 +1,100 @@
-"""
-Hand 2006 ICA-based algorithm
-
-See: Optimising k-means clustering results with standard software packages
-https://www.sciencedirect.com/science/article/pii/S0167947304002038
-"""
+"""Hand & Krzanowski 2005 algorithm revisited"""
 
 import numpy as np
-from sklearn.cluster import KMeans
 
-# Paper is vague on "a given starting point" so use uniformly random
-from initialisations import faber1994 as faber
-
-# As per the paper
-OPTS = {'loops': 100, 'alpha': 0.83, 'beta': 0.95}
+from initialisations import random as randominit
+from initialisations.base import EmptyClusterException, Initialisation
 
 
-def _run_k_means(data, num_clusters, seeds=None):
-    """Simulate the Matlab interface a little"""
+class Hand(Initialisation):
+    """Hand & Krzanowski 2005 initialisation algorithm"""
 
-    if seeds is None:
-        seeds = faber.generate(data, num_clusters)
+    # As per the paper
+    _iterations = 100
+    _alpha = 0.3
+    _beta = 0.95
+    _converge_limit = 10
 
-    est = KMeans(n_clusters=num_clusters, n_init=1, init=seeds)
-    est.fit(data)
+    def find_centers(self):
+        """Main method"""
 
-    return est.labels_, est.cluster_centers_, est.inertia_
+        converge_count = 0
+
+        # Step 1: initial run of k-means from random start points
+        start_point = randominit.generate(self._data, self._num_clusters)
+        labels, centers, inertia = self._run_k_means(start_point)
+
+        alpha = self._alpha
+        last_inertia = inertia
+
+        for _ in range(0, self._iterations):
+
+            # Step 2: "perturbate the configuration"
+            p_labels = self._perturbate(labels, alpha)
+
+            try:
+                p_centers = self._find_new_centers(p_labels)
+            except EmptyClusterException:
+                # print("!!! Exception caught")
+                continue
+
+            new_labels, new_centers, new_inertia = self._run_k_means(p_centers)
+            # print("New:", new_inertia, "; Old:", inertia)
+
+            if new_inertia < inertia:
+                # print("\t==> Keeping new configuration")
+                inertia = new_inertia
+                labels = new_labels
+                centers = new_centers
+
+            if new_inertia == last_inertia:
+                # print("\t==> Inertia same as last time")
+                converge_count += 1
+            else:
+                converge_count = 0
+
+            last_inertia = new_inertia
+
+            if converge_count >= self._converge_limit:
+                # print("\t==> Breaking at:", converge_count)
+                break
+
+            # Step 3: reduce probability of perturbation
+            alpha = alpha * self._beta
+
+        return centers
+
+    def _perturbate(self, my_labels, alpha):
+        """Randomly reassign data points with probability alpha"""
+
+        all_labels = range(0, self._num_clusters)
+
+        probabilities = np.random.random_sample(self._num_samples)
+
+        for selected in np.where(probabilities < alpha)[0]:
+            my_labels[selected] = np.random.choice(
+                np.where(all_labels != my_labels[selected])[0])
+
+        return my_labels
+
+    def _find_new_centers(self, my_new_labels):
+        """Find the means of the perturbed clusters"""
+
+        new_centers = np.zeros((self._num_clusters, self._num_attrs))
+
+        for cluster_id in range(0, self._num_clusters):
+            cluster_data = self._data[my_new_labels == cluster_id]
+
+            if cluster_data.size == 0:
+                raise EmptyClusterException("Empty cluster:" + str(cluster_id))
+
+            new_centers[cluster_id] = np.mean(cluster_data, axis=0)
+
+        return new_centers
 
 
 def generate(data, num_clusters):
     """The common interface"""
 
-    # Find a reasonable starting point
-    U, z_init, sse = _run_k_means(data, num_clusters)
-
-    alpha = OPTS['alpha']
-    beta = OPTS['beta']
-    loops = OPTS['loops']
-
-    for i in range(0, loops):
-
-        r = np.random.random_sample(len(U),)
-
-        for index in np.where(r < alpha)[0]:
-            OtherValuesOfK = np.where(range(0, num_clusters) != U[index])[0]
-            U[index] = np.random.choice(OtherValuesOfK)
-
-        empty_cluster = False
-
-        new_z_init = np.zeros(z_init.shape)
-
-        for k in range(0, num_clusters):
-            if sum(U == k) == 0:
-                empty_cluster = True
-                break
-
-            new_z_init[k] = np.mean(data[U == num_clusters], axis=0)
-
-        if empty_cluster:
-            continue
-
-        NewU, _, new_sse = _run_k_means(data, num_clusters, new_z_init)
-
-        if new_sse < sse:
-            sse = new_sse
-            U = NewU
-            z_init = new_z_init
-
-        alpha = alpha * beta
-
-    return z_init
+    hand = Hand(data, num_clusters)
+    return hand.find_centers()

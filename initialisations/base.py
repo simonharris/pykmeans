@@ -5,6 +5,7 @@ Base class to encourage consistency of structure between Initialisations
 from abc import abstractmethod
 
 import numpy as np
+from sklearn.cluster import KMeans
 
 
 class Initialisation:
@@ -20,6 +21,14 @@ class Initialisation:
     def find_centers(self) -> np.array:
         """The main method that all initialisations must implement"""
 
+    def _run_k_means(self, seeds: np.array) -> np.array:
+        """Provide a simplified interface to KMeans"""
+
+        est = KMeans(n_clusters=self._num_clusters, n_init=1, init=seeds)
+        est.fit(self._data)
+
+        return est.labels_, est.cluster_centers_, est.inertia_
+
 
 class EmptyClusterException(Exception):
-    """If empty clusters cannot be avoided after several retries"""
+    """If empty clusters cannot be avoided in current circumstances"""
