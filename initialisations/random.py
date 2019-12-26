@@ -2,10 +2,11 @@
 Forgy 1965 version of random initialisation
 
 At least, I think it is. The paper does not seem to be available and accounts
-are contradictory, often describing Forgy as random data points. However, many
-papers credit that idea to Faber 1994. Steinley 2003 uses this method.
+are contradictory, often describing Forgy as selecting random data points as
+initial centroids. However, many papers credit that idea to Faber 1994.
+Steinley 2003 uses this method.
 
-Celebi 2013 states this waas Forgy's approach and cites Anderberg 1973.
+Celebi 2013 states this was Forgy's approach and cites Anderberg 1973.
 Pena et al directly contradicts this and cites Anderberg 1973!
 
 See: Cluster Analysis of Multivariate Data: Efficiency vs Interpretability
