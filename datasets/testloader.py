@@ -38,6 +38,11 @@ def load_hartigan():
     return _load_local('hartigan1975')
 
 
+def load_imgseg():
+    """Image Segmentation. Used by Bradley & Fayyad 1998"""
+    return _load_local('img_seg')
+
+
 def load_iris():
     """Built-in Iris dataset"""
     return skdatasets.load_iris()
