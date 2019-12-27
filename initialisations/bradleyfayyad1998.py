@@ -13,68 +13,83 @@ from sklearn.utils.testing import ignore_warnings
 from initialisations import random as randominit
 from kmeans import distance_table
 
+# Called J in the paper. 10 is suggested by Steinley 2007
+NUM_SUBSETS = 10
 
-def refine(seeds, data, K, J):
-    """Main algorithm"""
 
-    # The J possible solutions
-    CMI = []
+def _refine(seeds, data, num_clusters, num_subsets):
+    """Main Refine() algorithm"""
 
-    # All the points found so far
-    CM = []
+    if len(data) < (num_clusters * num_subsets):
+        raise ValueError("Dataset too small to be clustered")
 
-    # TODO: this is according to Steinley
-    sample_size = int(len(data)/J)
+    # The J possible "clustering solutions over the subsamples", CMi
+    all_solutions = []
 
-    for i in range(0, J):
+    # All candidate centroids found so far, for "smoothing" later, CM
+    all_candidates = []
 
-        sample = data[np.random.choice(data.shape[0],
-                                       sample_size,
+    # Step 1: collect potential solutions -------------------------------------
+
+    # As per Steinley 2007
+    subset_size = int(len(data)/num_subsets)
+
+    for _ in range(0, num_subsets):
+
+        subset = data[np.random.choice(data.shape[0],
+                                       subset_size,
                                        replace=False), :]
-        centroids = k_means_mod(seeds, sample, K)
+        centroids = _k_means_mod(seeds, subset, num_clusters)
 
-        CMI.append(centroids)
-        for c in centroids:
-            CM.append(c)
+        all_solutions.append(centroids)
 
-    CM = np.unique(CM, axis=0)
+        for cent in centroids:
+            all_candidates.append(cent)
+
+    all_candidates = np.unique(all_candidates, axis=0)
+
+    # Step 2: smoothing -------------------------------------------------------
 
     best = None
 
-    for i in range(0, J):
+    for i in range(0, num_subsets):
 
-        km = k_means(CMI[i], CM, K)
+        clustering = _k_means(all_solutions[i], all_candidates, num_clusters)
 
-        if best is None or km.inertia_ < best.inertia_:
-            best = km
+        if best is None or clustering.inertia_ < best.inertia_:
+            best = clustering
 
     return best.cluster_centers_
 
 
 @ignore_warnings(category=ConvergenceWarning)
-def k_means(seeds, data, K):
-    """Calls the standard k-means with the given seeds"""
+def _k_means(seeds, data, num_clusters):
+    """Calls the standard k-means with the given seeds.
 
-    est = KMeans(n_clusters=K, init=seeds, n_init=1)
+    Warnings are suppressed as empty clusters are expected behaviour."""
+
+    est = KMeans(n_clusters=num_clusters, init=seeds, n_init=1)
     est.fit(data)
     return est
 
 
-def k_means_mod(seeds, sample, K):
-    """In progress"""
+def _k_means_mod(seeds, subset, num_clusters):
+    """The KMeansMod() step of the algorithm"""
 
+    # This May be overkill: every cluster should be populated after one pass
     while True:
 
-        km = k_means(seeds, sample, K)
+        clustering = _k_means(seeds, subset, num_clusters)
+        centroids = clustering.cluster_centers_
 
-        centroids = km.cluster_centers_
-
-        # Because labels_ returned by kmeans are arbitrarily numbered
-        distances = distance_table(sample, centroids)
+        # Because labels_ returned by kmeans are arbitrarily numbered,
+        # we work with the returned centroids
+        distances = distance_table(subset, centroids)
+        # print(distances)
 
         labels = distances.argmin(1)
 
-        sought = set(range(0, K))
+        sought = set(range(0, num_clusters))
         labels = set(labels)
         missing = sought - labels
 
@@ -83,40 +98,38 @@ def k_means_mod(seeds, sample, K):
         if missingcount == 0:
             break
         else:
-            print("Missing:", missing)
-            print("Before:", seeds)
-            print("Sample:", sample)
+            # print("Missing:", missing)
 
             furthest = _find_furthest(distances, missingcount)
-
-            print("Furthest-nearest:", furthest)
+            # print("Furthest-nearest:", furthest)
 
             i = 0
             for clusterid in missing:
-                seeds[clusterid] = sample[furthest[i]]
+                seeds[clusterid] = subset[furthest[i]]
                 i += 1
 
-            print("After:", seeds)
+            # print("After:", seeds)
 
     return centroids
 
 
-def generate(data, K, opts={}):
-    """Provide a consistent interface"""
-
-    # TODO: check this is the correct type of random
-    seeds = randominit.generate(data, K)
-
-    return refine(seeds, data, K, opts['J'])
-
-
 def _find_furthest(distances, howmany=1):
-    """The largest smallest one"""
+    """Find data points which are furthest from their assigned cluster center
 
-    print("Distances:\n", distances)
+    This takes the output from distance_table(). For each point we take the
+    shortest distance as the assigned center, then select the largest of those,
+    so basically the furthest nearest distance(s)"""
 
     mins = distances.min(1)
 
-    print("Mins:\n", mins)
-
     return np.argpartition(mins, -howmany)[-howmany:]
+
+
+def generate(data, num_clusters):
+    """Provide a consistent interface"""
+
+    # It isn't explicitly stated what this should be, but this is as
+    # described by Steinley 2007 and seems a reasonable assumption
+    starting_point = randominit.generate(data, num_clusters)
+
+    return _refine(starting_point, data, num_clusters, NUM_SUBSETS)

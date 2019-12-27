@@ -6,14 +6,33 @@ import unittest
 
 import numpy as np
 
-from initialisations import bradleyfayyad1998 as bf
+from datasets import testloader
+from initialisations import bradleyfayyad1998 as bfinit
 import kmeans
+
+# pylint: disable=R0201,W0212
 
 
 class BfTestSuite(unittest.TestCase):
-    """Test suite for B&F. Quite a bit left to do"""
+    """Test suite for B&F"""
 
-    def _test_find_furthest(self):
+    def test_code_runs(self):
+        """At least prove it runs"""
+
+        dataset = testloader.load_iris()
+        centroids = bfinit.generate(dataset.data, 3)
+        self.assertEqual((3, 4), centroids.shape)
+
+    def test_with_hartigan(self):
+        """A tiny dataset which can't possibly work here"""
+
+        dataset = testloader.load_hartigan()
+
+        with self.assertRaises(ValueError):
+            bfinit.generate(dataset.data, 3)
+
+    def test_find_furthest(self):
+        """Find the data point furthest from its cluster center"""
 
         distances = np.array([
             [1, 2, 3],     # 1
@@ -23,16 +42,15 @@ class BfTestSuite(unittest.TestCase):
             [6, 18, 8]     # 6
         ])
 
-        np.testing.assert_equal(bf._find_furthest(distances), [3])
-        np.testing.assert_equal(np.sort(bf._find_furthest(distances, 2)),
+        np.testing.assert_equal(bfinit._find_furthest(distances), [3])
+        np.testing.assert_equal(np.sort(bfinit._find_furthest(distances, 2)),
                                 [3, 4])
-        np.testing.assert_equal(np.sort(bf._find_furthest(distances, 3)),
+        np.testing.assert_equal(np.sort(bfinit._find_furthest(distances, 3)),
                                 [1, 3, 4])
 
-
-    def _test_with_1_empty(self):
-        """Seeds and data known to leave one empty cluster after k_means(), and
-        thus trigger k_means_mod() to reassign a centroid"""
+    def test_with_1_empty(self):
+        """Seeds and data known to leave one empty cluster after k_means(),
+        and thus trigger k_means_mod() to reassign a centroid"""
 
         seeds = np.array([
             [5.4, 3.0, 4.5, 1.5],
@@ -41,7 +59,7 @@ class BfTestSuite(unittest.TestCase):
         ])
 
         data = np.array([
-            # Assigned  0 but is furthest, so becomes the new 2
+            # Assigned to 0 but is furthest, so becomes the new 2
             [6.4, 2.9, 4.3, 1.3],
             [6.3, 3.4, 5.6, 2.4],
             [6.8, 3.0, 5.5, 2.1],
@@ -57,42 +75,15 @@ class BfTestSuite(unittest.TestCase):
             [6.4, 2.9, 4.3, 1.3],     # The new 2
         ]
 
-        centroids = bf.k_means_mod(seeds, data, len(seeds))
+        centroids = bfinit._k_means_mod(seeds, data, len(seeds))
         labels = kmeans.distance_table(data, centroids).argmin(1)
 
         np.testing.assert_array_equal(labels, expected_labels)
         np.testing.assert_array_equal(centroids, expected_centroids)
 
+    def _test_with_n_empty(self):
+        """Seeds and data known to leave more than one empty cluster
 
-    def test_with_n_empty(self):
-        """Seeds and data known to leave more than one empty cluster"""
-
-        seeds = np.array([
-            [6.4, 2.9, 4.3, 1.3],  # Gets assigned to 0 but is furthest, so becomes the new 2
-            [6.3, 3.4, 5.6, 2.4],
-            [6.8, 3.0, 5.5, 2.1],
-            [5.0, 2.0, 3.5, 1.0],
-            [100, 100, 100, 100],
-        ])
-
-        data = np.array([
-            [6.4, 2.9, 4.3, 1.3],  # Gets assigned to 0 but is furthest, so becomes the new 2
-            [6.3, 3.4, 5.6, 2.4],
-            [6.8, 3.0, 5.5, 2.1],
-            [5.0, 2.0, 3.5, 1.0],
-            [5.8, 2.7, 5.1, 1.9],
-        ])
-
-        expected_labels = [2, 1, 1, 0, 0]
-
-        expected_centroids = [
-            [5.4, 2.35, 4.3, 1.45],
-            [6.55, 3.2, 5.55, 2.25],
-            [6.4, 2.9, 4.3, 1.3],      # The new 2
-        ]
-
-        centroids = bf.k_means_mod(seeds, data, len(seeds))
-        labels = kmeans.distance_table(data, centroids).argmin(1)
-
-        # np.testing.assert_array_equal(labels, expected_labels)
-        # np.testing.assert_array_equal(centroids, expected_centroids)
+        This is left as TODO for now, since no way can I force sklearn to
+        give me more than one empty cluster.
+        """
