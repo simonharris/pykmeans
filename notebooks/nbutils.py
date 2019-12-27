@@ -28,7 +28,11 @@ def _run_dataset(name, dataset, num_clusters, algorithm):
     data = dataset.data
     target = dataset.target
 
-    centroids = algorithm.generate(data, num_clusters)
+    try:
+        centroids = algorithm.generate(data, num_clusters)
+    except BaseException as myerror:
+        print("Exception:", myerror, "\n")
+        return
 
     # print("Initial seeds:")
     # print(centroids, "\n")
@@ -40,6 +44,7 @@ def _run_dataset(name, dataset, num_clusters, algorithm):
     # print(est.cluster_centers_, "\n")
 
     _run_metrics(target, est)
+
 
 
 def _run_metrics(target, est):
