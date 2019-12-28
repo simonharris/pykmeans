@@ -12,7 +12,7 @@ lint:
 	pylint initialisations
 
 lintall:
-	find . -iname "*.py" | xargs pylint
+	find . -iname "*.py" | grep -v "_deprecated" | xargs pylint
 
 exp:
 	@python runner.py
