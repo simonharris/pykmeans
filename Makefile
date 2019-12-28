@@ -1,3 +1,6 @@
+default:
+	@echo "No default make target"
+
 init:
 	git pull
 	pip install -Ur requirements.txt
