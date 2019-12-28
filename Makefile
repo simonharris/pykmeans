@@ -11,6 +11,9 @@ test:
 lint:
 	pylint initialisations
 
+lintall:
+	find . -iname "*.py" | xargs pylint
+
 exp:
 	@python runner.py
 
