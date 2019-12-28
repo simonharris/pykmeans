@@ -1,40 +1,47 @@
-'''
+"""
 MacQueen 1967 algorithm
 
 See: Some methods for classification and analysis of multivariate observations
 https://books.google.co.uk/books?id=IC4Ku_7dBFUC&pg=PA281#v=onepage&q&f=false
-'''
+"""
 
 from itertools import combinations
 
 import numpy as np
-import sklearn.datasets as skdatasets
 
 from cluster import Cluster
 
+# Seem about right for Iris, but other datasets will vary
+ROUGHENING = 1.7
+COARSENING = 1.7
 
-R = C = 1.7 # Seems about right for Iris, but other datasets will vary
 
- 
 def get_pairs(alist):
-   
+    """Return all potential paired combinations of list items"""
+
     return list(combinations(alist, 2))
-    
+
 
 def consolidate(clusters):
-    
+    """Merge any clusters whose centers are too close"""
+
     # "Until all the means are separated by an amount of C or more"
     while True:
-    
+
         if len(clusters) == 1:
             return clusters
 
         pairs = get_pairs(clusters)
-    
-        distances = [pair[0].get_distance(pair[1].get_mean()) for pair in pairs]
-        
-        if min(distances) > C:
+
+        distances = [pair[0].get_distance(pair[1].get_mean())
+                     for pair in pairs]
+
+        # print("Closest:", min(distances))
+
+        if min(distances) > COARSENING:
             return clusters
+
+        # print("\t==> Consolidate merging")
 
         pair_to_merge = pairs[np.argmin(distances)]
 
@@ -44,35 +51,43 @@ def consolidate(clusters):
         left.merge(right)
 
         del clusters[clusters.index(right)]
+        # print("Num clusters is now:", len(clusters))
 
 
-def generate(data, K, opts={}):
+def generate(data, num_clusters):
+    """The common interface"""
 
     clusters = []
 
-    for i in range(0, len(data)):
-    
-        # create clusters from first K samples
-        if i < K:
-            c = Cluster()
-            c.assign(data[i])
-            clusters.append(c)
+    # For each sample in the dataset
+    for index, sample in enumerate(data):
+
+        # Create initial clusters from first K samples
+        if index < num_clusters:
+            # print("Creating cluster:", index)
+            clust = Cluster()
+            clust.assign(sample)
+            clusters.append(clust)
             continue
-        
+
+        # "If the distance between the menbers of this pair..."
         clusters = consolidate(clusters)
 
-        # get distance from each cluster
-        distances = [c.get_distance(data[i]) for c in clusters]
-            
-        if min(distances) > R:
-            c = Cluster()
-            c.assign(data[i])
-            clusters.append(c)     
+        # "In addition, as each new point is processed..."
+
+        # Get distance from each cluster
+        distances = [c.get_distance(sample) for c in clusters]
+
+        if min(distances) > ROUGHENING:
+            # print("Adding a new cluster")
+            clust = Cluster()
+            clust.assign(sample)
+            clusters.append(clust)
+            # print("Num clusters is now:", len(clusters))
         else:
-            # assign to nearest
-            clusters[np.argmin(distances)].assign(data[i])
-                                
+            # Assign to nearest
+            clusters[np.argmin(distances)].assign(sample)
+
         clusters = consolidate(clusters)
-            
-    return np.array([cl.get_mean() for cl in clusters])     
-    
+
+    return np.array([cl.get_mean() for cl in clusters])
