@@ -9,43 +9,59 @@ from sklearn import preprocessing
 import kmeans
 
 
-def anomalous_pattern(data):
+def _standardise(data):
+    """Scale data from -1 to 1, with 0 mean and unit variance"""
+
+    return preprocessing.scale(data)
+
+
+def _find_origin(data):
+    """Find the center of the data (will be 0 if standardised)"""
+
+    return np.mean(data, axis=0)
+
+
+def _find_most_distant(data):
+    """Find the point most distant from the origin"""
+
+    origin = np.array([_find_origin(data)])
+    distances = kmeans.distance_table(data, origin)
+    return data[distances.argmax()], origin
+
+
+def _anomalous_pattern(data):
     """Locate the most anomalous cluster in a data set"""
 
     # i) Standardise the original data (idempotent)
-    data = standardise(data)
+    # To be decided later: data = _standardise(data)
 
     # ii) Initial setting
-    origin = np.zeros((1, data.shape[1]))
-
-    initial_dist = kmeans.distance_table(data, origin)
-
-    furthest = data[initial_dist.argmax()]  # called "c" in the paper
+    # furthest is called "c" in the paper
+    center_c, origin = _find_most_distant(data)
 
     # iii) Cluster update
     while True:
 
         all_dist = kmeans.distance_table(data,
-                                         np.array([origin[0], furthest]))
+                                         np.array([origin[0], center_c]))
         partition = all_dist.argmin(1)
 
         # Needed later to remove from data. Callued "Ui"
-        partition_i = np.where(partition == 1)
+        assigned_indexes = np.where(partition == 1)[0]
 
         # Called "S" in the paper
-        cluster_list = data[partition == 1, :]
+        cluster_s = data[partition == 1, :]
 
         # iv) Centroid update
-        c_tentative = np.mean(cluster_list, 0)
+        center_tentative = np.mean(cluster_s, 0)
 
-        if np.array_equal(furthest, c_tentative):
+        if np.array_equal(center_c, center_tentative):
             break
         else:
-            # TODO: does the name still make sense?
-            furthest = c_tentative
+            center_c = center_tentative
 
     # v) Output
-    return furthest, partition_i
+    return center_c, assigned_indexes
 
 
 def generate(data, num_clusters):
@@ -56,7 +72,7 @@ def generate(data, num_clusters):
 
     while True:
 
-        centre, partition_i = anomalous_pattern(data_working)
+        centre, partition_i = _anomalous_pattern(data_working)
 
         centroids.append(centre)
 
@@ -67,10 +83,3 @@ def generate(data, num_clusters):
             break
 
     return np.array(centroids)
-
-
-def standardise(data):
-    """Scale data from -1 to 1, with 0 mean and unit variance"""
-
-    min_max_scaler = preprocessing.MinMaxScaler((-1, 1))
-    return min_max_scaler.fit_transform(data)
