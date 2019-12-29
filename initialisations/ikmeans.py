@@ -32,9 +32,6 @@ def _find_most_distant(data):
 def _anomalous_pattern(data):
     """Locate the most anomalous cluster in a data set"""
 
-    # i) Standardise the original data (idempotent)
-    # To be decided later: data = _standardise(data)
-
     # ii) Initial setting
     # furthest is called "c" in the paper
     center_c, origin = _find_most_distant(data)
@@ -67,18 +64,21 @@ def _anomalous_pattern(data):
 def generate(data, num_clusters):
     """The common interface"""
 
+    # i) Standardise the original data only at t=1
+    # To be decided later: data = _standardise(data)
+
     data_working = data
     centroids = []
 
     while True:
 
-        centre, partition_i = _anomalous_pattern(data_working)
+        centre, assigned_indexes = _anomalous_pattern(data_working)
 
         centroids.append(centre)
 
-        data_working = np.delete(data_working, partition_i, 0)
+        data_working = np.delete(data_working, assigned_indexes, 0)
 
-        # TODO: investigate other stopping conditions
+        # Stopping condition #4
         if len(centroids) >= num_clusters:
             break
 
