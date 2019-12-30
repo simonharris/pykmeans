@@ -10,8 +10,12 @@ https://www.sciencedirect.com/science/article/pii/S1568494612003377
 import numpy as np
 from scipy.spatial import distance as spdistance
 
+# This is potentially problematic. The choice of column seems arbitrary, and
+# is specific to dataset, which whill not scale to 6,030 datasets
+COLUMN = 0
 
-def sort_by_magnitude(data, column):
+
+def _sort_by_magnitude(data, column):
     """ Step a) Sort data by magnitude of given column"""
     # idxs = np.argsort(np.linalg.norm(data, axis=1))
     # return data[idxs]
@@ -19,7 +23,7 @@ def sort_by_magnitude(data, column):
     return np.array(sorted(data, key=lambda row: np.abs(row[column])))
 
 
-def find_distances(data, column):
+def _find_distances(data, column):
     """Step b) Find Euclidean distances between sorted rows"""
 
     datacol = data[:, column]
@@ -32,7 +36,7 @@ def find_distances(data, column):
     return np.array(distances)
 
 
-def find_split_points(distances, num_clusters):
+def _find_split_points(distances, num_clusters):
     """Step c) Find the largest distances between adjacent rows"""
 
     howmany = num_clusters - 1
@@ -40,17 +44,17 @@ def find_split_points(distances, num_clusters):
     return distances.argsort()[-howmany:][::-1]
 
 
-def generate(data, num_clusters, column):
+def generate(data, num_clusters):
     """The common interface"""
 
     # Step a)
-    sorteddata = sort_by_magnitude(data, column)
+    sorteddata = _sort_by_magnitude(data, COLUMN)
 
     # Step b)
-    distances = find_distances(sorteddata, column)
+    distances = _find_distances(sorteddata, COLUMN)
 
     # Step c)
-    splits = find_split_points(distances, num_clusters)
+    splits = _find_split_points(distances, num_clusters)
 
     # Step d) Find upper bounds
 

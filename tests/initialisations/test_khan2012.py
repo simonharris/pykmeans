@@ -6,7 +6,11 @@ import unittest
 
 import numpy as np
 
+from datasets import testloader
 from initialisations import khan2012 as khan
+
+# Access to protected member
+# pylint: disable=W0212
 
 
 class KhanTestSuite(unittest.TestCase):
@@ -18,23 +22,50 @@ class KhanTestSuite(unittest.TestCase):
 
     def test_sort_by_magnitude(self):
         """Test sorting data by magnitude"""
+
         np.testing.assert_equal(
-            khan.sort_by_magnitude(self._data, self._column),
+            khan._sort_by_magnitude(self._data, self._column),
             self._sorted)
 
     def test_find_distances(self):
         """Test finding distances between data points"""
 
-        distances = khan.find_distances(self._sorted, self._column)
-        expected = np.array([3, 7, 5])
+        distances = khan._find_distances(self._sorted, self._column)
+        expected = np.array([3, 7, 5, 2])
         np.testing.assert_equal(distances, expected)
 
     def test_find_split_points(self):
         """Test finding the split points"""
 
-        distances = khan.find_distances(self._sorted, self._column)
+        distances = khan._find_distances(self._sorted, self._column)
+        np.testing.assert_equal(khan._find_split_points(distances, 3), [1, 2])
 
-        np.testing.assert_equal(khan.find_split_points(distances, 3), [1, 2])
+    def test_find_centroids(self):
+        """Test finding the actual centroids"""
+
+        centroids = khan.generate(self._data, 3)
+
+        expected = np.array([
+            [-0.5, 11, 1.5],
+            [5, 3, 2],
+            [11, 11, 11],
+            ])
+
+        np.testing.assert_equal(centroids, expected)
+
+    def test_with_iris(self):
+        """At least prove it runs"""
+
+        dataset = testloader.load_iris()
+        centroids = khan.generate(dataset.data, 3)
+        self.assertEqual((3, 4), centroids.shape)
+
+    def test_with_hartigan(self):
+        """A tiny dataset which led to problems with empty clusters"""
+
+        dataset = testloader.load_hartigan()
+        centroids = khan.generate(dataset.data, 3)
+        self.assertEqual((3, 3), centroids.shape)
 
     # Utilities ---------------------------------------------------------------
 
@@ -44,6 +75,7 @@ class KhanTestSuite(unittest.TestCase):
             [1, 1, 1],
             [-2, 21, 2],
             [5, 3, 2],
+            [12, 12, 12],
             ])
 
         self._sorted = np.array([
@@ -51,4 +83,5 @@ class KhanTestSuite(unittest.TestCase):
             [-2, 21, 2],
             [5, 3, 2],
             [10, 10, 10],
+            [12, 12, 12],
             ])
