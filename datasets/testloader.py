@@ -56,7 +56,7 @@ def load_iris_ccia():
     with open(datafile) as dfhandle:
         iris = np.array(arff.load(dfhandle)['data'])
 
-    return Dataset(iris[:, 0:4].astype('float'), pd.factorize(iris[:, 4]))
+    return Dataset(iris[:, 0:4].astype('float'), pd.factorize(iris[:, 4]), [])
 
 
 def load_soy_small():
