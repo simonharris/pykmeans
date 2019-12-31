@@ -25,11 +25,11 @@ class CCIA(Initialisation):
     _NN = 1  # No idea. See the Java source code
 
     def find_centers(self):
-        '''Find centers corresponding to each attribute'''
+        """Find centers corresponding to each attribute"""
 
         cluster_string = np.zeros((self._num_samples, self._num_attrs))
 
-        # for each attribute
+        # Step 1: "For each attribute..."
         for i in range(0, self._num_attrs):
             val = self._data[:, i]
 
@@ -39,12 +39,14 @@ class CCIA(Initialisation):
             membership = self._generate_cluster_string(mystr)
             # print("GCS: ", membership)
 
-            for l in range(0, self._num_samples):
-                cluster_string[l][i] = membership[l]
+            for sample_id in range(0, self._num_samples):
+                cluster_string[sample_id][i] = membership[sample_id]
         # end for each attribute
 
         cstr = self._extract_cluster_strings(cluster_string)
         # print("ECS:", cstr)
+
+        # Step 11
         dist_class_str = self._find_unique_cluster_strings(cstr)
 
         return self._find_initial_centers(cstr, dist_class_str, self._data)
@@ -53,7 +55,7 @@ class CCIA(Initialisation):
 
     @staticmethod
     def _k_means_clustering(data, means, num_clusters):
-        '''Simple wrapper for K-means'''
+        """Simple wrapper for K-means"""
 
         est = KMeans(num_clusters, init=means, n_init=1)
         est.fit(data)
@@ -62,8 +64,10 @@ class CCIA(Initialisation):
     def _cluster_numeric_attribute(self, attrib):
         """Run K-means on a single attribute"""
 
-        xs = []
+        # "Attirbute values(s) corresponding to..."
+        x_s = []
 
+        # Step 2: "Compute mean and std dev..."
         attr_mean = np.mean(attrib)
 
         # using non-default ddof=1 gives same as Khan's Java and Gnumeric
@@ -71,36 +75,35 @@ class CCIA(Initialisation):
 
         # print("m=" + str(mn) + " sd=" + str(sd))
 
+        # Step 3: "Compute percentile..."
         for i in range(0, self._num_clusters):
             percentile = (2*(i+1)-1) / (2*self._num_clusters)
-            z = math.sqrt(2) * erfcinv(2*percentile)
-            xs.append(z * attr_sd + attr_mean)
+            z_s = math.sqrt(2) * erfcinv(2*percentile)
+            x_s.append(z_s * attr_sd + attr_mean)
 
-        ad = attrib.reshape(-1, 1)
-        seeds = np.array(xs).reshape(-1, 1)
+        attr_data = attrib.reshape(-1, 1)
+        seeds = np.array(x_s).reshape(-1, 1)
 
-        return self._k_means_clustering(ad, seeds, self._num_clusters)
-
+        # Step 6?
+        return self._k_means_clustering(attr_data, seeds, self._num_clusters)
 
     def _generate_cluster_string(self, mystr):
         """
         Find new centers corresponding to this attribute's cluster
         allotments and allot data objects based on cluster allotments
-
-        TODO: this is just calculating means. Vectorise it
         """
 
         clust = np.zeros((self._num_clusters, self._num_attrs))
         count = [0] * self._num_clusters
 
         # for each data point label
-        for i in range(0, len(mystr)):
+        for i, label in enumerate(mystr):
 
             # for each attribute
             for j in range(0, self._num_attrs):
-                clust[mystr[i]][j] += self._data[i][j]
+                clust[label][j] += self._data[i][j]
 
-            count[mystr[i]] += 1
+            count[label] += 1
 
         # same loops again to get means
         for i in range(0, self._num_clusters):
@@ -144,7 +147,7 @@ class CCIA(Initialisation):
         init_centers = np.zeros((len(dist_class_str), data.shape[1]))
         cnt = np.zeros(len(dist_class_str))
 
-        for i in range(0, len(cstr)):
+        for i, class_str in enumerate(cstr):
             # print("i:", i)
             j = 0
 
@@ -155,7 +158,7 @@ class CCIA(Initialisation):
                 # print(str(item) + " = " + str(dist_class_str[item])
                 #      + ' --> ' + str(item == val))
 
-                if key == cstr[i]:
+                if key == class_str:
                     for k in range(0, data.shape[1]):
                         init_centers[j][k] += data[i][k]
                     cnt[j] += 1
@@ -167,16 +170,16 @@ class CCIA(Initialisation):
             for j in range(0, data.shape[1]):
                 init_centers[i][j] = init_centers[i][j] / cnt[i]
 
-        # TODO: MergeDBMSDC
         if len(dist_class_str) == self._num_clusters:
             return init_centers
-        else:
-            # print("TODO: merge algorithm")
-            return self._merge_dbmsdc(init_centers, dist_class_str, data)
+
+        return self._merge_dbmsdc(init_centers, dist_class_str, data)
 
     def _merge_dbmsdc(self, init_centers, dist_class_str, data):
         """A nasty hybrid of the original Java, and my best guess
         at how to fix the bugs in it"""
+
+        print("IN MERGE NONSENSE LOL")
 
         init_centers = init_centers[init_centers[:, 0].argsort()]
 
@@ -186,7 +189,7 @@ class CCIA(Initialisation):
 
         for L in range(0, self._num_clusters):
 
-            #print("\n\nLooping for L ==", L)
+            # print("\n\nLooping for L ==", L)
 
             R = np.zeros(len(B))
 
@@ -223,7 +226,7 @@ class CCIA(Initialisation):
 
                 if dist < (1.5 * minR):
                     S.append(init_centers[B[i]])
-                    #print("Adding", init_centers[B[i]], "to S")
+                    # print("Adding", init_centers[B[i]], "to S")
                     to_remove.append(i)
 
             # print("TR:", to_remove)

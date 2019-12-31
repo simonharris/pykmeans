@@ -14,7 +14,7 @@ from initialisations import khanahmad2004 as ccia
 class KhanAhmadTestSuite(unittest.TestCase):
     """Unit tests for Khan & Ahmad 2004"""
 
-    def test_whole_thing(self):
+    def test_with_iris(self):
         """Crude integration-style test until I can break it down a little"""
 
         iris = skdatasets.load_iris()
