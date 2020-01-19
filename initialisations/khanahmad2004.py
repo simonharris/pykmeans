@@ -17,6 +17,7 @@ from scipy.special import erfcinv
 from sklearn.cluster import KMeans
 
 from initialisations.base import Initialisation
+#from kmeans import distance_table
 
 
 class CCIA(Initialisation):
@@ -132,7 +133,7 @@ class CCIA(Initialisation):
         return cstr
 
     def _find_unique_cluster_strings(self, cstr):
-        '''Not sure why this method exists just to call another...'''
+        """Not sure why this method exists just to call another..."""
 
         return self._distinct_attributes(cstr)
 
@@ -173,23 +174,71 @@ class CCIA(Initialisation):
         if len(dist_class_str) == self._num_clusters:
             return init_centers
 
-        return self._merge_dbmsdc(init_centers, dist_class_str, data)
+        ## return self._my_merge_dbmsdc(init_centers, dist_class_str, data)
+        return self._my_merge_dbmsdc(init_centers) #, dist_class_str, data)
 
+    def _my_merge_dbmsdc(self, init_centers):
+
+        # Sort to match Java
+        B = init_centers[init_centers[:, 0].argsort()]
+
+        q = self._NN
+
+        # print(B, "\n\n")
+
+        S = []
+
+        # Step 4:
+        # "Repeat steps 5-10..."
+        while len(B) > self._num_clusters:
+
+            print("Looping for B with len:", len(B), "\n")
+
+            # Step 5: "For each cluster center in B..."
+            for x_i in B:
+                print("Start:", x_i)
+                distances = np.array([euclidean(x_i, neighbour)
+                                        for neighbour in B])
+                print("Distances:", distances)
+
+                rqxi = np.partition(distances, q)[q]
+                print("Min is:", rqxi)
+
+                rqxi_id = np.argpartition(distances, q)[q]
+                # print("Min ID is:", rqxi_id)
+                print("Point is:", B[rqxi_id], "\n\n")
+
+                s_l = []
+               # s_l.append()
+
+
+
+            break
+
+        return []
+
+    """
     def _merge_dbmsdc(self, init_centers, dist_class_str, data):
-        """A nasty hybrid of the original Java, and my best guess
-        at how to fix the bugs in it"""
 
-        print("IN MERGE NONSENSE LOL")
+
+        # print("**Entering merge algorithm**")
 
         init_centers = init_centers[init_centers[:, 0].argsort()]
+        # print(init_centers)
 
-        centers = []
+        centers = np.zeros((self._num_clusters, self._num_attrs))
 
         B = list(range(0, len(dist_class_str)))
 
-        for L in range(0, self._num_clusters):
+        # print(centers)
+        # print(B)
 
-            # print("\n\nLooping for L ==", L)
+        # SFSG
+
+        # Step 5: "For each cluster center..."
+        for L in range(0, self._num_clusters-1):
+
+            print("\n\nLooping for L ==", L)
 
             R = np.zeros(len(B))
 
@@ -205,7 +254,7 @@ class CCIA(Initialisation):
                 R[i] = dist_sort[self._NN]
 
             minR = min(R)
-            # print("Min R:", minR)
+            print("Min R:", minR)
 
             index = 0
 
@@ -222,12 +271,13 @@ class CCIA(Initialisation):
             for i in range(0, len(B)):
 
                 dist = euclidean(init_centers[index], init_centers[i])
-                # print("Dist:", dist)
+                print("Dist:", dist)
 
                 if dist < (1.5 * minR):
                     S.append(init_centers[B[i]])
-                    # print("Adding", init_centers[B[i]], "to S")
+                    print("Adding", B[i], "to S")
                     to_remove.append(i)
+                    # break
 
             # print("TR:", to_remove)
             B = np.delete(B, to_remove, axis=0)
@@ -235,10 +285,10 @@ class CCIA(Initialisation):
             # print("S: ", S)
             # print("B: ", B)
 
-            centers.append(np.mean(S, axis=0))
+            centers[L] = np.mean(S, axis=0)
 
         return centers
-
+        """
 
 # -----------------------------------------------------------------------------
 
