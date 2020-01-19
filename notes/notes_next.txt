@@ -1,3 +1,45 @@
-Data gen:
- - 0.05...but if K is 20...
- - with random cardinality, getting 1000 is hard
+Code "review" in general done, with 1 exception...K&A
+
+
+K & A:
+
+
+Synthetic data gen: not big, just checking OK
+ - "none less than 0.05"...but if K is 20...
+ - with random cardinality, getting exactly 1000 is hard (random numbers 
+   come out as floats so need rounding)
+ 
+ 
+Algorithm specific params etc:
+ - see other file
+  
+
+Alg specific "params":
+ - Khan: select a column to cluster on
+ - MacQueen: R and C, very dataset specific
+ - ...tbc  
+
+  
+Computing access issues
+ - got cluster access...tbc
+ - VPN situation...tbc
+ - Teamviewer...tbc
+ - - SSH depends on VPN + knowing IP
+  
+  
+Data output - how to handle
+ - I have got this info coming out...tbc
+ - The sort of quantity is...tbc
+ - Not sure how to process it
+ - - Some idea of final presentation might help
+ 
+ 
+Algorithm presentation in paper:
+ - how much detail needed?
+ - - might be different for paper, dissertation?
+ - LaTeX:
+ - - Renato has conventions?
+ - - too wide
+ - - floats all over place
+
+
