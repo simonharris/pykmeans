@@ -23,7 +23,7 @@ from initialisations.base import Initialisation
 class CCIA(Initialisation):
     """Cluster Center Initialization Algorithm"""
 
-    _NN = 1  # No idea. See the Java source code
+    _NN = 1  # As per  the Java source code
 
     def find_centers(self):
         """Find centers corresponding to each attribute"""
@@ -205,11 +205,26 @@ class CCIA(Initialisation):
                 print("Min is:", rqxi)
 
                 rqxi_id = np.argpartition(distances, q)[q]
-                # print("Min ID is:", rqxi_id)
-                print("Point is:", B[rqxi_id], "\n\n")
+                x_j = B[rqxi_id]
+                print("Point is:", x_j)
 
                 s_l = []
-               # s_l.append()
+
+                radius = 1.5 * rqxi
+                print("Radius is:", radius)
+
+                new_distances = np.array([euclidean(x_j, neighbour)
+                                        for neighbour in B])
+                print("New distances:", new_distances)
+
+
+                # find IDs of smaller
+                ## probably a np where
+
+                # s_l.append()
+                # B.delete()
+
+                print("\n\n")
 
 
 
