@@ -2,6 +2,7 @@
 Generate synthetic datasets
 """
 
+from concurrent import futures
 import itertools
 import os
 
@@ -17,11 +18,15 @@ opts_stdev = [0.5, 1, 1.5]
 
 N_EACH = 50
 
+opts_index = range(0, N_EACH)
+
 NAME_SEP = '_'
 OUTPUT_DIR = './synthetic/'
 
+MAX_WORKERS = 20
 
-def gen_dataset(no_clusters, no_feats, no_samps, card, stdev):
+
+def gen_dataset(no_clusters, no_feats, no_samps, card, stdev, *args):
     """Generates individual dataset"""
 
     if card == 'r':
@@ -41,11 +46,11 @@ def gen_dataset(no_clusters, no_feats, no_samps, card, stdev):
         cluster_std=stdev)
 
 
-def gen_name(config, ctr):
+def gen_name(config):  # , ctr):
     """Generates unique name for dataset"""
 
     name = NAME_SEP.join(map(str, config))
-    name = name + NAME_SEP + str(ctr)
+    # name = name + NAME_SEP + str(ctr)
 
     return name
 
@@ -64,13 +69,31 @@ def save_to_disk(data, labels, name):
     np.savetxt(dirname + 'labels.csv', labels, delimiter=',')
 
 
+def handler(config):
+    """The callback for the executor"""
+
+    print("Called with:", config)
+
+    data, labels = gen_dataset(*config)
+    save_to_disk(data, labels, gen_name(config))  # , i))
+
+    print("Done with:", config)
+
+
 # main code -------------------------------------------------------------------
 
 
 configs = itertools.product(opts_k, opts_feats, opts_samps,
-                            opts_card, opts_stdev)
+                            opts_card, opts_stdev, opts_index)
 
-for config in list(configs):
+"""for config in list(configs):
     for i in range(0, N_EACH):
         data, labels = gen_dataset(*config)
         save_to_disk(data, labels, gen_name(config, i))
+"""
+
+with futures.ThreadPoolExecutor(MAX_WORKERS) as executor:
+
+    res = executor.map(handler, configs)
+
+print(len(list(res)))
