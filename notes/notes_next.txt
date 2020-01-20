@@ -2,7 +2,11 @@ Code "review" in general done, with 1 exception...K&A
 
 
 K & A:
-
+ - leaves me with S being 2 * arrays of 3 points
+ - - no idea what to do with them! (Step 9: do what with Sj?)
+ - - cryptic final paragraph about 1-10 being repeated? but nothing to make that happen?!
+ - why not go from Xj rather than Xi? Both seem arbitrary anyway, the former even more arbitrary.
+ 
 
 Synthetic data gen: not big, just checking OK
  - "none less than 0.05"...but if K is 20...
@@ -21,10 +25,18 @@ Alg specific "params":
 
   
 Computing access issues
- - got cluster access...tbc
- - VPN situation...tbc
- - Teamviewer...tbc
- - - SSH depends on VPN + knowing IP
+ - got cluster access...GOOD (9h -> 22m -> 1m24)
+ - VPN access GOOD
+ (- Teamviewer...tbc but probably irrelevant
+ - - SSH depends on VPN + knowing IP)
+  
+ Algorithm presentation in paper:
+ - how much detail needed?
+ - - might be different for paper, dissertation?
+ - LaTeX:
+ - - Renato has conventions?
+ - - too wide
+ - - floats all over place
   
   
 Data output - how to handle
@@ -32,14 +44,13 @@ Data output - how to handle
  - The sort of quantity is...tbc
  - Not sure how to process it
  - - Some idea of final presentation might help
+ - any other metrics (ARI; get inertia/SSE for free)
  
  
-Algorithm presentation in paper:
- - how much detail needed?
- - - might be different for paper, dissertation?
- - LaTeX:
- - - Renato has conventions?
- - - too wide
- - - floats all over place
+Further qus:
+ - adding enough originality?
+  - still vague on normalization/standardisation/scaling
+  -- papers diff: some clearly don't, while some specify a method
+  -- maybe the synthetic data is fine anyway? 
 
 
