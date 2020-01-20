@@ -23,8 +23,6 @@ opts_index = range(0, N_EACH)
 NAME_SEP = '_'
 OUTPUT_DIR = './synthetic/'
 
-MAX_WORKERS = 20
-
 
 def gen_dataset(no_clusters, no_feats, no_samps, card, stdev, *args):
     """Generates individual dataset"""
@@ -46,18 +44,15 @@ def gen_dataset(no_clusters, no_feats, no_samps, card, stdev, *args):
         cluster_std=stdev)
 
 
-def gen_name(config):  # , ctr):
+def gen_name(config): 
     """Generates unique name for dataset"""
 
-    name = NAME_SEP.join(map(str, config))
-    # name = name + NAME_SEP + str(ctr)
-
-    return name
+    return NAME_SEP.join(map(str, config))
 
 
 def save_to_disk(data, labels, name):
+    "Save boths flies to disk in their own directory"""
 
-    print(name)
     dirname = OUTPUT_DIR + name + '/'
 
     try:
@@ -72,8 +67,6 @@ def save_to_disk(data, labels, name):
 def handler(config):
     """The callback for the executor"""
 
-    print("Called with:", config)
-
     data, labels = gen_dataset(*config)
     save_to_disk(data, labels, gen_name(config))  # , i))
 
@@ -86,14 +79,8 @@ def handler(config):
 configs = itertools.product(opts_k, opts_feats, opts_samps,
                             opts_card, opts_stdev, opts_index)
 
-"""for config in list(configs):
-    for i in range(0, N_EACH):
-        data, labels = gen_dataset(*config)
-        save_to_disk(data, labels, gen_name(config, i))
-"""
-
-with futures.ThreadPoolExecutor(MAX_WORKERS) as executor:
-
+with futures.ProcessPoolExecutor() as executor:
     res = executor.map(handler, configs)
 
-print(len(list(res)))
+# print(len(list(res)))
+
