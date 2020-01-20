@@ -186,6 +186,7 @@ class CCIA(Initialisation):
 
         # print(B, "\n\n")
 
+        # May be needed...for now just demonstrating
         S = []
 
         # Step 4:
@@ -208,8 +209,10 @@ class CCIA(Initialisation):
                 x_j = B[rqxi_id]
                 print("Point is:", x_j)
 
+                # Step 7
                 s_l = []
 
+                # Step 8, 9
                 radius = 1.5 * rqxi
                 print("Radius is:", radius)
 
@@ -219,10 +222,21 @@ class CCIA(Initialisation):
 
 
                 # find IDs of smaller
-                ## probably a np where
+                mypoints = np.where(new_distances < radius)[0]
+                print("Mypoints:", mypoints)
+
+                points_to_move = B[mypoints]
+                print("PTM/s_l:", points_to_move)
 
                 # s_l.append()
-                # B.delete()
+                s_l = points_to_move
+
+                ## VSTACK s_l to S
+
+                B = np.delete(B, points_to_move, axis=0)
+                print("Depleted B is now:", B)
+
+
 
                 print("\n\n")
 
