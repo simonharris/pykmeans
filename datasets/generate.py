@@ -13,7 +13,7 @@ from sklearn.datasets import make_blobs
 opts_k = [2, 5, 10, 20]
 opts_feats = [2, 10, 50, 100, 1000]
 opts_samps = [1000]
-opts_card = ['u', 'r']
+opts_card = ['u', 'r']  # uniform or random
 opts_stdev = [0.5, 1, 1.5]
 
 N_EACH = 50
@@ -44,14 +44,14 @@ def gen_dataset(no_clusters, no_feats, no_samps, card, stdev, *args):
         cluster_std=stdev)
 
 
-def gen_name(config): 
+def gen_name(config):
     """Generates unique name for dataset"""
 
     return NAME_SEP.join(map(str, config))
 
 
 def save_to_disk(data, labels, name):
-    "Save boths flies to disk in their own directory"""
+    """Save both files to disk in their own directory"""
 
     dirname = OUTPUT_DIR + name + '/'
 
@@ -83,4 +83,3 @@ with futures.ProcessPoolExecutor() as executor:
     res = executor.map(handler, configs)
 
 # print(len(list(res)))
-
