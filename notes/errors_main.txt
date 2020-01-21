@@ -1,0 +1,3 @@
+['onoda2012ica', 'iris']
+/usr/local/lib64/python3.6/site-packages/sklearn/decomposition/fastica_.py:118: UserWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+  warnings.warn('FastICA did not converge. Consider increasing '

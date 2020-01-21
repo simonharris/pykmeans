@@ -1,11 +1,20 @@
 
 MacQueen 1967
- - Roughening and Coarsening - can lead to too many/few clusters and break everything
-
+ - Roughening and Coarsening - very data specific - can lead to too many/few clusters and break everything
 
 
 Khan 2012
  - cluster on a single column
  - results "normalized to data size"? (p.3700)
  - they have 5 clusters for Iris?
+
  
+Bradley & Fayyad
+ - a parameter J not specified. Steinley suggests 10 (and other params).
+ - At least this doesn't appear to vary by dataset (check this) 
+ 
+ 
+ Mirkin
+  - threshold of resolution (for discarding clusters). Seems dataset specific
+  
+  

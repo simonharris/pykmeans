@@ -1,12 +1,15 @@
 Code "review" in general done, with 1 exception...K&A
-
-
-K & A:
- - leaves me with S being 2 * arrays of 3 points
- - - no idea what to do with them! (Step 9: do what with Sj?)
- - - cryptic final paragraph about 1-10 being repeated? but nothing to make that happen?!
- - why not go from Xj rather than Xi? Both seem arbitrary anyway, the former even more arbitrary.
  
+ 
+Computing access issues
+ - got cluster access...GOOD (9h -> 22m -> 1m24)
+ - VPN access GOOD
+ (- Teamviewer...tbc but probably irrelevant
+ - - SSH depends on VPN + knowing IP)
+
+
+Working on making experiment runner parallelized
+
 
 Synthetic data gen: not big, just checking OK
  - "none less than 0.05"...but if K is 20...
@@ -18,39 +21,48 @@ Algorithm specific params etc:
  - see other file
   
 
-Alg specific "params":
- - Khan: select a column to cluster on
- - MacQueen: R and C, very dataset specific
- - ...tbc  
-
-  
-Computing access issues
- - got cluster access...GOOD (9h -> 22m -> 1m24)
- - VPN access GOOD
- (- Teamviewer...tbc but probably irrelevant
- - - SSH depends on VPN + knowing IP)
-  
- Algorithm presentation in paper:
+Working on running and debugging various issues
+Other algorithm specific problems:
+ - see other files
+ - some just take forever to run, eg. Hatamlou vs. ISOLET, B&F vs. SOYS
+ 
+ 
+Other algorithm questions:
+ - is 50 correct for non-deterministic, any reason?
+ - for non-d, take average or best?
+ 
+Working a little on writing...
+Algorithm presentation in paper:
  - how much detail needed?
  - - might be different for paper, dissertation?
  - LaTeX:
  - - Renato has conventions?
  - - too wide
  - - floats all over place
-  
+ * Suggest: 1 para overview, present alg, 1 para on assumptions, params etc for reproducibility
+ 
   
 Data output - how to handle
- - I have got this info coming out...tbc
- - The sort of quantity is...tbc
+ - Curently returning ARI, inertia/SSE (free), time, cluster labels 
+ - The sort of quantity is: 
+ - - label files (runs [1,50] * n algs * n datasets) 
+ - - stats file (same but one line per above)   
  - Not sure how to process it
  - - Some idea of final presentation might help
- - any other metrics (ARI; get inertia/SSE for free)
+ - any other metrics?
  
  
 Further qus:
  - adding enough originality?
   - still vague on normalization/standardisation/scaling
-  -- papers diff: some clearly don't, while some specify a method
+  -- papers diff: some clearly don't, while some specify a method eg. Mirkin (in AP)
   -- maybe the synthetic data is fine anyway? 
 
 
+K & A:
+ - leaves me with S being 2 * arrays of 3 points
+ - - no idea what to do with them! (Step 9: do what with Sj?)
+ - - cryptic final paragraph about 1-10 being repeated? but nothing to make that happen?!
+ - why not go from Xj rather than Xi? Both seem arbitrary anyway, the former even more arbitrary
+ - sort of implies you iterate over B whilst modifying it? (which oddly seems to work in the Java) (but not Python, hence my 'break')
+ 

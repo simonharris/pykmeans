@@ -1,0 +1,31 @@
+
+
+['bradleyfayyad1998', 'iris'] .. isolet, 
+Saving labels to: _output/out_2020-01-21_1224/bradleyfayyad1998-iris.labels.csv
+/usr/local/lib64/python3.6/site-packages/numpy/matrixlib/defmatrix.py:68: PendingDeprecationWarning: the matrix subclass is not the recommended way to represent matrices or deal with linear algebra (see https://docs.scipy.org/doc/numpy/user/numpy-for-matlab-users.html). Please adjust your code to use regular ndarray.
+
+['milligan1980', 'iris']
+/usr/lib64/python3.6/importlib/_bootstrap.py:219: ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+  return f(*args, **kwds)
+
+['erisoglu2011', 'isolet']
+/usr/local/lib64/python3.6/site-packages/numpy/core/fromnumeric.py:2920: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/usr/local/lib64/python3.6/site-packages/numpy/core/_methods.py:78: RuntimeWarning: invalid value encountered in true_divide
+  ret, rcount, out=ret, casting='unsafe', subok=False)
+Traceback (most recent call last):
+  File "runner.py", line 143, in <module>
+    labels, inertia = run_kmeans(dset, my_init)
+  File "runner.py", line 65, in run_kmeans
+    est.fit(dataset.data)
+  File "/usr/local/lib64/python3.6/site-packages/sklearn/cluster/k_means_.py", line 896, in fit
+    return_n_iter=True)
+  File "/usr/local/lib64/python3.6/site-packages/sklearn/cluster/k_means_.py", line 302, in k_means
+    init = check_array(init, dtype=X.dtype.type, copy=True)
+  File "/usr/local/lib64/python3.6/site-packages/sklearn/utils/validation.py", line 453, in check_array
+    _assert_all_finite(array)
+  File "/usr/local/lib64/python3.6/site-packages/sklearn/utils/validation.py", line 44, in _assert_all_finite
+    " or a value too large for %r." % X.dtype)
+ValueError: Input contains NaN, infinity or a value too large for dtype('float64').
+make: *** [exp] Error 1
+
