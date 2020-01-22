@@ -29,7 +29,7 @@ def gen_dataset(no_clusters, no_feats, no_samps, card, stdev, *args):
     if card == 'r':
         weights = np.random.random(no_clusters)
         weights /= weights.sum()
-        sample_cts = np.ceil(weights * no_samps)
+        sample_cts = np.ceil(weights * no_samps).astype(int)
 
         while sample_cts.sum() > no_samps:
             sample_cts[np.argmax(sample_cts)] -= 1
@@ -43,8 +43,8 @@ def gen_dataset(no_clusters, no_feats, no_samps, card, stdev, *args):
 
     return make_blobs(
         n_samples=sample_cts,
-        n_features=no_feats,
         centers=centers,
+        n_features=no_feats,
         cluster_std=stdev)
 
 
@@ -86,4 +86,4 @@ configs = itertools.product(opts_k, opts_feats, opts_samps,
 with futures.ProcessPoolExecutor() as executor:
     res = executor.map(handler, configs)
 
-# print(len(list(res)))
+print(len(list(res)))
