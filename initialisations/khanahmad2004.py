@@ -191,60 +191,59 @@ class CCIA(Initialisation):
 
         # Step 4:
         # "Repeat steps 5-10..."
-        while len(B) > self._num_clusters:
+        # #while len(B) > self._num_clusters:
+
+        # Step 5: "For each cluster center in B..."
+        for x_i in B:
 
             print("Looping for B with len:", len(B), "\n")
 
-            # Step 5: "For each cluster center in B..."
-            for x_i in B:
-                print("Start:", x_i)
-                distances = np.array([euclidean(x_i, neighbour)
-                                        for neighbour in B])
-                print("Distances:", distances)
+            print("Start:", x_i)
+            distances = np.array([euclidean(x_i, neighbour)
+                                  for neighbour in B])
+            print("Distances:", distances)
 
-                rqxi = np.partition(distances, q)[q]
-                print("Min is:", rqxi)
+            rqxi = np.partition(distances, q)[q]
+            print("Min is:", rqxi)
 
-                rqxi_id = np.argpartition(distances, q)[q]
-                x_j = B[rqxi_id]
-                print("Point is:", x_j)
+            rqxi_id = np.argpartition(distances, q)[q]
+            x_j = B[rqxi_id]
+            print("Point is:", x_j)
 
-                # Step 7
-                s_l = []
+            # Step 7
+            s_l = []
 
-                # Step 8, 9
-                radius = 1.5 * rqxi
-                print("Radius is:", radius)
+            # Step 8, 9
+            radius = 1.5 * rqxi
+            print("Radius is:", radius)
 
-                new_distances = np.array([euclidean(x_j, neighbour)
-                                        for neighbour in B])
-                print("New distances:", new_distances)
+            new_distances = np.array([euclidean(x_j, neighbour)
+                                      for neighbour in B])
+            print("New distances:", new_distances)
 
+            # find IDs of points within radius
+            mypoints = np.where(new_distances < radius)[0]
+            print("Mypoints:", mypoints)
 
-                # find IDs of smaller
-                mypoints = np.where(new_distances < radius)[0]
-                print("Mypoints:", mypoints)
+            points_to_move = B[mypoints]
+            print("PTM/s_l:", points_to_move)
 
-                points_to_move = B[mypoints]
-                print("PTM/s_l:", points_to_move)
+            # s_l.append()
+            s_l = points_to_move
 
-                # s_l.append()
-                s_l = points_to_move
+            S.append(s_l)
 
-                ## VSTACK s_l to S
+            B = np.delete(B, mypoints, axis=0)
+            print("Depleted B is now:", B)
 
-                B = np.delete(B, points_to_move, axis=0)
-                print("Depleted B is now:", B)
+            print("\n\n")
 
+            if (len(B) == 0):
+                print("Len S:", len(S))
+                print("Breaking with S:", S)
+                break
 
-
-                print("\n\n")
-
-
-
-            break
-
-        return []
+        return []  # no idea what to return!
 
     """
     def _merge_dbmsdc(self, init_centers, dist_class_str, data):

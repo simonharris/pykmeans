@@ -9,7 +9,6 @@ import os
 import numpy as np
 from sklearn.datasets import make_blobs
 
-
 opts_k = [2, 5, 10, 20]
 opts_feats = [2, 10, 50, 100, 1000]
 opts_samps = [1000]
@@ -30,15 +29,20 @@ def gen_dataset(no_clusters, no_feats, no_samps, card, stdev, *args):
     if card == 'r':
         weights = np.random.random(no_clusters)
         weights /= weights.sum()
-        samples = (weights * no_samps).astype('int')
-        print(samples.sum())
+        sample_cts = np.ceil(weights * no_samps)
+
+        while sample_cts.sum() > no_samps:
+            sample_cts[np.argmax(sample_cts)] -= 1
+
+        print(sample_cts.sum())
+
         centers = None
     else:
-        samples = no_samps
+        sample_cts = no_samps
         centers = no_clusters
 
     return make_blobs(
-        n_samples=samples,
+        n_samples=sample_cts,
         n_features=no_feats,
         centers=centers,
         cluster_std=stdev)
