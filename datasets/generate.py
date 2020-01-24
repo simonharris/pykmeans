@@ -14,13 +14,14 @@ opts_feats = [2, 10, 50, 100, 1000]
 opts_samps = [1000]
 opts_card = ['u', 'r']  # uniform or random
 opts_stdev = [0.5, 1, 1.5]
-
 N_EACH = 50
+OUTPUT_DIR = './synthetic/'
+
 
 opts_index = range(0, N_EACH)
 
 NAME_SEP = '_'
-OUTPUT_DIR = './synthetic/'
+
 
 
 def gen_dataset(no_clusters, no_feats, no_samps, card, stdev, *args):
@@ -33,6 +34,8 @@ def gen_dataset(no_clusters, no_feats, no_samps, card, stdev, *args):
 
         while sample_cts.sum() > no_samps:
             sample_cts[np.argmax(sample_cts)] -= 1
+
+        ## Still doesn't run on CERES anyway
 
         print(sample_cts.sum())
 
