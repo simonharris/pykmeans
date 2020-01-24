@@ -15,7 +15,7 @@ lintall:
 	find . -iname "*.py" | grep -v "_deprecated" | xargs pylint
 
 exp:
-	@python3 runner.py
+	python3 runner.py
 
 expclean:
 	rm -rf _output/out*
