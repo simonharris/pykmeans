@@ -8,6 +8,7 @@ import os
 
 import numpy as np
 from sklearn.datasets import make_blobs
+from sklearn import preprocessing
 
 ENV = 'dev'
 # ENV = 'ceres'
@@ -85,6 +86,9 @@ def _save_to_disk(data, labels, name):
     """Save both files to disk in their own directory"""
 
     dirname = OUTPUT_DIR + name + '/'
+
+    # Standardise data
+    data = preprocessing.scale(data)
 
     try:
         os.makedirs(dirname)
