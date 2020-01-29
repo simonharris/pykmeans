@@ -88,7 +88,7 @@ def save_log_file(outdir, info, ctrstr):
 def save_label_file(outdir, labels, ctrstr):
     """Write discovered clustering to disk"""
 
-    labelfile = outdir + 'labels-' + ctrstr + '.labels.csv'
+    labelfile = outdir + 'labels-' + ctrstr + '.csv'
 
     print('Saving labels to:', labelfile)
     with open(labelfile, 'w+') as my_csv:
