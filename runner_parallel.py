@@ -3,12 +3,16 @@ Initial skeleton for a paralellized runner
 """
 
 from concurrent import futures
+import csv
 import importlib
 import itertools
 import os
 import time
+# import warnings
 
 import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.exceptions import ConvergenceWarning
 
 from dataset import Dataset
 from metrics import ari
@@ -17,7 +21,7 @@ from metrics import ari
 # Run-specific config
 WHICH_SETS = 'synthetic'
 algorithms = ['random']
-N_RUNS = 1  # 50
+N_RUNS = 50
 
 
 DATASETS = './datasets/' + WHICH_SETS + '/'
@@ -44,17 +48,52 @@ def load_dataset(datadir, which):
     )
 
 
-def run_kmeans(dataset, algorithm):
+def run_kmeans(dataset, algorithm, dsname, ctrstr):
     """Run the initialisation algorithm follower by k-means"""
 
     num_clusters = dataset.num_clusters()
 
     centroids = algorithm.generate(dataset.data, num_clusters)
 
-    est = KMeans(n_clusters=num_clusters, init=centroids, n_init=1)
-    est.fit(dataset.data)
+    # TODO: this currently catches nothing
+    try:
+        est = KMeans(n_clusters=num_clusters, init=centroids, n_init=1)
+        est.fit(dataset.data)
+    except ConvergenceWarning as con_warn:
+        print("ConvergenceWarning for", dsname, "at:", ctrstr)
+        print(con_warn)
 
     return est.labels_, est.inertia_
+
+
+def make_output_dir(output_dir):
+    """Create empty directory for output if needed"""
+
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+
+def save_log_file(outdir, info, ctrstr):
+    """Write info to disk"""
+
+    info.append(ctrstr)
+    infofile = outdir + 'output-' + ctrstr + '.csv'
+
+    print('Saving info to:', infofile)
+    with open(infofile, 'w+') as my_csv:
+        csvwriter = csv.writer(my_csv, delimiter=',')
+        csvwriter.writerows([info])
+
+
+def save_label_file(outdir, labels, ctrstr):
+    """Write discovered clustering to disk"""
+
+    labelfile = outdir + 'labels-' + ctrstr + '.labels.csv'
+
+    print('Saving labels to:', labelfile)
+    with open(labelfile, 'w+') as my_csv:
+        csvwriter = csv.writer(my_csv, delimiter=',')
+        csvwriter.writerow(labels)
 
 
 def handler(config):
@@ -63,6 +102,7 @@ def handler(config):
     algname = config[0]
     datadir = config[1]
     ctr = config[2]
+    ctr_str = f"{ctr:03d}"
 
     start = time.perf_counter()
 
@@ -71,41 +111,43 @@ def handler(config):
     log.append(datadir)
     print(log)
 
-    my_output_dir = DIR_OUTPUT + algname + '/' + WHICH_SETS + '/' + datadir + '/'
-    os.makedirs(my_output_dir)
+    my_out_dir = DIR_OUTPUT + algname + '/' + WHICH_SETS + '/' + datadir + '/'
+    make_output_dir(my_out_dir)
 
     # print("Called with:", my_output_dir)
 
     dset = load_dataset(DATASETS, datadir)
     my_init = importlib.import_module('initialisations.' + algname)
-    labels, inertia = run_kmeans(dset, my_init)
+    labels, inertia = run_kmeans(dset, my_init, datadir, ctr_str)
 
     log.append(inertia)
 
-    print(labels)
-    ### TODO: save label file
+    # print(labels)
 
     ari_score = ari.score(dset.target, labels)
     log.append(ari_score)
-
-    print(log)
 
     # add time taken
     end = time.perf_counter()
     log.append(end - start)
 
+    print(log)
 
-    ### TODO: write log fle
+    save_log_file(my_out_dir, log, ctr_str)
+    save_label_file(my_out_dir, labels, ctr_str)
 
-    # print("OK SO FAR")
+
+# Main loop -------------------------------------------------------------------
 
 
-all_sets = find_datasets(DATASETS)
+if __name__ == '__main__':
 
-configs = itertools.product(algorithms, all_sets, range(0, N_RUNS))
+    all_sets = find_datasets(DATASETS)
 
-with futures.ProcessPoolExecutor() as executor:
-    res = executor.map(handler, configs)
+    configs = itertools.product(algorithms, all_sets, range(0, N_RUNS))
 
-# Force errors to be printed
-print(len(list(res)))
+    with futures.ProcessPoolExecutor() as executor:
+        res = executor.map(handler, configs)
+
+    # Force errors to be printed
+    print(len(list(res)))
