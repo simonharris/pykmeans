@@ -32,7 +32,7 @@ else:
     OPTS_CARD = ['r']  # uniform or random
     OPTS_STDEV = [1]
     N_EACH = 50
-    OUTPUT_DIR = './synthetic_simon/'
+    OUTPUT_DIR = './synthetic/'
     N_PROCESSES = 1
 
 NAME_SEP = '_'
