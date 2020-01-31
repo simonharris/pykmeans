@@ -1,0 +1,31 @@
+Parallelisation:
+ - seems ok (difficult to debug)
+
+Datasets:
+ - exactly 1000...DONE
+ - min 0.03...hacky but seems DONE. May be worth discussing.
+ - * Standardise
+ - - have used preprocessing.scale()...tbc (center at 0, std of 1)
+ - - synthetic + realworld
+ 
+ Running exps:
+  - ...
+ 
+ /home/simon/anaconda3/lib/python3.7/site-packages/sklearn/cluster/k_means_.py:972: ConvergenceWarning: Number of distinct clusters (19) found smaller than n_clusters (20). Possibly due to duplicate points in X.
+  return_n_iter=True)
+
+  ** Even with standardised data
+  
+  Just the sheer amount of time before you see an error.
+   - Any way we can reduce the number of runs without compromising integrity? e.g. 50 runs * 50 versions of each dataset seems a lot
+  
+ --
+ 
+ Onoda ICA - can't cope with > 10 components? (wrote down 7 elsewhere)
+ 
+ Email about the April deadline
+ 
+ KTP job seems interesting
+ 
+ 
+ 
