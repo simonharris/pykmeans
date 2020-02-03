@@ -6,6 +6,7 @@ import unittest
 
 import numpy as np
 
+from datasets import testloader
 from preprocessors import stddise
 
 
@@ -14,19 +15,28 @@ class StddiseTestSuite(unittest.TestCase):
 
     def setUp(self):
         self._proc = stddise
-        self._data = self._get_data()
 
-    def test_foo(self):
+    def test_trivial(self):
         """Poor choice of name, but these things take time to take shape"""
 
-        matrix = self._proc.process(self._data)
-        stddised = matrix.max(axis=0) - matrix.min(axis=0)
+        matrix = self._proc.process(self._get_data_trivial())
+        ranges = matrix.max(axis=0) - matrix.min(axis=0)
 
         expected = np.array([1., 1., 1., 1.])
-        np.testing.assert_equal(stddised, expected)
+        np.testing.assert_equal(ranges, expected)
+
+    def test_bigger(self):
+        """Try an actual dataset"""
+        dataset = testloader.load_iris()
+
+        matrix = self._proc.process(dataset.data)
+        ranges = matrix.max(axis=0) - matrix.min(axis=0)
+
+        expected = np.array([1., 1., 1., 1.])
+        np.testing.assert_equal(ranges, expected)
 
     @staticmethod
-    def _get_data():
+    def _get_data_trivial():
         output = [
             [1, 2, 3, 4],
             [2, 3, 4, 5],
