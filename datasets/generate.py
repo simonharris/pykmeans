@@ -8,7 +8,18 @@ import os
 
 import numpy as np
 from sklearn.datasets import make_blobs
-from sklearn import preprocessing
+
+
+def stddise(matrix):
+    """Let's just hack this is here for now"""
+
+    matrix = np.array(matrix)
+
+    std = (matrix - matrix.mean(axis=0)) \
+        / (matrix.max(axis=0) - matrix.min(axis=0))
+
+    return std
+
 
 ENV = 'dev'
 # ENV = 'ceres'
@@ -94,7 +105,7 @@ def _save_to_disk(data, labels, config, index):
     dirname = OUTPUT_DIR + name + '/'
 
     # Standardise data
-    data = preprocessing.scale(data)
+    data = stddise(data)
 
     try:
         os.makedirs(dirname)
