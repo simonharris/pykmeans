@@ -21,6 +21,7 @@ def process(matrix):
 
     matrix = np.array(matrix)
 
-    std = (matrix - matrix.mean(axis=0)) / (matrix.max(axis=0) - matrix.min(axis=0))
+    std = (matrix - matrix.mean(axis=0)) / \
+        (matrix.max(axis=0) - matrix.min(axis=0))
 
     return std
