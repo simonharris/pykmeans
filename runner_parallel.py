@@ -7,19 +7,20 @@ import csv
 import importlib
 import itertools
 import os
+from pathlib import Path
 import time
 # import warnings
 
 import numpy as np
 from sklearn.cluster import KMeans
-from sklearn.exceptions import ConvergenceWarning
+# from sklearn.exceptions import ConvergenceWarning
 
 from dataset import Dataset
 from metrics import ari
 
 
 # Run-specific config
-WHICH_SETS = 'synthetic'
+WHICH_SETS = 'synthetic/05'
 algorithms = ['random']
 N_RUNS = 50
 
@@ -56,12 +57,12 @@ def run_kmeans(dataset, algorithm, dsname, ctrstr):
     centroids = algorithm.generate(dataset.data, num_clusters)
 
     # TODO: this currently catches nothing
-    try:
-        est = KMeans(n_clusters=num_clusters, init=centroids, n_init=1)
-        est.fit(dataset.data)
-    except ConvergenceWarning as con_warn:
-        print("ConvergenceWarning for", dsname, "at:", ctrstr)
-        print(con_warn)
+    # try:
+    est = KMeans(n_clusters=num_clusters, init=centroids, n_init=1)
+    est.fit(dataset.data)
+    # except ConvergenceWarning as con_warn:
+    #     print("ConvergenceWarning for", dsname, "at:", ctrstr)
+    #     print(con_warn)
 
     return est.labels_, est.inertia_
 
@@ -69,8 +70,9 @@ def run_kmeans(dataset, algorithm, dsname, ctrstr):
 def make_output_dir(output_dir):
     """Create empty directory for output if needed"""
 
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    # if not os.path.exists(output_dir):
+    #     os.makedirs(output_dir)
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 
 def save_log_file(outdir, info, ctrstr):
@@ -108,7 +110,7 @@ def handler(config):
 
     log = []
     log.append(algname)
-    log.append(datadir)
+    log.extend(datadir.split('_'))
     print(log)
 
     my_out_dir = DIR_OUTPUT + algname + '/' + WHICH_SETS + '/' + datadir + '/'
