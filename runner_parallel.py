@@ -8,6 +8,7 @@ import importlib
 import itertools
 import os
 from pathlib import Path
+import sys
 import time
 # import warnings
 
@@ -18,12 +19,18 @@ from sklearn.cluster import KMeans
 from dataset import Dataset
 from metrics import ari
 
-
+"""
 # Run-specific config
 WHICH_SETS = 'synthetic/05'
-algorithms = ['random']
+ALGORITHMS = ['random']
 N_RUNS = 50
+"""
 
+# Run-specific config
+args = sys.argv
+ALGORITHMS = [args[1]]
+WHICH_SETS = args[2]
+N_RUNS = int(args[3])
 
 DATASETS = './datasets/' + WHICH_SETS + '/'
 DIR_OUTPUT = '_output/'
@@ -70,8 +77,6 @@ def run_kmeans(dataset, algorithm, dsname, ctrstr):
 def make_output_dir(output_dir):
     """Create empty directory for output if needed"""
 
-    # if not os.path.exists(output_dir):
-    #     os.makedirs(output_dir)
     Path(output_dir).mkdir(parents=True, exist_ok=True)
 
 
@@ -81,7 +86,7 @@ def save_log_file(outdir, info, ctrstr):
     info.append(ctrstr)
     infofile = outdir + 'output-' + ctrstr + '.csv'
 
-    print('Saving info to:', infofile)
+    # print('Saving info to:', infofile)
     with open(infofile, 'w+') as my_csv:
         csvwriter = csv.writer(my_csv, delimiter=',')
         csvwriter.writerows([info])
@@ -92,7 +97,7 @@ def save_label_file(outdir, labels, ctrstr):
 
     labelfile = outdir + 'labels-' + ctrstr + '.csv'
 
-    print('Saving labels to:', labelfile)
+    # print('Saving labels to:', labelfile)
     with open(labelfile, 'w+') as my_csv:
         csvwriter = csv.writer(my_csv, delimiter=',')
         csvwriter.writerow(labels)
@@ -146,7 +151,7 @@ if __name__ == '__main__':
 
     all_sets = find_datasets(DATASETS)
 
-    configs = itertools.product(algorithms, all_sets, range(0, N_RUNS))
+    configs = itertools.product(ALGORITHMS, all_sets, range(0, N_RUNS))
 
     with futures.ProcessPoolExecutor() as executor:
         res = executor.map(handler, configs)
