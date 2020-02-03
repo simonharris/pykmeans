@@ -26,7 +26,7 @@ if ENV == 'ceres':
 
 else:
     # Dev setup
-    OPTS_K = [20]
+    OPTS_K = [5, 20]
     OPTS_FEATS = [50]
     OPTS_SAMPS = [1000]
     OPTS_CARD = ['r']  # uniform or random
@@ -79,11 +79,17 @@ def _gen_weights(num_clusters):
 def _gen_name(config, index):
     """Generates unique name for dataset"""
 
-    return NAME_SEP.join(map(str, config)) + NAME_SEP + f"{index:03d}"
+    subdir = config[0]
+    subdir = f"{subdir:02d}"
+
+    return subdir + '/' + NAME_SEP.join(map(str, config)) + \
+        NAME_SEP + f"{index:03d}"
 
 
-def _save_to_disk(data, labels, name):
+def _save_to_disk(data, labels, config, index):
     """Save both files to disk in their own directory"""
+
+    name = _gen_name(config, index)
 
     dirname = OUTPUT_DIR + name + '/'
 
@@ -106,7 +112,7 @@ def _handler(config):
     index = config.pop()
 
     data, labels = _gen_dataset(*config)
-    _save_to_disk(data, labels, _gen_name(config, index))
+    _save_to_disk(data, labels, config, index)
 
     print("Done with:", config)
 
