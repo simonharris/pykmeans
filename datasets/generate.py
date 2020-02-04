@@ -5,6 +5,7 @@ Generate synthetic datasets
 from concurrent import futures
 import itertools
 import os
+import sys
 
 import numpy as np
 from sklearn.datasets import make_blobs
@@ -20,9 +21,21 @@ def stddise(matrix):
 
     return std
 
+env_request = sys.argv[1]
 
-ENV = 'dev'
-# ENV = 'ceres'
+allowed_envs = ['dev', 'ceres']
+
+
+if env_request in allowed_envs:
+    ENV = env_request
+else:
+    raise ValueError("No idea how to cope with env: " + env_request) 
+
+
+"""
+# ENV = 'dev'
+ENV = 'ceres'
+"""
 
 if ENV == 'ceres':
     # Ceres setup
