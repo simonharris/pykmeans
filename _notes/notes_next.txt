@@ -1,0 +1,112 @@
+Standardisation:
+ - thanks for help, but trying to understand why. "Can justify" - his words!
+
+Plodding on with running stuff
+ - 
+ 
+(Milligan) is Ward Agglomerative clustering deterministic?
+  - 
+
+Need scripts (or so) for:
+ - verifying/sanity checking output
+ - archive/back up output
+ - ...
+
+Perhaps talk about what done for:
+ - forcing 1,000
+ - forcing >= 0.03
+ 
+That thing about algorithms vs LaTeX:
+ - my 3 paragraphs idea
+ 
+ 
+...
+ 
+Stressy emails from dept/faculty
+
+thing about enough originality...
+
+
+
+
+---
+
+Yuan2004 vs 02:
+
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 175, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 153, in _process_chunk
+    return [fn(*args) for args in chunk]
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 153, in <listcomp>
+    return [fn(*args) for args in chunk]
+  File "runner_parallel.py", line 128, in handler
+    labels, inertia = run_kmeans(dset, my_init, datadir, ctr_str)
+  File "runner_parallel.py", line 64, in run_kmeans
+    centroids = algorithm.generate(dataset.data, num_clusters)
+  File "/home/sh18025/project_git/pycluster/initialisations/yuan2004.py", line 70, in generate
+    pointset.append(mydata[next_closest])
+IndexError: index 264 is out of bounds for axis 0 with size 264
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "runner_parallel.py", line 160, in <module>
+    print(len(list(res)))
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 366, in _chain_from_iterable_of_lists
+    for element in iterable:
+  File "/usr/lib64/python3.6/concurrent/futures/_base.py", line 586, in result_iterator
+    yield fs.pop().result()
+  File "/usr/lib64/python3.6/concurrent/futures/_base.py", line 425, in result
+    return self.__get_result()
+  File "/usr/lib64/python3.6/concurrent/futures/_base.py", line 384, in __get_result
+    raise self._exception
+IndexError: index 264 is out of bounds for axis 0 with size 264
+
+
+Onoda ICA:
+
+Many times:
+usr/local/lib64/python3.6/site-packages/sklearn/decomposition/fastica_.py:119: ConvergenceWarning: FastICA did not converge. Consider increasing tolerance or the maximum number of iterations.
+
+
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 175, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 153, in _process_chunk
+    return [fn(*args) for args in chunk]
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 153, in <listcomp>
+    return [fn(*args) for args in chunk]
+  File "runner_parallel.py", line 128, in handler
+    labels, inertia = run_kmeans(dset, my_init, datadir, ctr_str)
+  File "runner_parallel.py", line 69, in run_kmeans
+    est.fit(dataset.data)
+  File "/usr/local/lib64/python3.6/site-packages/sklearn/cluster/k_means_.py", line 972, in fit
+    return_n_iter=True)
+  File "/usr/local/lib64/python3.6/site-packages/sklearn/cluster/k_means_.py", line 337, in k_means
+    _validate_center_shape(X, n_clusters, init)
+  File "/usr/local/lib64/python3.6/site-packages/sklearn/cluster/k_means_.py", line 155, in _validate_center_shape
+    % (centers.shape, n_centers))
+ValueError: The shape of the initial centers ((2, 2)) does not match the number of clusters 10
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "runner_parallel.py", line 160, in <module>
+    print(len(list(res)))
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 366, in _chain_from_iterable_of_lists
+    for element in iterable:
+  File "/usr/lib64/python3.6/concurrent/futures/_base.py", line 586, in result_iterator
+    yield fs.pop().result()
+  File "/usr/lib64/python3.6/concurrent/futures/_base.py", line 425, in result
+    return self.__get_result()
+  File "/usr/lib64/python3.6/concurrent/futures/_base.py", line 384, in __get_result
+    raise self._exception
+ValueError: The shape of the initial centers ((2, 2)) does not match the number of clusters 10
+
