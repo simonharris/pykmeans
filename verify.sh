@@ -7,13 +7,24 @@
 alg=$1
 dornd=$2
 
-echo "ALG:" $alg
+EXP_DS=6000
+RESTARTS=50
+
+if [ $dornd == "nd" ]; then
+    echo "ND"
+    EXP_FILES=$((EXP_DS*RESTARTS))    
+else    
+    EXP_FILES=$EXP_DS
+fi
+
+
+echo "ALGORITHM: $alg"
 
 numlabels=`find "./_output/$alg/" -name "labels*.csv" | wc -l`
-echo "LABELS FILES:" $numlabels
+echo "LABELS FILES: $numlabels/$EXP_FILES"
 
 numoutputs=`find "./_output/$alg/" -name "output*.csv" | wc -l`
-echo "OUTPUT FILES:" $numoutputs
+echo "OUTPUT FILES: $numoutputs/$EXP_FILES"
 
 echo "Synthetic datasets..."
 
@@ -26,5 +37,5 @@ for folder in `ls _output/$alg/synthetic/`; do
     numdatasets=$(($numdatasets+$counted))
 done
 
-echo "TOTAL datasets:" $numdatasets
+echo "TOTAL datasets: $numdatasets/$EXP_DS"
 
