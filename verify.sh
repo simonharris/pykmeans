@@ -3,6 +3,7 @@
 # Horrible script to just count output files etc
 # Definitely a work in progress
 
+# TODO: a little bit more feedback on where missing labels/output are 
 
 alg=$1
 dornd=$2
@@ -33,8 +34,12 @@ for folder in `ls _output/$alg/synthetic/`; do
 
     counted=`ls _output/$alg/synthetic/$folder | wc -l`
 
-    echo "In" $folder "we found" $counted
+    echo "In $folder we found $counted dataset folders"
     numdatasets=$(($numdatasets+$counted))
+   
+    numlabels=`find "./_output/$alg/synthetic/$folder" -name "labels*.csv" | wc -l`
+    echo "In $folder we found $numlabels label files"
+    
 done
 
 echo "TOTAL datasets: $numdatasets/$EXP_DS"
