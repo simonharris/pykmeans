@@ -70,7 +70,7 @@ def generate(data, num_clusters):
             clusters.append(clust)
             continue
 
-        # "If the distance between the menbers of this pair..."
+        # "If the distance between the members of this pair..."
         clusters = consolidate(clusters)
 
         # "In addition, as each new point is processed..."
