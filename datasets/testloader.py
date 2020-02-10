@@ -48,6 +48,7 @@ def load_iris():
     return skdatasets.load_iris()
 
 
+'''
 def load_iris_ccia():
     """To ensure using the exact same Iris data as Khan & Ahmad 2004"""
 
@@ -57,6 +58,7 @@ def load_iris_ccia():
         iris = np.array(arff.load(dfhandle)['data'])
 
     return Dataset(iris[:, 0:4].astype('float'), pd.factorize(iris[:, 4]), [])
+'''
 
 
 def load_soy_small():
