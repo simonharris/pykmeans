@@ -5,7 +5,6 @@ See: Mirkin 2005 - Clustering for data mining: a data recovery approach
 """
 
 import numpy as np
-from sklearn import preprocessing
 import kmeans
 
 
