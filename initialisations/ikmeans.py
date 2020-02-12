@@ -9,12 +9,6 @@ from sklearn import preprocessing
 import kmeans
 
 
-def _standardise(data):
-    """Scale data from -1 to 1, with 0 mean and unit variance"""
-
-    return preprocessing.scale(data)
-
-
 def _find_origin(data):
     """Find the center of the data (will be 0 if standardised)"""
 
@@ -65,7 +59,7 @@ def generate(data, num_clusters):
     """The common interface"""
 
     # i) Standardise the original data only at t=1
-    # To be decided later: data = _standardise(data)
+    # Datasets are already standardised
 
     data_working = data
     centroids = []
