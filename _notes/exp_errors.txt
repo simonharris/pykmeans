@@ -18,7 +18,20 @@ O2) Not all of the time:
 /usr/local/lib64/python3.6/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
   out=out, **kwargs)
 
-  
+
+IKmeans:
+--------------------
+
+20)
+
+/usr/local/lib64/python3.6/site-packages/numpy/core/_methods.py:78: RuntimeWarning: invalid value encountered in true_divide
+  ret, rcount, out=ret, casting='unsafe', subok=False)
+/usr/local/lib64/python3.6/site-packages/numpy/core/fromnumeric.py:2920: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+/usr/local/lib64/python3.6/site-packages/numpy/core/_methods.py:78: RuntimeWarning: invalid value encountered in true_divide
+  ret, rcount, out=ret, casting='unsafe', subok=False)
+
+
 Onoda ICA:
 ----------
 
@@ -74,5 +87,28 @@ Traceback (most recent call last):
   File "/usr/local/lib64/python3.6/site-packages/sklearn/decomposition/pca.py", line 410, in _fit_full
     % (n_components, n_features))
 ValueError: n_components=5 must be between 0 and n_features=2 with svd_solver='full'
+"""
+
+
+Yuan:
+-----
+
+02)
+
+"""
+Traceback (most recent call last):
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 175, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 153, in _process_chunk
+    return [fn(*args) for args in chunk]
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 153, in <listcomp>
+    return [fn(*args) for args in chunk]
+  File "runner_parallel.py", line 128, in handler
+    labels, inertia = run_kmeans(dset, my_init, datadir, ctr_str)
+  File "runner_parallel.py", line 64, in run_kmeans
+    centroids = algorithm.generate(dataset.data, num_clusters)
+  File "/home/sh18025/project_git/pycluster/initialisations/yuan2004.py", line 70, in generate
+    pointset.append(mydata[next_closest])
+IndexError: index 264 is out of bounds for axis 0 with size 264
 """
 
