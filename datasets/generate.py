@@ -21,6 +21,7 @@ def stddise(matrix):
 
     return std
 
+
 env_request = sys.argv[1]
 
 allowed_envs = ['dev', 'ceres']
@@ -29,7 +30,7 @@ allowed_envs = ['dev', 'ceres']
 if env_request in allowed_envs:
     ENV = env_request
 else:
-    raise ValueError("No idea how to cope with env: " + env_request) 
+    raise ValueError("No idea how to cope with env: " + env_request)
 
 
 """
