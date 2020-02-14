@@ -89,6 +89,9 @@ Traceback (most recent call last):
 ValueError: n_components=5 must be between 0 and n_features=2 with svd_solver='full'
 """
 
+svd_solver docs: 
+https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html
+
 
 Yuan:
 -----
