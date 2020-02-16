@@ -10,15 +10,9 @@ https://www.sciencedirect.com/science/article/pii/S1568494612003377
 import numpy as np
 from scipy.spatial import distance as spdistance
 
-# This is potentially problematic. The choice of column seems arbitrary, and
-# is specific to dataset, which whill not scale to 6,030 datasets
-COLUMN = 0
-
 
 def _sort_by_magnitude(data, column):
     """ Step a) Sort data by magnitude of given column"""
-    # idxs = np.argsort(np.linalg.norm(data, axis=1))
-    # return data[idxs]
 
     return np.array(sorted(data, key=lambda row: np.abs(row[column])))
 
@@ -47,11 +41,13 @@ def _find_split_points(distances, num_clusters):
 def generate(data, num_clusters):
     """The common interface"""
 
+    column = np.random.choice(range(0, data.shape[1]))
+
     # Step a)
-    sorteddata = _sort_by_magnitude(data, COLUMN)
+    sorteddata = _sort_by_magnitude(data, column)
 
     # Step b)
-    distances = _find_distances(sorteddata, COLUMN)
+    distances = _find_distances(sorteddata, column)
 
     # Step c)
     splits = _find_split_points(distances, num_clusters)
