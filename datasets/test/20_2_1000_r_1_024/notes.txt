@@ -1,0 +1,1 @@
+This was one of several causing infinite loops for IKMeans on Ceres, once the data was reduced to exactly one point.
