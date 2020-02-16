@@ -1,0 +1,15 @@
+
+To discuss:
+ - Khan
+ - Intelligent k-means
+ - ...
+
+Khan:
+ - actually doesn't seem clear what he does with 1 column. eg. Why use Euclidean distance for 1 number?
+ 
+ I K-Means:
+  - was actually a lot closer than I thought
+  - wasn't checking running out of data (Stop cond 1) - DONE
+  - was getting into infinite loops in AP at len(data) == 1
+  - - Added case to return that 1 points. Check this is sane
+ 

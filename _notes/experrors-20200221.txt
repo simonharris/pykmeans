@@ -1,0 +1,46 @@
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/local/lib64/python3.6/site-packages/numpy/core/fromnumeric.py", line 56, in _wrapfunc
+    return getattr(obj, method)(*args, **kwds)
+AttributeError: 'list' object has no attribute 'argpartition'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 175, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 153, in _process_chunk
+    return [fn(*args) for args in chunk]
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 153, in <listcomp>
+    return [fn(*args) for args in chunk]
+  File "runner_parallel.py", line 128, in handler
+    labels, inertia = run_kmeans(dset, my_init, datadir, ctr_str)
+  File "runner_parallel.py", line 64, in run_kmeans
+    centroids = algorithm.generate(dataset.data, num_clusters)
+  File "/home/sh18025/project_git/pycluster/initialisations/ikmeans.py", line 98, in generate
+    highest = np.argpartition(cardinalities, -num_clusters)[-num_clusters:]
+  File "/usr/local/lib64/python3.6/site-packages/numpy/core/fromnumeric.py", line 808, in argpartition
+    return _wrapfunc(a, 'argpartition', kth, axis=axis, kind=kind, order=order)
+  File "/usr/local/lib64/python3.6/site-packages/numpy/core/fromnumeric.py", line 66, in _wrapfunc
+    return _wrapit(obj, method, *args, **kwds)
+  File "/usr/local/lib64/python3.6/site-packages/numpy/core/fromnumeric.py", line 46, in _wrapit
+    result = getattr(asarray(obj), method)(*args, **kwds)
+ValueError: kth(=-1) out of bounds (19)
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "runner_parallel.py", line 160, in <module>
+    print(len(list(res)))
+  File "/usr/lib64/python3.6/concurrent/futures/process.py", line 366, in _chain_from_iterable_of_lists
+    for element in iterable:
+  File "/usr/lib64/python3.6/concurrent/futures/_base.py", line 586, in result_iterator
+    yield fs.pop().result()
+  File "/usr/lib64/python3.6/concurrent/futures/_base.py", line 425, in result
+    return self.__get_result()
+  File "/usr/lib64/python3.6/concurrent/futures/_base.py", line 384, in __get_result
+    raise self._exception
+ValueError: kth(=-1) out of bounds (19)
+
