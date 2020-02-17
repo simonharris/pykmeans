@@ -1,0 +1,10 @@
+This one causd errors for IK-Means dies to only finding 19 clusters. 
+
+There was this misleading error message:
+
+AttributeError: 'list' object has no attribute 'argpartition'
+
+Followed by this more helpful one:
+
+ValueError: kth(=-1) out of bounds (19)
+
