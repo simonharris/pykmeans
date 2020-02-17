@@ -126,7 +126,7 @@ def handler(config):
     try:
         my_init = importlib.import_module('initialisations.' + algname)
         labels, inertia = run_kmeans(dset, my_init, datadir, ctr_str)
-    except InitialisationException as initexcept:
+    except Exception as initexcept:
         save_error_file(my_out_dir, initexcept, ctr_str)
         return
 
