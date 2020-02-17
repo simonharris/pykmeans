@@ -1,5 +1,5 @@
 """
-Initial skeleton for a paralellized runner
+Run algorithms vs. datasets in parallel
 """
 
 from concurrent import futures
@@ -10,21 +10,14 @@ import os
 from pathlib import Path
 import sys
 import time
-# import warnings
 
 import numpy as np
 from sklearn.cluster import KMeans
-# from sklearn.exceptions import ConvergenceWarning
 
 from dataset import Dataset
+from initialisations.base import InitialisationException
 from metrics import ari
 
-"""
-# Run-specific config
-WHICH_SETS = 'synthetic/05'
-ALGORITHMS = ['random']
-N_RUNS = 50
-"""
 
 # Run-specific config
 args = sys.argv
@@ -63,13 +56,8 @@ def run_kmeans(dataset, algorithm, dsname, ctrstr):
 
     centroids = algorithm.generate(dataset.data, num_clusters)
 
-    # TODO: this currently catches nothing
-    # try:
     est = KMeans(n_clusters=num_clusters, init=centroids, n_init=1)
     est.fit(dataset.data)
-    # except ConvergenceWarning as con_warn:
-    #     print("ConvergenceWarning for", dsname, "at:", ctrstr)
-    #     print(con_warn)
 
     return est.labels_, est.inertia_
 
@@ -103,6 +91,16 @@ def save_label_file(outdir, labels, ctrstr):
         csvwriter.writerow(labels)
 
 
+def save_error_file(outdir, exc, ctrstr):
+    """Save a log of exceptions"""
+
+    errorfile = outdir + 'exceptions-' + ctrstr + '.csv'
+
+    print('Saving errors to:', errorfile)
+    with open(errorfile, 'w+') as my_errors:
+        my_errors.write(str(exc))
+
+
 def handler(config):
     """Main processing method"""
 
@@ -124,8 +122,13 @@ def handler(config):
     # print("Called with:", my_output_dir)
 
     dset = load_dataset(DATASETS, datadir)
-    my_init = importlib.import_module('initialisations.' + algname)
-    labels, inertia = run_kmeans(dset, my_init, datadir, ctr_str)
+
+    try:
+        my_init = importlib.import_module('initialisations.' + algname)
+        labels, inertia = run_kmeans(dset, my_init, datadir, ctr_str)
+    except InitialisationException as initexcept:
+        save_error_file(my_out_dir, initexcept, ctr_str)
+        return
 
     log.append(inertia)
 

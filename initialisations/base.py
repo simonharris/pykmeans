@@ -32,3 +32,7 @@ class Initialisation:
 
 class EmptyClusterException(Exception):
     """If empty clusters cannot be avoided in current circumstances"""
+
+
+class InitialisationException(Exception):
+    """Various other things went wrong with initialisation"""

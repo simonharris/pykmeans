@@ -11,6 +11,8 @@ Notes:
 import numpy as np
 import kmeans
 
+from initialisations.base import InitialisationException
+
 # TODO:
 #   ??- put threshold=0 (as per Renato) and add a note to LaTex
 #   - - and do we somehow check this?
@@ -81,7 +83,6 @@ def generate(data, num_clusters):
 
         centre, assigned_indexes = _anomalous_pattern(data_working)
         centroids.append(centre)
-
         cardinalities.append(len(assigned_indexes))
 
         data_working = np.delete(data_working, assigned_indexes, 0)
@@ -92,10 +93,15 @@ def generate(data, num_clusters):
             print("Got enough while data len is:", len(data_working))
             break'''
 
-    # And this was the other option...
     # print(cardinalities)
 
+    if len(centroids) < num_clusters:
+        raise InitialisationException(
+            "Found only %d/%d centroids" % (len(centroids), num_clusters))
+
+    # This was the other centroid selection option...
     highest = np.argpartition(cardinalities, -num_clusters)[-num_clusters:]
+
     # print(highest)
 
     final_centroids = [centroids[i] for i in highest]
