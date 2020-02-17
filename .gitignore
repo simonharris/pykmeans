@@ -4,3 +4,4 @@ __pycache__/
 .~*
 _output/out*
 Untitled.ipynb
+_output/*/
