@@ -98,7 +98,7 @@ def save_error_file(outdir, exc, ctrstr):
 
     print('Saving errors to:', errorfile)
     with open(errorfile, 'w+') as my_errors:
-        my_errors.write(str(exc))
+        my_errors.write(exc.__class__.__name__ + ": " + str(exc) + "\n")
 
 
 def handler(config):
