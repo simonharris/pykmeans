@@ -28,18 +28,6 @@ class IkmTestSuite(unittest.TestCase):
         centroids = ikminit.generate(dataset.data, 3)
         self.assertEqual((3, 3), centroids.shape)
 
-    def test_standardise(self):
-        """This is to test we're using the appropriate numpy function, rather
-        than testing the numpy functions itself"""
-
-        standardised = ikminit._standardise(self._get_test_data())
-
-        means = np.mean(standardised, axis=0)
-        np.testing.assert_array_almost_equal(means, [0, 0, 0, 0], decimal=12)
-
-        dev = np.std(standardised, axis=0)
-        np.testing.assert_array_almost_equal(dev, [1, 1, 1, 1], decimal=12)
-
     def test_find_origin(self):
         """The function doesn't do a great deal, but it represents a step in
         the published algorithm, so could be considered documentation"""
@@ -49,21 +37,11 @@ class IkmTestSuite(unittest.TestCase):
         expected = [5.84333333, 3.05733333, 3.758, 1.19933333]
         self._assert_close_enough(origin, expected)
 
-        data = ikminit._standardise(data)
-        origin = ikminit._find_origin(data)
-        expected = [0, 0, 0, 0]
-        self._assert_close_enough(origin, expected)
-
     def test_most_distant_basic(self):
         """Find the furthest point from the origin in the toy data"""
 
         data = self._get_toy_data()
 
-        furthest, _ = ikminit._find_most_distant(data)
-        np.testing.assert_array_equal(furthest, data[4])
-
-        # Sanity check it survives standardisation
-        data = ikminit._standardise(data)
         furthest, _ = ikminit._find_most_distant(data)
         np.testing.assert_array_equal(furthest, data[4])
 
