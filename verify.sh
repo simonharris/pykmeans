@@ -42,6 +42,9 @@ for folder in `ls _output/$alg/synthetic/`; do
 
     numout=`find "./_output/$alg/synthetic/$folder" -name "output*.csv" | wc -l`
     echo -e "\twe found $numout output files"
+    
+    numerror=`find "./_output/$alg/synthetic/$folder" -name "exception*.csv" | wc -l`
+    echo -e "\twe found $numerror exception files"
 
 done
 
