@@ -13,12 +13,10 @@ import kmeans
 
 from initialisations.base import InitialisationException
 
-# TODO:
-#   ??- put threshold=0 (as per Renato) and add a note to LaTex
-#   - - and do we somehow check this?
-#   DONE - change stopping condition to "run out of data"
-#   - some kind of check whether we even reach K, esp. when it's 20
-#   DONE - *then* go into selecting which ones. Renato gave two choices
+# NB: we've treated the threshold as implicitly 0. Mention this in the paper
+
+# Makes for unreadable code and causes errors
+# pylint: disable=C1801
 
 
 def _find_origin(data):
@@ -89,9 +87,9 @@ def generate(data, num_clusters):
 
         # This was one of the two options for selecting which ones to use
         # Stopping condition #4
-        '''if len(centroids) >= num_clusters:
-            print("Got enough while data len is:", len(data_working))
-            break'''
+        # if len(centroids) >= num_clusters:
+        #     print("Got enough while data len is:", len(data_working))
+        #     break
 
     # print(cardinalities)
 
