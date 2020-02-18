@@ -18,15 +18,17 @@ class Erisoglu(Initialisation):
     """Erisoglu 2001 initialisation algorithm"""
 
     def find_centers(self):
-        """vi) Turn the candidates into means of initial clusters"""
+        """Main Initialisation interface method"""
 
+        # i-iv) The point furthest from the centre, plus the two main axes
         first, axes = self._initialise()
 
+        # v) Incrementally find points most remote from latest seed
         candidates = self._generate_candidates(first, axes)
 
+        # vi) Turn the candidates into means of initial clusters
         distances = kmeans.distance_table(self._data, candidates, axes)
         mins = distances.argmin(1)
-
         means = [None] * self._num_clusters
 
         for k in range(self._num_clusters):
@@ -35,15 +37,35 @@ class Erisoglu(Initialisation):
 
         return np.array(means)
 
+    def _initialise(self):
+        """First steps of algorithm"""
+
+        # i) Find feature with greatest variance
+        main = self._find_main_axis(self._data.T)
+
+        # ii) Find feature with least correlation to the main axis
+        secondary = self._find_secondary_axis(self._data.T, main)
+
+        Axes = namedtuple('Axes', 'main secondary')
+        axes = Axes(main, secondary)
+
+        # iii) Find the centre point of the data
+        center = self._find_center(self._data.T, axes)
+
+        # iv) Find data point most remote from center
+        first = self._find_most_remote_from_center(self._data, center, axes)
+
+        return first, axes
+
     def _find_main_axis(self, data_t):
-        """i) Find feature with greatest variance"""
+        """Find feature with greatest variance"""
 
         allvcs = [self.variation_coefficient(feature) for feature in data_t]
 
         return np.argmax(allvcs)
 
     def _find_secondary_axis(self, data_t, main_axis):
-        """ii) Find feature with least absolute correlation to the main axis"""
+        """Find feature with least absolute correlation to the main axis"""
 
         allccs = [abs(self.correlation_coefficient(data_t[main_axis], feature))
                   for feature in data_t]
@@ -52,26 +74,12 @@ class Erisoglu(Initialisation):
 
     @staticmethod
     def _find_center(data_t, axes):
-        """iii) Find the centre point of the data"""
+        """Find the centre point of the data"""
 
         return [np.mean(data_t[axes.main]), np.mean(data_t[axes.secondary])]
 
-    def _initialise(self):
-        """iv) Find data point most remote from center"""
-
-        main = self._find_main_axis(self._data.T)
-        secondary = self._find_secondary_axis(self._data.T, main)
-
-        Axes = namedtuple('Axes', 'main secondary')
-        axes = Axes(main, secondary)
-
-        center = self._find_center(self._data.T, axes)
-        first = self._find_most_remote_from_center(self._data, center, axes)
-
-        return first, axes
-
     def _generate_candidates(self, first, axes):
-        """v) Incrementally find most remote points from latest seed"""
+        """Incrementally find most remote points from latest seed"""
 
         seeds = [first]
 
@@ -106,10 +114,13 @@ class Erisoglu(Initialisation):
     # Supporting calculations etc ---------------------------------------------
 
     @staticmethod
-    def variation_coefficient(vector):
-        """Absolute value of std dev / mean."""
+    def variation_coefficient(feature):
+        """Originally absolute value of std dev / mean."""
 
-        return abs(np.std(vector) / np.mean(vector))
+        # But the method in the paper will not work on standardised data
+        # return abs(np.std(feature) / np.mean(feature))
+
+        return np.std(feature)
 
     @staticmethod
     def correlation_coefficient(left, right):
