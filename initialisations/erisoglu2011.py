@@ -9,6 +9,7 @@ from collections import namedtuple
 
 import numpy as np
 from scipy.spatial import distance as spdistance
+from scipy.stats import pearsonr
 
 from initialisations.base import Initialisation
 import kmeans
@@ -126,22 +127,7 @@ class Erisoglu(Initialisation):
     def correlation_coefficient(left, right):
         """Correlation coefficient between two vectors"""
 
-        numerator = denominator_left = denominator_right = 0
-
-        for val_l, val_r in zip(left, right):
-
-            dev_left = (val_l - np.mean(left))
-            dev_right = (val_r - np.mean(right))
-
-            numerator += dev_left * dev_right
-
-            denominator_left += dev_left ** 2
-            denominator_right += dev_right ** 2
-
-        # NB: This is where Erisoglu seems to differ from Pearson
-        denominator = denominator_left**0.5 * denominator_right**0.5
-
-        return numerator / denominator
+        return pearsonr(left, right)[0]
 
     @staticmethod
     def distance(left, *right):
