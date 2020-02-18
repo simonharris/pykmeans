@@ -11,6 +11,10 @@ from initialisations import ikmeans as ikminit
 
 # pylint: disable=R0201,W0212
 
+# TODO: Possible further tests:
+# - exception where it never reaches K
+# - where it finds more than K but returns those with highest cardinality
+
 
 class IkmTestSuite(unittest.TestCase):
     """Test suite for Mirkin/IKM"""
