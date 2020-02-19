@@ -1,0 +1,24 @@
+
+
+Erisoglu:
+---------
+  
+10) 
+
+  out=out, **kwargs)
+/usr/local/lib64/python3.6/site-packages/numpy/core/_methods.py:154: RuntimeWarning: invalid value encountered in true_divide
+  ret, rcount, out=ret, casting='unsafe', subok=False)
+/usr/local/lib64/python3.6/site-packages/numpy/core/fromnumeric.py:3257: RuntimeWarning: Mean of empty slice.
+  out=out, **kwargs)
+  
+ IKMeans:
+ --------
+ 
+ To be continued...
+ 
+ 
+ Yuan:
+ -----
+ 
+ To be continued...
+ 
