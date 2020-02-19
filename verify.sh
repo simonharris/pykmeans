@@ -53,7 +53,7 @@ echo -e "TOTAL datasets: $numdatasets/$EXP_DS\n"
 
 
 
-EXP_DS=30
+EXP_DS=28
 
 if [ $dornd == "nd" ]; then
     EXP_FILES=$((EXP_DS*RESTARTS))
