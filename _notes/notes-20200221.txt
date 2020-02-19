@@ -1,8 +1,18 @@
+Worked on:
+    - Khan
+    - IKMeans
+    - Better error reporting/catching which datasets etc
+    - Real-world datasets: standardisation; scrapped Isolet; added to verify script
+    - Erisoglu...
+
 
 To discuss:
- - Khan
- - Intelligent k-means
+ * Khan
+ * Intelligent k-means
+ - KKZ (for some reason I made notes with some doubts but seems OK)
  - ...
+ - MacQueen might be useful
+
 
 Khan:
  - actually doesn't seem clear what he does with 1 column. eg. Why use Euclidean distance for 1 number?
@@ -12,4 +22,22 @@ Khan:
   - - wasn't checking running out of data (Stop cond 1) - DONE
   - - was getting into infinite loops in AP at len(data) == 1 - DONE
   * K=20: 7/1500 only find 19. Can we use the remaining 1493?
+ 
+Starting to fill in RW column:
+  - issues with ikmeans: 1 didn't find enough, 10 didn't finish
+  
+ Erisoglu:
+  - Variation Coefficient fails where mean is 0 ie. with standardised data!"
+  * - just used stddev for now...sane?
+ 
+ 
+ Yuan...
+ 
+ 
+ Real-world datasets:
+  - 6 (at least; hand, spss, random...) consistently fail on lung cancer + ionosphere and no others
+  - removed them
+  
+ Misc:
+  - should ARI ever be negative? nb random vs realworld
  
