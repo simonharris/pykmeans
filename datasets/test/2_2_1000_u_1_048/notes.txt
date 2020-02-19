@@ -1,0 +1,3 @@
+This is one of many causing the out of bounds error for Yuan vs the 02 sets.
+
+eg. IndexError: index 371 is out of bounds for axis 0 with size 253
