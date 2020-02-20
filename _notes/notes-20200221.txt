@@ -38,12 +38,14 @@ Starting to fill in RW column:
   
 Erisoglu:
  - sanity check
+ - see earlier notes about distance table
  - Variation Coefficient fails where mean is 0 ie. with standardised data!"
  * - just used stddev for now...sane?
- - "more than 2 explanatory features may...ewhern clusters increase"
- - how on earth do I get empty clusters?
- - very end of alg: "For p, initial cluster centers are created..." how? Mean? (It's what I'm trying to do at least!) 
+ * Issue with duplicate candidates, hence empty clusters. Delete from _working_ data...sane?
+ - - is it related to "more than 2 explanatory features may...when clusters increase"?
+ * very end of alg: "For p, initial cluster centers are created..." how? Mean? (It's what I'm trying to do at least!) 
   
+  (Once clarified: add this to LaTeX doc as assumptions etc)
  
 Yuan...
  
@@ -58,4 +60,10 @@ Misc:
   
 And again:
  - some way of visualising, sanity checking output
+
+Admin 
+ - nb KTP job...
+ - Bootcampl vs. "Proficio funding"? see email
+
+
  
