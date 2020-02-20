@@ -29,6 +29,7 @@ class Erisoglu(Initialisation):
 
         # vi) Turn the candidates into means of initial clusters
         distances = kmeans.distance_table(self._data, candidates, axes)
+
         mins = distances.argmin(1)
         means = [None] * self._num_clusters
 
@@ -53,7 +54,7 @@ class Erisoglu(Initialisation):
         # iii) Find the centre point of the data
         center = self._find_center(self._data.T, axes)
 
-        # iv) Find data point most remote from center
+        # iv) Find data point most remote from center (c1))
         first = self._find_most_remote_from_center(self._data, center, axes)
 
         return first, axes
@@ -79,35 +80,45 @@ class Erisoglu(Initialisation):
 
         return [np.mean(data_t[axes.main]), np.mean(data_t[axes.secondary])]
 
+    def _find_most_remote_from_center(self, data, center, axes):
+
+        alldists = [self.distance(center,
+                                  [entity[axes.main], entity[axes.secondary]])
+                    for entity in data]
+
+        return np.argmax(alldists)
+
     def _generate_candidates(self, first, axes):
         """Incrementally find most remote points from latest seed"""
 
-        seeds = [first]
+        seeds = [list(self._data[first])]
+
+        data_working = np.copy(self._data)
+        data_working = np.delete(data_working, first, axis=0)
+        data_working = np.unique(data_working, axis=0)
 
         while len(seeds) < self._num_clusters:
-            nextseed = self._find_most_remote_from_seeds(self._data,
-                                                         seeds,
-                                                         axes)
-            seeds.append(nextseed)
+            nextseed_idx = self._find_most_remote_from_seeds(data_working,
+                                                             seeds,
+                                                             axes)
 
-        return self._data[seeds]
+            seeds.append(list(data_working[nextseed_idx]))
+
+            # Remove from data to prevent duplicates within candidates
+            data_working = np.delete(data_working, nextseed_idx, axis=0)
+
+        return np.array(seeds)
 
     def _find_most_remote_from_seeds(self, data, seeds, axes):
 
-        strippedseeds = [[data[seed][axes.main], data[seed][axes.secondary]]
+        # Reduces them to the two main axes (features)
+        # Odd that I've done this differently to in _find_center()
+        strippedseeds = [[seed[axes.main], seed[axes.secondary]]
                          for seed in seeds]
 
         alldists = [self.distance(np.array([entity[axes.main],
                                             entity[axes.secondary]]),
                                   *strippedseeds)
-                    for entity in data]
-
-        return np.argmax(alldists)
-
-    def _find_most_remote_from_center(self, data, center, axes):
-
-        alldists = [self.distance(center,
-                                  [entity[axes.main], entity[axes.secondary]])
                     for entity in data]
 
         return np.argmax(alldists)
