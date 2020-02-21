@@ -4,7 +4,7 @@ Worked on:
     - Better error reporting/catching which datasets etc; reproducing locally
     - Real-world datasets: standardisation; scrapped Isolet + 2 more; added to verify script
     - Erisoglu (see below)
-
+    - Yuan (in progress)
 
 To discuss:
  * Khan
@@ -15,10 +15,8 @@ To discuss:
  - ...
  - KKZ (for some reason I made notes with some doubts but seems OK)
 
-
 * Distance table:
  - I'm *not* using Euclidean (not square rooted) but this is what Renato's Matlab does
-
 
 Khan:
  - sanity check
@@ -49,7 +47,6 @@ Erisoglu:
  
 Yuan...
  
- 
 Real-world datasets:
  - ISOLET was just too big, replace with another Musk one
  - 6 (at least; hand, spss, random...) consistently fail on lung cancer + ionosphere and no others
@@ -64,6 +61,4 @@ And again:
 Admin 
  - nb KTP job...
  - Bootcampl vs. "Proficio funding"? see email
-
-
  
