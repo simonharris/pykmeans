@@ -59,6 +59,6 @@ And again:
  - some way of visualising, sanity checking output
 
 Admin 
- - nb KTP job...
- - Bootcampl vs. "Proficio funding"? see email
+ - nb KTP job...(keeps getting extended...)
+ - Bootcamp vs. "Proficio funding"? see email
  
