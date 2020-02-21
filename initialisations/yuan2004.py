@@ -10,9 +10,6 @@ from scipy.spatial import distance as spdistance
 
 ALPHA = 0.75
 
-# This seems a little brute force and may not scale. Maybe try to find a
-# better (eg. vectorised?) solution when time permits
-
 
 def distance_table(data):
     """Calculate distances between each data point"""
@@ -21,10 +18,11 @@ def distance_table(data):
 
     distances = np.nan * np.empty((numrows, numrows))
 
-    for i in range(0, numrows):
-        for j in range(0, numrows):
-            if i != j:
-                distances[i][j] = spdistance.euclidean(data[i], data[j])
+    for point in range(numrows):
+        distances[:, point] = np.sum((data - data[point, :])**2, 1)**0.5
+
+    # feels a little hacky, but getting "min where not zero" is even uglier
+    distances[distances == 0] = np.nan
 
     return distances
 
@@ -33,6 +31,7 @@ def find_closest(data):
     """Find the closest two data points in the dataset"""
 
     distances = distance_table(data)
+
     ind = np.unravel_index(np.nanargmin(distances, axis=None), distances.shape)
 
     return list(ind)
@@ -57,6 +56,8 @@ def generate(data, num_clusters):
     # for each cluster
     while len(pointsets) < num_clusters:
 
+        print("I HAVE NOW:", len(pointsets), "pointsets")
+
         pointset = []  # Am in the paper
         pair = find_closest(mydata)
 
@@ -65,10 +66,22 @@ def generate(data, num_clusters):
 
         mydata = np.delete(mydata, list(pair), 0)
 
-        while len(pointset) < (ALPHA * (num_points/num_clusters)):
+        print("mydata is now of length:", len(mydata))
+
+        desired_points = ALPHA * (num_points/num_clusters)
+
+        while len(pointset) < desired_points:
+
+            print("Currently at:", len(pointset), "out of", desired_points)
+
             next_closest = find_next_closest(mydata, pointset)
+
+            print("NC is now:", next_closest)
+
+            ## This is the line that fails
             pointset.append(mydata[next_closest])
             mydata = np.delete(mydata, next_closest, 0)
+            print("mydata is now of length:", len(mydata))
 
         pointsets.append(pointset)
 
