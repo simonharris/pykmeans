@@ -1,0 +1,10 @@
+Graphing:
+ - some look sort of ok
+ - not sure I'm confident of what it's actually plotting...
+ - and that little black tick at the top?
+ 
+Writing:
+ - ...
+ 
+Exps:
+ - some debugging on Yuan, looks like I'm going wrong somewhere
