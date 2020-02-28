@@ -1,10 +1,27 @@
 Graphing:
  - some look sort of ok
  - not sure I'm confident of what it's actually plotting...
+ - - could be several thousand results in each column?
+ - - why does "Features" breakdown have such a flat top?
  - and that little black tick at the top?
  
 Writing:
  - ...
+ - most complete is Khan 3.15
+ - algs before method or vice versa? seems algs keep referring to the latter section. Is this bad style?
+ - layout is annoying: will not do what I say re placement or pagebreaks
+ - still not happy about algs. Even the simplest way, the list is too wide for the box
+  
+Misc:
+ - thing about bootcamp/proficio?
+ 
+ Sharing overleaf:
+  - send some kind of invite
+  - can also send a magic link (useful with free a/c, limited collaborators I guess)
+
+Standardisation:
+ - We use something that isn't z-scored. Need to understand what it is and why we chose it
  
 Exps:
  - some debugging on Yuan, looks like I'm going wrong somewhere
+
