@@ -19,3 +19,9 @@ Thesis bootcamp:
 Deadline on Friday
  - can't remember real date
 
+Todo:
+ - more writing
+ - more on graphs (automate/speed up; legibility; investigate new ones)
+ - revisit experiments, get as many running as poss. (ongoing)
+ - revisit SPSS
+  
