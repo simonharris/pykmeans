@@ -1,0 +1,21 @@
+
+Algs:
+ - kmeans++
+ - kkz
+ - tiny bit on Hand
+ - started on ikmeans but
+ - - first bit is already tricky since we standardise differently..is O ok to use? is S ok to use?
+ - - could do both "selection" stages as cheap way of adding another alg?
+ 
+Doc
+ - any prefs on no features, points? seen p for features
+ 
+Onoda code
+ - ta. Didn't look yet
+
+Thesis bootcamp:
+ - missed date; might check if there's a reserve list
+ 
+Deadline on Friday
+ - can't remember real date
+
