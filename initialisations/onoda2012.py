@@ -16,7 +16,7 @@ from initialisations.base import Initialisation
 class Onoda(Initialisation):
     """Base class for the two Onoda 2012 initialisation algorithms"""
 
-    def _find_centroids(self, components):
+    def _find_centroids(self, components) -> np.array:
         """Step 1b from the algorithms"""
 
         centroids = []
