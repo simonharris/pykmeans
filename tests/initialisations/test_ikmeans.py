@@ -8,6 +8,7 @@ import numpy as np
 
 from datasets import testloader
 from initialisations import ikmeans_card as ikminit
+from initialisations.base import InitialisationException
 
 # pylint: disable=R0201,W0212
 
@@ -79,6 +80,15 @@ class IkmTestSuite(unittest.TestCase):
 
         np.testing.assert_array_equal(centroid, [9, 10, 11, 12])
         np.testing.assert_array_equal(partition, [4, 5, 6])
+
+    def test_exception_when_it_cant_reach_k(self):
+        '''Check for exception when it doesn't reach K clusters'''
+
+        dataset = testloader._load_local('20_2_1000_r_1.5_035')
+        num_clusters = 20
+
+        with self.assertRaises(InitialisationException):
+            ikminit.generate(dataset.data, num_clusters)
 
     # Helper methods ----------------------------------------------------------
 
