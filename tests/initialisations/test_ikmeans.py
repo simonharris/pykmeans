@@ -114,6 +114,10 @@ class IkmTestSuite(unittest.TestCase):
         centroids = ikminit_f.generate(data, num_clusters)
         np.testing.assert_allclose(centroids, expected, rtol=1e-8)
 
+        # Bugfix
+        # Can't believe there isn't a nicer syntax though...
+        self.assertEqual(str(type(centroids)), "<class 'numpy.ndarray'>")
+
     # Helper methods ----------------------------------------------------------
 
     def _get_test_data(self):
