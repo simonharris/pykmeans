@@ -13,9 +13,11 @@ from sklearn.cluster import KMeans
 
 # Didn't complete on Ceres
 dataset = testloader._load_local('2_2_1000_u_1_048')
+data = dataset.data
+
 num_clusters = 2
 
-centroids = alg.generate(dataset.data, num_clusters)
+centroids = alg.generate(data, num_clusters)
 
 print(centroids)
 """

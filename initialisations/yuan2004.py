@@ -31,17 +31,18 @@ def find_closest(data):
     """Find the closest two data points in the dataset"""
 
     distances = distance_table(data)
-
     ind = np.unravel_index(np.nanargmin(distances, axis=None), distances.shape)
 
     return list(ind)
 
 
-def find_next_closest(mydata, pointset):
+def find_next_closest(latestdata, pointset):
     """Find the point nearest to an already discovered subset"""
 
-    mean = np.mean(mydata, 0)
-    return np.argmin([spdistance.euclidean(mean, point) for point in pointset])
+    psmean = np.mean(pointset, 0)
+    distances = [spdistance.euclidean(psmean, point) for point in latestdata]
+
+    return np.argmin(distances)
 
 
 def generate(data, num_clusters):
@@ -56,32 +57,22 @@ def generate(data, num_clusters):
     # for each cluster
     while len(pointsets) < num_clusters:
 
-        # print("I HAVE NOW:", len(pointsets), "pointsets")
-
         pointset = []  # Am in the paper
         pair = find_closest(mydata)
 
         pointset.append(mydata[pair[0]])
         pointset.append(mydata[pair[1]])
 
-        mydata = np.delete(mydata, list(pair), 0)
-
-        # print("mydata is now of length:", len(mydata))
+        mydata = np.delete(mydata, pair, axis=0)
 
         desired_points = ALPHA * (num_points/num_clusters)
 
         while len(pointset) < desired_points:
 
-            # print("Currently at:", len(pointset), "out of", desired_points)
-
             next_closest = find_next_closest(mydata, pointset)
 
-            # print("NC is now:", next_closest)
-
-            ## This is the line that fails
             pointset.append(mydata[next_closest])
-            mydata = np.delete(mydata, next_closest, 0)
-            # print("mydata is now of length:", len(mydata))
+            mydata = np.delete(mydata, next_closest, axis=0)
 
         pointsets.append(pointset)
 
