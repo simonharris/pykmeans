@@ -56,7 +56,7 @@ def generate(data, num_clusters):
     # for each cluster
     while len(pointsets) < num_clusters:
 
-        print("I HAVE NOW:", len(pointsets), "pointsets")
+        # print("I HAVE NOW:", len(pointsets), "pointsets")
 
         pointset = []  # Am in the paper
         pair = find_closest(mydata)
@@ -66,22 +66,22 @@ def generate(data, num_clusters):
 
         mydata = np.delete(mydata, list(pair), 0)
 
-        print("mydata is now of length:", len(mydata))
+        # print("mydata is now of length:", len(mydata))
 
         desired_points = ALPHA * (num_points/num_clusters)
 
         while len(pointset) < desired_points:
 
-            print("Currently at:", len(pointset), "out of", desired_points)
+            # print("Currently at:", len(pointset), "out of", desired_points)
 
             next_closest = find_next_closest(mydata, pointset)
 
-            print("NC is now:", next_closest)
+            # print("NC is now:", next_closest)
 
             ## This is the line that fails
             pointset.append(mydata[next_closest])
             mydata = np.delete(mydata, next_closest, 0)
-            print("mydata is now of length:", len(mydata))
+            # print("mydata is now of length:", len(mydata))
 
         pointsets.append(pointset)
 
