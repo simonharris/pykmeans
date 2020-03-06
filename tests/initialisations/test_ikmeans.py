@@ -1,5 +1,8 @@
 """
 Test for Mirkin 2005 Intelligent K-Means algorithm
+
+The _deprecated tests could potentially be brought back in some for one day,
+but it's not a priority just now.
 """
 
 import unittest
@@ -16,12 +19,6 @@ from initialisations.base import InitialisationException
 class IkmTestSuite(unittest.TestCase):
     """Test suite for Mirkin/IKM"""
 
-    def test_code_runs(self):
-        """At least prove it runs"""
-
-        centroids = ikminit.generate(self._get_test_data(), 3)
-        self.assertEqual((3, 4), centroids.shape)
-
     def test_with_hartigan(self):
         """A tiny dataset which can't possibly work here"""
 
@@ -29,7 +26,7 @@ class IkmTestSuite(unittest.TestCase):
         centroids = ikminit.generate(dataset.data, 3)
         self.assertEqual((3, 3), centroids.shape)
 
-    def test_find_origin(self):
+    def _deprecated_test_find_origin(self):
         """The function doesn't do a great deal, but it represents a step in
         the published algorithm, so could be considered documentation"""
 
@@ -38,7 +35,7 @@ class IkmTestSuite(unittest.TestCase):
         expected = [5.84333333, 3.05733333, 3.758, 1.19933333]
         self._assert_close_enough(origin, expected)
 
-    def test_most_distant_basic(self):
+    def _deprecated_test_most_distant_basic(self):
         """Find the furthest point from the origin in the toy data"""
 
         data = self._get_toy_data()
@@ -46,7 +43,7 @@ class IkmTestSuite(unittest.TestCase):
         furthest, _ = ikminit._find_most_distant(data)
         np.testing.assert_array_equal(furthest, data[4])
 
-    def test_most_distant_iris(self):
+    def _deprecated_test_most_distant_iris(self):
         """Find the furthest point from the origin in Iris"""
 
         data = self._get_test_data()
@@ -55,7 +52,7 @@ class IkmTestSuite(unittest.TestCase):
         # [7.7, 2.6, 6.9, 2.3]
         np.testing.assert_array_equal(furthest, data[118])
 
-    def test_anomalous_pattern_1(self):
+    def _deprecated_test_anomalous_pattern_1(self):
         """Test the AP as a whole where anomalous cluster has 1 point"""
 
         data = self._get_toy_data()
@@ -65,7 +62,7 @@ class IkmTestSuite(unittest.TestCase):
         np.testing.assert_array_equal(centroid, [10, 11, 12, 13])
         np.testing.assert_array_equal(partition, [4])
 
-    def test_anomalous_pattern_n(self):
+    def _deprecated_test_anomalous_pattern_n(self):
         """Test the AP as a whole where anomalous cluster has n points"""
 
         data = np.vstack((self._get_toy_data(),
@@ -95,11 +92,12 @@ class IkmTestSuite(unittest.TestCase):
                     [6.60333333, 2.98, 5.43166667, 1.94],
                     ]
 
-        dataset = testloader.load_iris()
+        data = self._get_test_data()
         num_clusters = 3
 
-        centroids = ikminit.generate(dataset.data, num_clusters)
+        centroids = ikminit.generate(data, num_clusters)
         np.testing.assert_allclose(centroids, expected, rtol=1e-8)
+        self.assertEqual((3, 4), centroids.shape)
 
     # Helper methods ----------------------------------------------------------
 
