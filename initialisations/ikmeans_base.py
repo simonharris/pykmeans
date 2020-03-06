@@ -6,6 +6,7 @@ See: Mirkin 2005 - Clustering for data mining: a data recovery approach
 Notes:
  - we skip step 1 (pre-processing) of AP as our data is standardised in
    advance, consistently for all sets and algorithms
+ - we've treated the threshold as implicitly 0. Mention this in the paper
 """
 
 from abc import abstractmethod
@@ -14,8 +15,6 @@ import numpy as np
 import kmeans
 
 from initialisations.base import Initialisation, InitialisationException
-
-# NB: we've treated the threshold as implicitly 0. Mention this in the paper
 
 # Makes for unreadable code and causes errors
 # pylint: disable=C1801
