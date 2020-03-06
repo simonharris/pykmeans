@@ -9,7 +9,7 @@ from initialisations.ikmeans_base import Ikmeans
 
 
 class IkmeansFirst(Ikmeans):
-    """Comment string"""
+    """Select the most anomalous clusters"""
 
     def _select_centroids(self, centroids, cardinalities):
         """Select the clusters with highest cardinality"""
