@@ -5,7 +5,7 @@ import sys
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 
 from datasets import testloader
-from initialisations import ikmeans as alg
+from initialisations import ikmeans_card as alg
 
 # Finds 91 centroids
 # dataset = testloader._load_local('20_1000_1000_r_1.5_025')
