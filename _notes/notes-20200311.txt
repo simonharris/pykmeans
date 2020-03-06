@@ -1,0 +1,19 @@
+Done:
+ - made some graphs wider to fit page
+ - split steinley
+ - Yuan debugging SUCCESS. All exps run. Good results in fact
+
+
+Paper:
+ - got rid of algorithms section. Surprising as large. Not really background.
+ - random one - not what I was getting at, (nb he says kmeans does this, but papers suggest Faber presented it). Steinley 2007 uses my "random"
+
+
+Graphs
+ - added one to paper
+
+ 
+Ikmeans:
+ - split in two
+ - results: much as before, but twice :)
+ 
