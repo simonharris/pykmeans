@@ -7,7 +7,7 @@ import unittest
 import numpy as np
 
 from datasets import testloader
-from initialisations import ikmeans as ikminit
+from initialisations import ikmeans_card as ikminit
 
 # pylint: disable=R0201,W0212
 
