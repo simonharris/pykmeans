@@ -12,10 +12,6 @@ from initialisations.base import InitialisationException
 
 # pylint: disable=R0201,W0212
 
-# TODO: Possible further tests:
-# - exception where it never reaches K
-# - where it finds more than K but returns those with highest cardinality
-
 
 class IkmTestSuite(unittest.TestCase):
     """Test suite for Mirkin/IKM"""
@@ -89,6 +85,21 @@ class IkmTestSuite(unittest.TestCase):
 
         with self.assertRaises(InitialisationException):
             ikminit.generate(dataset.data, num_clusters)
+
+    def test_card_with_known_output(self):
+        '''Test I haven't made things worse in introducing abstract class'''
+
+        # Output from previous implementation, right or wrong
+        expected = [[4.66470588, 3.04705882, 1.41176471, 0.2],
+                    [5.81081081, 2.73513514, 4.19189189, 1.3],
+                    [6.60333333, 2.98, 5.43166667, 1.94],
+                    ]
+
+        dataset = testloader.load_iris()
+        num_clusters = 3
+
+        centroids = ikminit.generate(dataset.data, num_clusters)
+        np.testing.assert_allclose(centroids, expected, rtol=1e-8)
 
     # Helper methods ----------------------------------------------------------
 

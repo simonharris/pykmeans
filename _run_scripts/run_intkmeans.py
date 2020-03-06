@@ -15,13 +15,18 @@ from initialisations import ikmeans_card as alg
 # dataset = testloader._load_local('5_50_1000_r_1_025')
 # num_clusters = 5
 
-# This is one that didn't complete on Ceres
+# This is one that didn't used to complete on Ceres
 # dataset = testloader._load_local('20_2_1000_r_1_024')
 # num_clusters = 20
 
 # This one fails with < 20 centroids (19)
-dataset = testloader._load_local('20_2_1000_r_1.5_035')
-num_clusters = 20
+# dataset = testloader._load_local('20_2_1000_r_1.5_035')
+# num_clusters = 20
+
+# This is Iris, obviously
+dataset = testloader.load_iris()
+num_clusters = 3
+
 
 centroids = alg.generate(dataset.data, num_clusters)
 
