@@ -49,19 +49,19 @@ class YuanTestSuite(unittest.TestCase):
         """Test finding the nearest point to a set already found"""
 
         data = self._data1
-        group = data[[1, 2]]
 
-        # strictly, 1 and 2 should be deleted from the data at this point, as
-        # per the code, but it makes little difference
+        # Fake the find_closest() step
+        pointset = data[[1, 2]]
+        data = np.delete(data, [1, 2], axis=0)
 
-        nextone = yuan.find_next_closest(data, group)
-        self.assertEqual(0, nextone)
+        nextone = yuan.find_next_closest(data, pointset)
+        self.assertEqual(3, nextone)  # 5 became 3 by deleting first two
 
-        group = np.vstack([group, data[nextone]])
-        data = np.delete(data, nextone, 0)
+        pointset = np.vstack([pointset, data[nextone]])
+        data = np.delete(data, nextone, axis=0)
 
-        nextone = yuan.find_next_closest(data, group)
-        self.assertEqual(2, nextone)
+        nextone = yuan.find_next_closest(data, pointset)
+        self.assertEqual(0, nextone)  # 0 remained 0 throughout
 
     def test_find_centroid_basic(self):
         """Test finding centroids in a trivial dataset"""
@@ -69,17 +69,19 @@ class YuanTestSuite(unittest.TestCase):
         num_clusters = 2
         centroids = yuan.generate(self._data1, num_clusters)
 
+        # These don't insticntively look like the expected cluster, but
+        # it stops after (len(data)/num_clusters) * 0.75 = 2.6, so 3 per group
         expecteda = [
-            (1 + 1) / 2,
-            (1 + 1) / 2,
-            (2 + 1) / 2,
-            (1 + 1) / 2,
+            (1 + 1 + 3) / 3,
+            (1 + 1 + 3) / 3,
+            (2 + 1 + 3) / 3,
+            (1 + 1 + 3) / 3,
         ]
         expectedb = [
-            (4 + 7) / 2,
-            (4 + 8) / 2,
-            (3 + 9) / 2,
-            (4 + 7) / 2,
+            (4 + 7 + 7) / 3,
+            (4 + 8 + 9) / 3,
+            (3 + 9 + 9) / 3,
+            (4 + 7 + 5) / 3,
         ]
 
         self.assertEqual(list(centroids[0]), expecteda)
@@ -105,7 +107,7 @@ class YuanTestSuite(unittest.TestCase):
 
         score = accuracy.score(target, est.labels_)
 
-        # as claimed in paper
+        # Claimed in paper, though quite frankly random will get this a lot
         self.assertAlmostEqual(0.886667, score, places=6)
 
     # Data loading etc --------------------------------------------------------
@@ -116,4 +118,6 @@ class YuanTestSuite(unittest.TestCase):
             [1, 1, 2, 1],
             [1, 1, 1, 1],
             [7, 8, 9, 7],
+            [7, 9, 9, 5],
+            [3, 3, 3, 3],
         ])
