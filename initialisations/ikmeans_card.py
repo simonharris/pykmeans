@@ -1,6 +1,6 @@
 """
-Implementation of Intelligent k-means which returns the centroids of clusters
-with the highest cardinality
+Implementation of Intelligent k-means which returns the centroids of the K
+clusters with the highest cardinality.
 """
 
 import numpy as np
@@ -9,7 +9,7 @@ from initialisations.ikmeans_base import Ikmeans
 
 
 class IkmeansCard(Ikmeans):
-    """Comment string"""
+    """Select clusters with highest cardinality"""
 
     def _select_centroids(self, centroids, cardinalities):
         """Select the clusters with highest cardinality"""
