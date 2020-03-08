@@ -29,7 +29,7 @@ class Kmeansplusplus(Initialisation):
             randindex = np.random.choice(self._num_samples,
                                          replace=False,
                                          p=probabilities)
-            centroids = np.append(centroids, [self._data[randindex]], 0)
+            centroids = np.append(centroids, [self._data[randindex]], axis=0)
 
         return centroids
 
