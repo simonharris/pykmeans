@@ -3,7 +3,7 @@
 from sklearn.cluster import KMeans
 
 from datasets import testloader
-from metrics import accuracy, nmi, ari
+from metrics import accuracy, ari, nmi, silhouette
 
 
 SEP = '====================================================='
@@ -46,18 +46,19 @@ def _run_dataset(name, dataset, num_clusters, algorithm):
     _run_metrics(target, est)
 
 
-
 def _run_metrics(target, est):
     '''Run all the evaluation metrics'''
 
     acc = accuracy.score(target, est.labels_)
     asc = ari.score(target, est.labels_)
     nsc = nmi.score(target, est.labels_)
+    sil = silhouette.score(target, est.labels_)
 
     print("Accuracy Score:", acc)
     print("Adjusted Rand Index:", asc)
     print("NMI:", nsc)
     print("Inertia:", est.inertia_, "\n")
+    print("Sihouette:", sil, "\n")
 
 
 def run_kmeans_verbose(dataset, seeds):
