@@ -25,49 +25,40 @@ class SPSS(Initialisation):
     def find_centers(self):
         """Main method"""
 
-        # The most densely surrounded point is the first initial centroid
+        # 1-3) The most densely surrounded point is the first initial centroid
         centre_h = self._find_hdp()
+
+        # 4) Add X_h to C as the first centroid
         centroids = np.array([centre_h])
 
         # Find the remaining required centroids
         while len(centroids) < self._num_clusters:
 
+            # 5) For each point xi, set D(xi)...
             distances = distance_table(self._data, centroids)
-            print(distances)
-
-            mins_D = np.min(distances, axis=1)
-            print(mins_D)
+            mins_d = np.min(distances, axis=1)
 
             # 6) Find y as ...
-            partition = np.partition(mins_D, self._how_many)[:self._how_many]
-            print(partition)
-            y = sum(partition)
-            print("y:", y)
+            # Though why it's supposedly recalculated on each loop is puzzling
+            dist_h = distance_table(np.array([centre_h]), self._data)[0]
+            dist_h = dist_h[dist_h != 0]            # Anderson skips the 0 one
+            partition = np.partition(dist_h, self._how_many)[:self._how_many]
+            my_y = sum(partition)
 
-            # 7) Find the unique integer i so that...
+            # 7-8) Find the unique integer i so that...
             i = 0
             accum_dist = 0
 
-            while accum_dist < y:
+            while accum_dist < my_y:
 
-                accum_dist = accum_dist + mins_D[i]  # But nb they say ^2?!
-
+                accum_dist = accum_dist + mins_d[i]
                 i = i + 1
 
-                print(centroids)
-                print(self._data[i])
-
-                print("AD:", accum_dist)
-
-                ##
-                ## But surely the i found here isn't a meaningful index to X?
-                ## Must be some sort of argmin thing?
-                ## Just looks like he's cycling thought the data in a way
-                ##   that's highly dependent on the order of the data
-                ##
-
+            # 9) Add X_i to C
+            # But surely the i found here isn't a meaningful index to X?
+            # It just looks like we're cycling thought the data in a way
+            # that's highly dependent on its arbitrary order
             centroids = np.vstack((centroids, self._data[i]))
-            print("Centroids:\n", centroids)
 
         return centroids
 
