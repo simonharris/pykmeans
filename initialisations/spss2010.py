@@ -17,21 +17,57 @@ from kmeans import distance_table
 class SPSS(Initialisation):
     """Single Pass Seed Selection (SPSS) algorithm"""
 
+    def __init__(self, data, num_clusters):
+
+        self._how_many = int(len(data) / num_clusters)
+        super().__init__(data, num_clusters)
+
     def find_centers(self):
         """Main method"""
 
-        centroids = np.array([self._find_hdp()])
+        # The most densely surrounded point is the first initial centroid
+        centre_h = self._find_hdp()
+        centroids = np.array([centre_h])
 
-        # Remaining required centroids (exactly as per k-means++)
+        # Find the remaining required centroids
         while len(centroids) < self._num_clusters:
 
             distances = distance_table(self._data, centroids)
-            probabilities = distances.min(1)**2 / np.sum(distances.min(1)**2)
+            print(distances)
 
-            randindex = np.random.choice(self._num_samples,
-                                         replace=False,
-                                         p=probabilities)
-            centroids = np.append(centroids, [self._data[randindex]], 0)
+            mins_D = np.min(distances, axis=1)
+            print(mins_D)
+
+            # 6) Find y as ...
+            partition = np.partition(mins_D, self._how_many)[:self._how_many]
+            print(partition)
+            y = sum(partition)
+            print("y:", y)
+
+            # 7) Find the unique integer i so that...
+            i = 0
+            accum_dist = 0
+
+            while accum_dist < y:
+
+                accum_dist = accum_dist + mins_D[i]  # But nb they say ^2?!
+
+                i = i + 1
+
+                print(centroids)
+                print(self._data[i])
+
+                print("AD:", accum_dist)
+
+                ##
+                ## But surely the i found here isn't a meaningful index to X?
+                ## Must be some sort of argmin thing?
+                ## Just looks like he's cycling thought the data in a way
+                ##   that's highly dependent on the order of the data
+                ##
+
+            centroids = np.vstack((centroids, self._data[i]))
+            print("Centroids:\n", centroids)
 
         return centroids
 
