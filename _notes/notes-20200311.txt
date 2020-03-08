@@ -1,12 +1,18 @@
 Done:
  - made some graphs wider to fit page
- - split steinley
+ - split Ikmeans into two algorithms and added to experiments
  - Yuan debugging SUCCESS. All exps run. Good results in fact
-
+ - code vs. exps: 
+ - - Yuan bugfixed and re-run (used to error on 02)
+ - - SPSS - had another shot, looks bad...email author
+ - added to paper: Yuan...
 
 Paper:
- - got rid of algorithms section. Surprising as large. Not really background.
- - random one - not what I was getting at, (nb he says kmeans does this, but papers suggest Faber presented it). Steinley 2007 uses my "random"
+ - need to agree on structure
+ - - ...algorithms not a section? Surprising as large. Not really background.
+ - - - whereas related work is. Is this more for a dissertation?
+ - - was going to shift method before algs as algs keeps referring to the future
+ - random one - not what I was getting at, (nb it is states kmeans does this, but papers suggest Faber presented it). Steinley 2007 uses my "random"
 
 
 Graphs
@@ -16,4 +22,5 @@ Graphs
 Ikmeans:
  - split in two
  - results: much as before, but twice :)
+ - what about those other stopping conditions?
  
