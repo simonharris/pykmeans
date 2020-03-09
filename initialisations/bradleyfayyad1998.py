@@ -76,39 +76,34 @@ def _k_means(seeds, data, num_clusters):
 def _k_means_mod(seeds, subset, num_clusters):
     """The KMeansMod() step of the algorithm"""
 
-    # This May be overkill: every cluster should be populated after one pass
-    while True:
+    clustering = _k_means(seeds, subset, num_clusters)
+    centroids = clustering.cluster_centers_
+
+    # Because labels_ returned by kmeans are arbitrarily numbered,
+    # we work with the returned centroids
+    distances = distance_table(subset, centroids)
+    labels = distances.argmin(1)
+
+    sought = set(range(0, num_clusters))
+    labels = set(labels)
+    missing = sought - labels
+
+    missingcount = len(missing)
+
+    if missingcount > 0:
+        # print("Missing:", missing)
+
+        furthest = _find_furthest(distances, missingcount)
+        # print("Furthest-nearest:", furthest)
+
+        i = 0
+        for clusterid in missing:
+            # print("Replacing", seeds[clusterid], "with", subset[furthest[i]])
+            seeds[clusterid] = subset[furthest[i]]
+            i += 1
 
         clustering = _k_means(seeds, subset, num_clusters)
         centroids = clustering.cluster_centers_
-
-        # Because labels_ returned by kmeans are arbitrarily numbered,
-        # we work with the returned centroids
-        distances = distance_table(subset, centroids)
-        # print(distances)
-
-        labels = distances.argmin(1)
-
-        sought = set(range(0, num_clusters))
-        labels = set(labels)
-        missing = sought - labels
-
-        missingcount = len(missing)
-
-        if missingcount == 0:
-            break
-        else:
-            # print("Missing:", missing)
-
-            furthest = _find_furthest(distances, missingcount)
-            # print("Furthest-nearest:", furthest)
-
-            i = 0
-            for clusterid in missing:
-                seeds[clusterid] = subset[furthest[i]]
-                i += 1
-
-            # print("After:", seeds)
 
     return centroids
 
