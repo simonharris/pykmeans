@@ -74,6 +74,7 @@ class SKMI(Initialisation):
 
         return np.array(centroids)
 
+    # could be @staticmethod
     def _find_hdp(self, data):
         """The highest density point"""
 
