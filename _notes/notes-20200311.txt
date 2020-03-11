@@ -1,26 +1,35 @@
 Done:
- - made some graphs wider to fit page
+ - made some graphs wider to fit page; added many; interesting (lol ikmeans)
  - split Ikmeans into two algorithms and added to experiments
  - Yuan debugging SUCCESS. All exps run. Good results in fact
  - code vs. exps: 
  - - Yuan bugfixed and re-run (used to error on 02)
- - - SPSS - had another shot, looks bad...email author
- - added to paper: Yuan...
+ - - SPSS - rewritten a step and re-run exps. Emailed author for source because is an odd one
+ - added to paper: Yuan, SPSS...
+ - playing with skmi
 
 Paper:
- - need to agree on structure
- - - ...algorithms not a section? Surprising as large. Not really background.
+X - need to agree on structure
+X - - ...algorithms not a section? Surprising as large. Not really background.
  - - - whereas related work is. Is this more for a dissertation?
  - - was going to shift method before algs as algs keeps referring to the future
- - random one - not what I was getting at, (nb it is states kmeans does this, but papers suggest Faber presented it). Steinley 2007 uses my "random"
+ - random one - not what I was getting at, (nb it is stated kmeans does this, but papers suggest Faber presented it). Steinley 2007 uses my "random"
 
+B&F:
+ - infinite loop. Not sure if going mad or what to do but have a "working" version
+ - is patented! US6115708A
+ - - (though the patent mentions they do have other "contemplated" approaches)
+ - for now just replaced once and reran kmeans
 
-Graphs
- - added one to paper
+MacQueen:
+ - should probably make a decision
 
- 
 Ikmeans:
  - split in two
  - results: much as before, but twice :)
  - what about those other stopping conditions?
+ 
+ Admin:
+ - who was it emailed about the deadline?
+ - proficio account? Good News!
  
