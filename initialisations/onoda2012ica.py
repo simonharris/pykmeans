@@ -13,7 +13,7 @@ class OnodaICA(Onoda):
     def _find_components(self):
         """Run Independent Component Analysis"""
 
-        ica = FastICA(n_components=self._num_clusters)
+        ica = FastICA(n_components=self._num_clusters, max_iter=1000)
         ica.fit_transform(self._data)
         return ica.components_
 
