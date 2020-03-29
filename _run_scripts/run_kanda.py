@@ -15,4 +15,4 @@ num_clusters = 3
 
 centroids = ka.generate(dataset.data, num_clusters)
 
-# print(centroids)
+print(centroids)
