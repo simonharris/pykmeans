@@ -17,7 +17,13 @@ from scipy.special import erfcinv
 from sklearn.cluster import KMeans
 
 from initialisations.base import Initialisation
-#from kmeans import distance_table
+
+DEBUG = True
+
+
+def debug(data):
+    if DEBUG is True:
+        print(data)
 
 
 class CCIA(Initialisation):
@@ -174,9 +180,10 @@ class CCIA(Initialisation):
         if len(dist_class_str) == self._num_clusters:
             return init_centers
 
-        ## return self._my_merge_dbmsdc(init_centers, dist_class_str, data)
-        return self._my_merge_dbmsdc(init_centers) #, dist_class_str, data)
+        return self._merge_dbmsdc(init_centers, dist_class_str, data)
+        ## return self._my_merge_dbmsdc(init_centers) #, dist_class_str, data)
 
+    """
     def _my_merge_dbmsdc(self, init_centers):
 
         # Sort to match Java
@@ -184,7 +191,7 @@ class CCIA(Initialisation):
 
         q = self._NN
 
-        # print(B, "\n\n")
+        print("ENTERING MERGE FOR B:\n ", B, "\n\n")
 
         # May be needed...for now just demonstrating
         S = []
@@ -246,6 +253,7 @@ class CCIA(Initialisation):
         return []  # no idea what to return!
 
     """
+
     def _merge_dbmsdc(self, init_centers, dist_class_str, data):
 
 
@@ -295,28 +303,36 @@ class CCIA(Initialisation):
 
             # print("Will compare to:", init_centers[index])
 
-            to_remove = []
             for i in range(0, len(B)):
+
+                # B gets modified  on each loop
+                if i >= len(B):
+                    break
+
+                print("WORKING B:", B)
 
                 dist = euclidean(init_centers[index], init_centers[i])
                 print("Dist:", dist)
 
                 if dist < (1.5 * minR):
                     S.append(init_centers[B[i]])
-                    print("Adding", B[i], "to S")
-                    to_remove.append(i)
-                    # break
+                    print("Adding", init_centers[B[i]], "to S")
+                    # to_remove.append(i)
 
-            # print("TR:", to_remove)
-            B = np.delete(B, to_remove, axis=0)
+                    B = [entry for entry in B
+                         if not np.array_equal(
+                                 init_centers[entry],
+                                 init_centers[i])]
 
             # print("S: ", S)
             # print("B: ", B)
 
             centers[L] = np.mean(S, axis=0)
 
+            print(centers)
+
         return centers
-        """
+
 
 # -----------------------------------------------------------------------------
 
