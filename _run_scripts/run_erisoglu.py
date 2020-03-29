@@ -3,20 +3,17 @@ import pathhack
 
 from datasets import testloader
 from initialisations import erisoglu2011 as alg
-# from preprocessors import stddise
 
 from sklearn.cluster import KMeans
 
-# dataset = testloader.load_fossil()
-# dataset = testloader.load_iris()
 
-# Didn't complete on Ceres
-dataset = testloader._load_local('20_2_1000_r_1.5_035')
-num_clusters = 20
-
-# dataset = testloader._load_local('20_1000_1000_r_1.5_025')
+# Didn't initially complete on Ceres
+# dataset = testloader._load_local('20_2_1000_r_1.5_035')
 # num_clusters = 20
 
+# Exceptions on Ceres
+dataset = testloader._load_local('wbco')
+num_clusters = 2
 data = dataset.data
 
 # data = stddise.process(data)
