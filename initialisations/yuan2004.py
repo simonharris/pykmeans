@@ -6,13 +6,17 @@ https://ieeexplore.ieee.org/abstract/document/1382371
 """
 
 import numpy as np
-from scipy.spatial import distance as spdistance
+#from scipy.spatial import distance as spdistance
+
+from kmeans import distance_table as kmdists
 
 ALPHA = 0.75
 
 
 def distance_table(data):
-    """Calculate distances between each data point"""
+    """Calculate distances between each data point
+
+    TODO: remind myself why I did this instead of using the main one"""
 
     numrows = len(data)
 
@@ -39,10 +43,9 @@ def find_closest(data):
 def find_next_closest(latestdata, pointset):
     """Find the point nearest to an already discovered subset"""
 
-    psmean = np.mean(pointset, 0)
-    distances = [spdistance.euclidean(psmean, point) for point in latestdata]
-
-    return np.argmin(distances)
+    distances = kmdists(latestdata, np.array(pointset))
+    nearests = np.min(distances, axis=1)
+    return np.argmin(nearests)
 
 
 def generate(data, num_clusters):

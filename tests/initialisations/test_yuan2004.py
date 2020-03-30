@@ -17,9 +17,7 @@ from metrics import accuracy
 
 
 class YuanTestSuite(unittest.TestCase):
-    """
-    Tests for Yuan 2004 initialisation
-    """
+    """Tests for Yuan 2004 initialisation"""
 
     def setUp(self):
         self._set_up_data()
@@ -40,7 +38,7 @@ class YuanTestSuite(unittest.TestCase):
         self.assertAlmostEqual(table[3][2], 13.60147051, places=8)
 
     def test_find_nearest(self):
-        """Test finding the nearest two dazta points in a set"""
+        """Test finding the nearest two data points in a set"""
 
         pair = yuan.find_closest(self._data1)
         self.assertEqual(pair, [1, 2])
@@ -48,20 +46,18 @@ class YuanTestSuite(unittest.TestCase):
     def test_find_next_nearest(self):
         """Test finding the nearest point to a set already found"""
 
-        data = self._data1
+        data = self._data2
 
         # Fake the find_closest() step
-        pointset = data[[1, 2]]
-        data = np.delete(data, [1, 2], axis=0)
+        pointset = data[[0, 1]]
+        data = np.delete(data, [0, 1], axis=0)
 
-        nextone = yuan.find_next_closest(data, pointset)
-        self.assertEqual(3, nextone)  # 5 became 3 by deleting first two
+        for _ in range(0, len(data)):
+            nextone = yuan.find_next_closest(data, pointset)
+            self.assertEqual(0, nextone)  # Should always be 0 due to order
 
-        pointset = np.vstack([pointset, data[nextone]])
-        data = np.delete(data, nextone, axis=0)
-
-        nextone = yuan.find_next_closest(data, pointset)
-        self.assertEqual(0, nextone)  # 0 remained 0 throughout
+            pointset = np.vstack([pointset, data[nextone]])
+            data = np.delete(data, nextone, axis=0)
 
     def test_find_centroid_basic(self):
         """Test finding centroids in a trivial dataset"""
@@ -113,6 +109,8 @@ class YuanTestSuite(unittest.TestCase):
     # Data loading etc --------------------------------------------------------
 
     def _set_up_data(self):
+        """Some dummy data"""
+
         self._data1 = np.array([
             [4, 4, 3, 4],
             [1, 1, 2, 1],
@@ -120,4 +118,17 @@ class YuanTestSuite(unittest.TestCase):
             [7, 8, 9, 7],
             [7, 9, 9, 5],
             [3, 3, 3, 3],
+        ])
+
+        # In order of selection. Note that after 0, 1, 2 are chosen, 4 is
+        # now closest to the mean, but 3 is chosen as it is closest to an
+        # already selected point (2). A previous version of the code would
+        # have selected 4, which is incorrect.
+        self._data2 = np.array([
+            [4, 4],
+            [6, 4],
+            [1, 1.5],
+            [-1, -1],
+            [5, 0],
+            [99, 99],
         ])
