@@ -1,7 +1,6 @@
-'''Just a little experiment...'''
+"""Experimental initialistation algorithm"""
 
 import numpy as np
-from scipy.spatial import distance as spdistance
 
 from initialisations.base import Initialisation
 from kmeans import distance_table
@@ -9,82 +8,65 @@ from kmeans import distance_table
 
 class SKMI(Initialisation):
 
+    def _calc_density(self, point, latestdata):
+        """Sum of distances to its nearest neighbours"""
+
+        neighbours = int(len(latestdata)/self._num_clusters) + 1
+        dists = distance_table(np.array([point]), latestdata)[0]
+        idx = np.argpartition(dists, neighbours)
+        subdists = dists[idx[:neighbours]]
+        return np.sum(subdists)
+
+    def _find_first_centroid(self, latestdata):
+        """The first promising point"""
+
+        density = [self._calc_density(point, latestdata)
+                   for point in latestdata]
+        return latestdata[np.argmin(density)]
+
+    def _find_furthest(self, temp_centroids, latestdata):
+        """The furthest-nearest point (exact opposite of Yuan)"""
+
+        distances = distance_table(latestdata, temp_centroids)
+        nearests = np.min(distances, axis=1)
+        return latestdata[np.argmax(nearests)]
+
     def find_centers(self):
 
-        my_data = self._data.copy()
         centroids = []
 
-        # For each cluster
-        while len(centroids) < (self._num_clusters - 1):
+        to_find = self._num_clusters
+        data = self._data
 
-            # Find the most densely surrounded point remaining
-            cent = self._find_hdp(my_data)
-            # print("My next point is", cent)
-            centroids.append(cent)
+        while to_find > 1:
 
-            # print("I HAVE", len(centroids), "centroids")
-            # print(centroids)
+            first = self._find_first_centroid(data)
+            centroids.append(first)
 
-            # Find some stuff we don't want in this cluster by building
-            # a list of distractions...
-            how_many_faraway_ones = self._num_clusters - len(centroids)
-            # print("I NEED", how_many_faraway_ones, "distractions")
-            temp_cents = np.array([cent])
-            for faraway_one_ctr in range(0, how_many_faraway_ones):
+            temp_centroids = np.array([first])
 
-                im_scared_of = np.mean(temp_cents, axis=0)  # check this...
-                # print("Current mean:", im_scared_of)
+            while len(temp_centroids) < to_find:
+                furthest = self._find_furthest(temp_centroids, data)
+                temp_centroids = np.vstack((temp_centroids, furthest))
 
-                scary_distances = [spdistance.euclidean(some_point,
-                                                        im_scared_of)
-                                   for some_point in my_data]
+            # Delete latest
+            clustering = np.argmin(
+                    distance_table(temp_centroids, data), axis=0)
+            mask = np.where(clustering == 0)[0]
+            data = np.delete(data, mask, axis=0)
 
-                #   print("SDs:\n", scary_distances)
+            to_find -= 1
 
-                # The point in X that's furthest from our temp mean
-                my_scary_id = np.argmax(scary_distances)
-                scary_point = my_data[my_scary_id]
-                temp_cents = np.vstack((temp_cents, scary_point))
+        # Finally just get the mean of the remaining points
+        final = np.mean(data, axis=0)
 
-                # print("Temp cents:\n", temp_cents)
-
-            # OK, which do they get assigned to...
-            # INV: you could run kmeans at this point instead
-            my_dist_table = distance_table(temp_cents, my_data)
-            # print("MDT:\n", my_dist_table)
-
-            clustering = np.argmin(my_dist_table, axis=0)
-            # print("Partition:\n", clustering)
-
-            # delete stuff assigned to from my_data
-            assigned_ones = np.argwhere(clustering == 0)
-            # print("Ass ones:", assigned_ones)
-            # print("Ass ones len:", len(assigned_ones))
-            # print(assigned_ones)
-            my_data = np.delete(my_data, assigned_ones, axis=0)
-
-            # print("My data is now of length:", len(my_data))
-
-        # Final cluster is mean of what's remaining...
-        # though this is entirely otional...try both
-        # INV: you could just run the hdp again...
-        final_mean = np.mean(my_data, axis=0)
-        # print("FM:", final_mean)
-        centroids.append(final_mean)
+        centroids.append(final)
 
         return np.array(centroids)
-
-    # could be @staticmethod
-    def _find_hdp(self, data):
-        """The highest density point"""
-
-        distances = distance_table(data, data)
-        sum_v = np.sum(distances, axis=1)  # doesn't matter which axis
-        return self._data[np.argmin(sum_v)]
 
 
 def generate(data, num_clusters):
     """The common interface"""
 
-    skmi = SKMI(data, num_clusters)
-    return skmi.find_centers()
+    alg = SKMI(data, num_clusters)
+    return alg.find_centers()
