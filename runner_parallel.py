@@ -59,7 +59,7 @@ def run_kmeans(dataset, algorithm, dsname, ctrstr):
     est = KMeans(n_clusters=num_clusters, init=centroids, n_init=1)
     est.fit(dataset.data)
 
-    return est.labels_, est.inertia_
+    return est.labels_, est.inertia_, est.n_iter_
 
 
 def make_output_dir(output_dir):
@@ -125,7 +125,7 @@ def handler(config):
 
     try:
         my_init = importlib.import_module('initialisations.' + algname)
-        labels, inertia = run_kmeans(dset, my_init, datadir, ctr_str)
+        labels, inertia, iterations = run_kmeans(dset, my_init, datadir, ctr_str)
     except Exception as initexcept:
         save_error_file(my_out_dir, initexcept, ctr_str)
         return
@@ -136,6 +136,8 @@ def handler(config):
 
     ari_score = ari.score(dset.target, labels)
     log.append(ari_score)
+
+    log.append(iterations)
 
     # add time taken
     end = time.perf_counter()
