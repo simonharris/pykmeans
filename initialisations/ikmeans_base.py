@@ -39,6 +39,7 @@ class Ikmeans(Initialisation):
 
         origin = np.array([self._find_origin(data)])
         distances = kmeans.distance_table(data, origin)
+
         return data[distances.argmax()], origin
 
     def _anomalous_pattern(self, data):
@@ -55,12 +56,19 @@ class Ikmeans(Initialisation):
         # iii) Cluster update
         while True:
 
+            # Avoid infinite loop where all remaining points are the same
+            if np.allclose(origin[0], center_c):
+                return center_c, range(0, len(data))
+
             all_dist = kmeans.distance_table(data,
                                              np.array([origin[0], center_c]))
-            partition = all_dist.argmin(1)
+
+            partition = all_dist.argmin(axis=1)
+            # print(partition)
 
             # Needed later to remove from data. Called "Ui"
             assigned_indexes = np.where(partition == 1)[0]
+            # print(assigned_indexes)
 
             # Called "S" in the paper
             cluster_s = data[partition == 1, :]
