@@ -113,7 +113,14 @@ def handler(config):
 
     log = []
     log.append(algname)
-    log.extend(datadir.split('_'))
+
+    if WHICH_SETS == 'realworld':
+        log.append(datadir)
+    else:
+        # synthetic ones have a very specific naming convention incorporating
+        # their various characteristics
+        log.extend(datadir.split('_'))
+
     print(log)
 
     my_out_dir = DIR_OUTPUT + algname + '/' + WHICH_SETS + '/' + datadir + '/'
