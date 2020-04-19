@@ -89,7 +89,7 @@ class Erisoglu(Initialisation):
         return np.argmax(alldists)
 
     def _generate_candidates(self, first, axes):
-        """Incrementally find most remote points from latest seed"""
+        """Incrementally find most remote points from already-chosen seeds"""
 
         seeds = [list(self._data[first])]
 
@@ -111,8 +111,7 @@ class Erisoglu(Initialisation):
 
     def _find_most_remote_from_seeds(self, data, seeds, axes):
 
-        # Reduces them to the two main axes (features)
-        # Odd that I've done this differently to in _find_center()
+        # Reduce them to the two main axes (features)
         strippedseeds = [[seed[axes.main], seed[axes.secondary]]
                          for seed in seeds]
 
@@ -142,7 +141,11 @@ class Erisoglu(Initialisation):
 
     @staticmethod
     def distance(left, *right):
-        """Sum of Euclidean distances between a given point and n others"""
+        """Sum of Euclidean distances between a given point and n others
+        left: the data point we're considering now.
+                (This funcion is called in a loop for each data point)
+        right: the already-chosen seeds
+        """
 
         return sum([spdistance.euclidean(left, point) for point in right])
 
