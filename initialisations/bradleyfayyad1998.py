@@ -82,7 +82,7 @@ def _k_means_mod(seeds, subset, num_clusters):
     # Because labels_ returned by kmeans are arbitrarily numbered,
     # we work with the returned centroids
     distances = distance_table(subset, centroids)
-    labels = distances.argmin(1)
+    labels = distances.argmin(axis=1)
 
     sought = set(range(0, num_clusters))
     labels = set(labels)
@@ -115,7 +115,7 @@ def _find_furthest(distances, howmany=1):
     shortest distance as the assigned center, then select the largest of those,
     so basically the furthest nearest distance(s)"""
 
-    mins = distances.min(1)
+    mins = distances.min(axis=1)
 
     return np.argpartition(mins, -howmany)[-howmany:]
 
