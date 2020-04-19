@@ -11,12 +11,15 @@ from sklearn.cluster import KMeans
 # dataset = testloader._load_local('20_2_1000_r_1.5_035')
 # num_clusters = 20
 
-# Exceptions on Ceres
-dataset = testloader._load_local('wbco')
-num_clusters = 2
-data = dataset.data
+# Test for Renato's question
+dataset = testloader._load_local('5_2_1000_r_1.5_010')
+num_clusters = 5
 
-# data = stddise.process(data)
+# Exceptions on Ceres
+# dataset = testloader._load_local('wbco')
+# num_clusters = 2
+
+data = dataset.data
 
 centroids = alg.generate(data, num_clusters)
 
