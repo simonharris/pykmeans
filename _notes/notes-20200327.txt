@@ -2,14 +2,13 @@ Notes
 -----
 
 Erisoglu
- - problems with 8/28 ?(empty clusters?)
+ - problems with 7/28 ?(empty clusters?)
 		./avilatr
 		./glass
 		./ecoli
 		./letterrec
 		./optdigits
 		./pendigits
-		./wbco
 		./wineq_red
 
 K&A:
