@@ -23,10 +23,15 @@ from initialisations.base import Initialisation, InitialisationException
 class Ikmeans(Initialisation):
     """Base class for Intelligent k-means implementations"""
 
+    def __init__(self, data, num_clusters):
+
+        self._origin = self._find_origin(data)
+        super().__init__(data, num_clusters)
+
     @abstractmethod
     def _select_centroids(self, centroids: np.array,
                           cardinalities: list) -> np.array:
-        """Each algorithm must implement this"""
+        """Each ikmeans algorithm must implement this"""
 
     @staticmethod
     def _find_origin(data):
@@ -37,43 +42,34 @@ class Ikmeans(Initialisation):
     def _find_most_distant(self, data):
         """Find the point most distant from the origin"""
 
-        origin = np.array([self._find_origin(data)])
+        origin = np.array([self._origin])
         distances = kmeans.distance_table(data, origin)
 
-        return data[distances.argmax()], origin
+        return data[distances.argmax()]
 
     def _anomalous_pattern(self, data):
         """Locate the most anomalous cluster in a data set"""
 
-        # Special case to discuss. Otherwise we get an infinite loop below
-        if len(data) == 1:
-            return data[0], [0]
+        # 1) data is asuumed to be standardised
 
-        # ii) Initial setting
+        # 2) Initial setting
         # The furthest is called "c" in the paper
-        center_c, origin = self._find_most_distant(data)
+        center_c = self._find_most_distant(data)
 
-        # iii) Cluster update
+        # 3) Cluster update
         while True:
 
-            # Avoid infinite loop where all remaining points are the same
-            if np.allclose(origin[0], center_c):
-                return center_c, range(0, len(data))
-
-            all_dist = kmeans.distance_table(data,
-                                             np.array([origin[0], center_c]))
-
+            all_dist = kmeans.distance_table(data, np.array(
+                [self._origin, center_c]))
             partition = all_dist.argmin(axis=1)
-            # print(partition)
 
-            # Needed later to remove from data. Called "Ui"
+            # Needed later to remove from data
             assigned_indexes = np.where(partition == 1)[0]
-            # print(assigned_indexes)
 
             # Called "S" in the paper
             cluster_s = data[partition == 1, :]
 
-            # iv) Centroid update
+            # 4) Centroid update
             center_tentative = np.mean(cluster_s, 0)
 
             if np.array_equal(center_c, center_tentative):
@@ -81,7 +77,7 @@ class Ikmeans(Initialisation):
             else:
                 center_c = center_tentative
 
-        # v) Output
+        # 5) Output
         return center_c, assigned_indexes
 
     def find_centers(self):
