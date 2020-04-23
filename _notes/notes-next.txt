@@ -1,23 +1,24 @@
 
-
 Erisoglu - addings seems ok
  - but that issue with real world (might be same as the one I mentioned)
- - 2 questions from Paper- ongoing list
+ - does seem to come back to same points? R says impossible. Is it *really* mathematically impossible?
+ - - but I get duplicates, at least based on those two features
+ 
+ - 2 questions from Paper - ongoing list
+ - - Pearson
+ - - std dev over mean vs standardised data 
+
 B&F -
  - is patented? (find link)
-
 
 Realworld
  - ikmeans OK
  - just Eris
- 
- 
+
 Paper 
- - labels might need swome work (eg. superscript, case is inconsistent)
+ - labels might need some work (eg. superscript, case is inconsistent)
  
 Diss (writing it)
-
- - (general principle) how much detail on implementation eg. data generations: should I mention python and which librfaries etc?
- 
- 
+ - havent seen any official guidelines (had to sign form saying I had!)
+ - (general principle) how much detail on implementation eg. data generations: should I mention python and which libraries etc?
  
