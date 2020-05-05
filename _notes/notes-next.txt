@@ -1,0 +1,16 @@
+ 
+ qus:
+ - "the clustering is biased towards Gaussian clusters" - K-means
+ - "the application of the range" - Erisoglu. Apparently 
+ 
+ Up to 2.13 (Hatamlou)
+ few typos
+ couple of sentences a bit smoother
+ dataset -> data set
+ OSY_1 ik_1 etc
+ add a sentence or two to H&K
+ removed the little bars
+ 
+ How do we proceed with Erisoglu
+  - will have to rerun as I made a change that maybe isn't helpful
+  
