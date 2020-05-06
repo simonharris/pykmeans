@@ -11,7 +11,7 @@ import numpy as np
 from scipy.spatial import distance as spdistance
 from scipy.stats import pearsonr
 
-from initialisations.base import Initialisation
+from initialisations.base import Initialisation, InitialisationException
 import kmeans
 
 
@@ -27,15 +27,24 @@ class Erisoglu(Initialisation):
         # v) Incrementally find points most remote from latest seed
         candidates = self._generate_candidates(first, axes)
 
+        # print("Candidates:\n", candidates)
+        # print("UL:", len(np.unique(candidates)))
+        # print("Axes:", axes)
+
+        # Check for the eternal problem of duplicates
+        if len(np.unique(candidates) < self._num_clusters):
+            raise InitialisationException("Duplicate candidates found")
+
         # vi) Turn the candidates into means of initial clusters
         distances = kmeans.distance_table(self._data, candidates, axes)
+        mins = distances.argmin(axis=1)
 
-        mins = distances.argmin(1)
         means = [None] * self._num_clusters
 
         for k in range(self._num_clusters):
             cluster = self._data[mins == k, :]
-            means[k] = np.mean(cluster, 0)
+            # print("Cluster contains:", len(cluster))
+            means[k] = np.mean(cluster, axis=0)
 
         return np.array(means)
 
@@ -94,10 +103,11 @@ class Erisoglu(Initialisation):
         seeds = [list(self._data[first])]
 
         data_working = np.copy(self._data)
-        data_working = np.delete(data_working, first, axis=0)
-        data_working = np.unique(data_working, axis=0)
+        # data_working = np.delete(data_working, first, axis=0)
+        # data_working = np.unique(data_working, axis=0)
 
         while len(seeds) < self._num_clusters:
+
             nextseed_idx = self._find_most_remote_from_seeds(data_working,
                                                              seeds,
                                                              axes)
@@ -105,11 +115,13 @@ class Erisoglu(Initialisation):
             seeds.append(list(data_working[nextseed_idx]))
 
             # Remove from data to prevent duplicates within candidates
-            data_working = np.delete(data_working, nextseed_idx, axis=0)
+            # data_working = np.delete(data_working, nextseed_idx, axis=0)
 
         return np.array(seeds)
 
     def _find_most_remote_from_seeds(self, data, seeds, axes):
+
+        # print("Finding most remote from:\n", seeds)
 
         # Reduce them to the two main axes (features)
         strippedseeds = [[seed[axes.main], seed[axes.secondary]]
@@ -120,6 +132,10 @@ class Erisoglu(Initialisation):
                                   *strippedseeds)
                     for entity in data]
 
+        # print("Alldists:", alldists)
+        # print("Nearest:", np.min(alldists))
+        # print("Mean:", np.mean(alldists))
+        # print("Furthest:", np.max(alldists))
         return np.argmax(alldists)
 
     # Supporting calculations etc ---------------------------------------------
@@ -143,7 +159,7 @@ class Erisoglu(Initialisation):
     def distance(left, *right):
         """Sum of Euclidean distances between a given point and n others
         left: the data point we're considering now.
-                (This funcion is called in a loop for each data point)
+                (This function is called in a loop for each data point)
         right: the already-chosen seeds
         """
 
