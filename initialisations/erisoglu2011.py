@@ -28,11 +28,12 @@ class Erisoglu(Initialisation):
         candidates = self._generate_candidates(first, axes)
 
         # print("Candidates:\n", candidates)
-        # print("UL:", len(np.unique(candidates)))
         # print("Axes:", axes)
 
         # Check for the eternal problem of duplicates
-        if len(np.unique(candidates) < self._num_clusters):
+        deduped = np.unique(candidates, axis=0)
+        # print("Deduped:\n", deduped)
+        if len(deduped) < self._num_clusters:
             raise InitialisationException("Duplicate candidates found")
 
         # vi) Turn the candidates into means of initial clusters

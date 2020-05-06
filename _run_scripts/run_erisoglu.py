@@ -18,12 +18,16 @@ from sklearn.cluster import KMeans
 
 
 # Didn't initially complete on Ceres
-dataset = testloader._load_local('20_2_1000_r_1.5_035')
-num_clusters = 20
+# dataset = testloader._load_local('20_2_1000_r_1.5_035')
+# num_clusters = 20
 
 # Exceptions on Ceres
 # dataset = testloader._load_local('wineq_red')
 # num_clusters = 6
+
+dataset = testloader._load_local('iris')
+num_clusters = 3
+
 
 data = dataset.data
 
