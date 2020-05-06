@@ -6,18 +6,24 @@ from initialisations import erisoglu2011 as alg
 
 from sklearn.cluster import KMeans
 
+"""
+./avilatr/exceptions-000.csv
+./ecoli/exceptions-000.csv
+./glass/exceptions-000.csv
+./letterrec/exceptions-000.csv
+./optdigits/exceptions-000.csv
+./pendigits/exceptions-000.csv
+./wineq_red/exceptions-000.csv
+"""
+
 
 # Didn't initially complete on Ceres
-# dataset = testloader._load_local('20_2_1000_r_1.5_035')
-# num_clusters = 20
-
-# Test for Renato's question
-dataset = testloader._load_local('5_2_1000_r_1.5_010')
-num_clusters = 5
+dataset = testloader._load_local('20_2_1000_r_1.5_035')
+num_clusters = 20
 
 # Exceptions on Ceres
-# dataset = testloader._load_local('wbco')
-# num_clusters = 2
+# dataset = testloader._load_local('wineq_red')
+# num_clusters = 6
 
 data = dataset.data
 
