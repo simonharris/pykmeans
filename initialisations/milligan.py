@@ -1,8 +1,9 @@
 """
 Milligan 1980 Ward-based algorithm
 
-See: The validation of four ultrametric clustering algorithms
-https://www.sciencedirect.com/science/article/abs/pii/0031320380900011
+An examination of the effect of six types of error perturbation on fifteen 
+clustering algorithms
+https://link.springer.com/article/10.1007/BF02293907
 """
 
 import numpy as np
@@ -21,3 +22,4 @@ def generate(data, num_clusters):
         centroids[k, :] = np.mean(data[ward.labels_ == k], axis=0)
 
     return centroids
+    
