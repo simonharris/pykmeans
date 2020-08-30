@@ -4,6 +4,7 @@ Experiments in initialisation strategies for the K-means data clustering algorit
 
 ## Structure
 
+ - `runner.py`: the main bootstrap file. Runs experiments using parallelisation where possible
  - `initialisations/`: implementations of K-means initialisation algorithms
  - `datasets/ `: data importers, preprocessors/wranglers and resulting data
  - `metrics/`: implementations and wrappers of algorithms used to measure clustering success
@@ -17,7 +18,7 @@ Experiments in initialisation strategies for the K-means data clustering algorit
 
 ``$   python3 runner.py <algorithm> <datadir> <restarts>``
  
-The parameters which must be supplied torunner.pyas above are:
+The parameters which must be supplied to `runner.py` as above are:
  - `algorithm`: the identifier for the initialisation algorithm to be run, each of which can be found in Table 4.12
  - `datadir`: the relative path to the directory containing the data sets for the experimental run
  - `restarts`: the  number  of  restarts  to  be  performed  per  data  set,  which will typically be 1 for deterministic initialisation algorithms and more for non-deterministic algorithms
