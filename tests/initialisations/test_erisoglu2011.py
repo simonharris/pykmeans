@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 import sklearn.datasets as skdatasets
 
-from initialisations.erisoglu2011 import Erisoglu
+from initialisations.erisoglu import Erisoglu
 
 # pylint: disable=R0201
 

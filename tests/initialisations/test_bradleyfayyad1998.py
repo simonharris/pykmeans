@@ -7,7 +7,7 @@ import unittest
 import numpy as np
 
 from datasets import testloader
-from initialisations import bradleyfayyad1998 as bfinit
+from initialisations import bradley as bfinit
 import kmeans
 
 # pylint: disable=R0201,W0212
