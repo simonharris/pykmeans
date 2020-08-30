@@ -1,4 +1,4 @@
-"""Hand & Krzanowski 2005 algorithm revisited"""
+"""Hand & Krzanowski 2005 algorithm"""
 
 import numpy as np
 

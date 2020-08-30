@@ -1,7 +1,5 @@
 """
 Tests for Hatamlou 2012 algorithm
-
-Plenty to be done here
 """
 
 import unittest
@@ -9,8 +7,8 @@ import unittest
 import numpy as np
 
 from datasets import testloader
-from initialisations import hatamlou2012 as htm
-from initialisations.hatamlou2012 import Hatamlou
+from initialisations import hatamlou as htm
+from initialisations.hatamlou import Hatamlou
 
 # Allow testing protected method
 # pylint: disable=W0212
