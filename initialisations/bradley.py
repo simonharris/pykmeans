@@ -10,7 +10,7 @@ from sklearn.cluster import KMeans
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.utils.testing import ignore_warnings
 
-from initialisations import random as randominit
+from initialisations import random_p as randominit
 from kmeans import distance_table
 
 # Called J in the paper. 10 is suggested by Steinley 2007

@@ -6,7 +6,7 @@ Tests for Likas Global k-means initialisation algorithm
 import unittest
 
 from datasets import testloader
-from initialisations import likas2003 as gkm
+from initialisations import globalkm
 
 
 class GKMTestSuite(unittest.TestCase):
@@ -16,5 +16,5 @@ class GKMTestSuite(unittest.TestCase):
         """This needs more, but at least prove it runs"""
 
         dataset = testloader.load_iris()
-        centroids = gkm.generate(dataset.data, 3)
+        centroids = globalkm.generate(dataset.data, 3)
         self.assertEqual((3, 4), centroids.shape)

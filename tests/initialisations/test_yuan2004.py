@@ -9,7 +9,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 
 from datasets import testloader
-from initialisations import yuan2004 as yuan
+from initialisations import yuan
 from metrics import accuracy
 
 # pylint sees dataset as simply a tuple
