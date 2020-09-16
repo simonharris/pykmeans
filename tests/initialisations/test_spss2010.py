@@ -7,7 +7,7 @@ import unittest
 import numpy as np
 
 from datasets import testloader
-from initialisations import spss2010 as spss
+from initialisations import singlepass
 
 # pylint: disable=R0201
 
@@ -19,7 +19,7 @@ class SPSSTestSuite(unittest.TestCase):
         """This needs more, but at least prove it runs"""
 
         dataset = testloader.load_iris()
-        centroids = spss.generate(dataset.data, 3)
+        centroids = singlepass.generate(dataset.data, 3)
         self.assertEqual((3, 4), centroids.shape)
 
     def test_for_first_centroid(self):
@@ -33,5 +33,5 @@ class SPSSTestSuite(unittest.TestCase):
             [30, 3, 3, 3]
             ])
 
-        centroids = spss.generate(data, 1)
+        centroids = singlepass.generate(data, 1)
         np.testing.assert_array_equal(centroids, np.array([[2, 2, 2, 2]]))

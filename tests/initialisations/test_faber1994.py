@@ -1,5 +1,5 @@
 """
-Tests for Faber 1994 random algorithm
+Tests for Random Centroids algorithm
 """
 
 import unittest
@@ -7,11 +7,11 @@ import unittest
 import numpy as np
 
 from datasets import testloader
-from initialisations import faber1994 as faber
+from initialisations import random_c
 
 
-class FaberTestSuite(unittest.TestCase):
-    """Test suite for Faber 1994"""
+class RandomCTestSuite(unittest.TestCase):
+    """Test suite for Random Centroids"""
 
     def test_initialisation(self):
         """Prove it runs and sanity check output"""
@@ -19,7 +19,7 @@ class FaberTestSuite(unittest.TestCase):
         num_clusters = 3
 
         dataset = testloader.load_iris()
-        centroids = faber.generate(dataset.data, num_clusters)
+        centroids = random_c.generate(dataset.data, num_clusters)
         self.assertEqual((num_clusters, 4), centroids.shape)
 
         unique = np.unique(centroids, axis=0)

@@ -5,7 +5,7 @@ Tests for Onoda 2012 ICA initialisation algorithm
 import unittest
 
 from datasets import testloader
-from initialisations import onoda2012ica as onoda
+from initialisations import onoda_ica as onoda
 
 
 class OnodaICATestSuite(unittest.TestCase):

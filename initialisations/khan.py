@@ -41,6 +41,7 @@ def _find_split_points(distances, num_clusters):
 def generate(data, num_clusters):
     """The common interface"""
 
+    # Lacking any guidance from the paper, we choose a feature at random
     column = np.random.choice(range(0, data.shape[1]))
 
     # Step a)

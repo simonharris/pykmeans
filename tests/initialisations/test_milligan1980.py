@@ -5,7 +5,7 @@ Tests for Milligan 1980 Ward-based algorithm
 import unittest
 
 from datasets import testloader
-from initialisations import milligan1980 as milligan
+from initialisations import milligan
 
 
 class MilliganTestSuite(unittest.TestCase):

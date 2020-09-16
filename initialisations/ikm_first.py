@@ -5,7 +5,7 @@ found, ie. the most anomalous ones.
 
 import numpy as np
 
-from initialisations.ikmeans_base import Ikmeans
+from initialisations.ikm_base import Ikmeans
 
 
 class IkmeansFirst(Ikmeans):
