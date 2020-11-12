@@ -47,4 +47,4 @@ class DistanceTableTestSuite(unittest.TestCase):
                                              decimal=6)
 
         # Assert SSE calculated correctly
-        self.assertEqual(mine['inertia'], theirs.inertia_)
+        self.assertAlmostEqual(mine['inertia'], theirs.inertia_, places=8)
