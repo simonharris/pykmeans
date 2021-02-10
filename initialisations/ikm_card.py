@@ -5,7 +5,7 @@ clusters with the highest cardinality.
 
 import numpy as np
 
-from initialisations.ikmeans_base import Ikmeans
+from initialisations.ikm_base import Ikmeans
 
 
 class IkmeansCard(Ikmeans):

@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from initialisations import kkz1994 as kkz
+from initialisations import kkz
 
 
 class KKZTestSuite(unittest.TestCase):

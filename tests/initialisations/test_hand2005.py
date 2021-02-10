@@ -5,7 +5,7 @@ Tests for Hand 2005 initialisation algorithm
 import unittest
 
 from datasets import testloader
-from initialisations import hand2005 as hand
+from initialisations import hand
 
 
 class HandTestSuite(unittest.TestCase):

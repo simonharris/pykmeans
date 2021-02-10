@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from initialisations import random
+from initialisations import random_p
 from initialisations.base import EmptyClusterException
 
 
@@ -23,7 +23,7 @@ class RandomTestSuite(unittest.TestCase):
             [4, 5, 6, 7]
             ])
 
-        centroids = random.generate(data, 2)
+        centroids = random_p.generate(data, 2)
 
         self.assertEqual((2, 4), centroids.shape)
 
@@ -37,4 +37,4 @@ class RandomTestSuite(unittest.TestCase):
             ])
 
         with self.assertRaises(EmptyClusterException):
-            random.generate(data, 4)
+            random_p.generate(data, 4)

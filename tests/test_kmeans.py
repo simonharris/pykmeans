@@ -6,7 +6,7 @@ import numpy as np
 import sklearn.cluster as skcluster
 import sklearn.datasets as skdatasets
 
-from initialisations import erisoglu2011 as erisoglu
+from initialisations import erisoglu
 import kmeans as mykm
 
 
@@ -47,4 +47,4 @@ class DistanceTableTestSuite(unittest.TestCase):
                                              decimal=6)
 
         # Assert SSE calculated correctly
-        self.assertEqual(mine['inertia'], theirs.inertia_)
+        self.assertAlmostEqual(mine['inertia'], theirs.inertia_, places=8)

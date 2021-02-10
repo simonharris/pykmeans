@@ -6,7 +6,7 @@ import unittest
 
 import numpy as np
 
-from initialisations import kmeansplusplus as kmpp
+from initialisations import kmpp
 
 
 class KMPPTestSuite(unittest.TestCase):

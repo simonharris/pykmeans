@@ -5,7 +5,7 @@ Tests for Onoda 2012 PCA initialisation algorithm
 import unittest
 
 from datasets import testloader
-from initialisations import onoda2012pca as onoda
+from initialisations import onoda_pca as onoda
 
 
 class OnodaPCATestSuite(unittest.TestCase):

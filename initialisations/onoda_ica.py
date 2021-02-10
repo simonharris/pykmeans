@@ -4,7 +4,7 @@ Independent Component Analysis-based algorithm from Onoda 2012
 
 from sklearn.decomposition import FastICA
 
-from initialisations.onoda2012 import Onoda
+from initialisations.onoda_base import Onoda
 
 
 class OnodaICA(Onoda):
