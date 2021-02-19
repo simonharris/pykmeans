@@ -6,6 +6,7 @@ srcdir="10_50_1000_u_1_010"
 targetdira="10_50_2000_u_1_010"
 targetdirb="10_50_10000_u_1_010"
 targetdirc="10_50_50000_u_1_010"
+targetdird="10_50_100000_u_1_010"
 
 
 if [ ! -d $targetdira ]
@@ -20,11 +21,15 @@ if [ ! -d $targetdirc ]
 then
 	mkdir $targetdirc
 fi	
+if [ ! -d $targetdird ]
+then
+	mkdir $targetdird
+fi	
 		
 rm -f $targetdira/*
 rm -f $targetdirb/*
 rm -f $targetdirc/*
-
+rm -f $targetdird/*
 
 # times by 2 = 2000
 touch $targetdira/labels.csv
@@ -62,7 +67,19 @@ do
 done
 
 
+# times by 100 = 100000
+touch $targetdird/labels.csv
+touch $targetdird/data.csv
+
+for i in {1..100};
+do
+	# echo "Looping $i "
+	cat $srcdir/labels.csv >> $targetdird/labels.csv
+	cat $srcdir/data.csv >> $targetdird/data.csv
+done
+
 wc -l $targetdira/*
 wc -l $targetdirb/*
 wc -l $targetdirc/*
+wc -l $targetdird/*
 
