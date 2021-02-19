@@ -1,3 +1,3 @@
-# Real World Datasets
+# Real-world data sets
 
-Contains 30 datasets sourced from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets.php). Datasets were imported and cleaned using [Cleandata](https://github.com/simonharris/cleandata/).
+Contains 30 data sets sourced (mostly) from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets.php). Data sets were imported and cleaned using [Cleandata](https://github.com/simonharris/cleandata/).
