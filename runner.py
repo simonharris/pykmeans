@@ -15,7 +15,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 
 from dataset import Dataset
-from initialisations.base import InitialisationException
+# from initialisations.base import InitialisationException
 from metrics import ari
 
 
@@ -26,7 +26,8 @@ WHICH_SETS = args[2]
 N_RUNS = int(args[3])
 
 DATASETS = './datasets/' + WHICH_SETS + '/'
-DIR_OUTPUT = '_output/'
+# DIR_OUTPUT = '_output/'
+DIR_OUTPUT = '_output_perfcount/'
 
 
 def find_datasets(directory):
