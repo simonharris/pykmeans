@@ -1,7 +1,7 @@
 """
 Milligan 1980 Ward-based algorithm
 
-An examination of the effect of six types of error perturbation on fifteen 
+An examination of the effect of six types of error perturbation on fifteen
 clustering algorithms
 https://link.springer.com/article/10.1007/BF02293907
 """
@@ -22,4 +22,3 @@ def generate(data, num_clusters):
         centroids[k, :] = np.mean(data[ward.labels_ == k], axis=0)
 
     return centroids
-    
