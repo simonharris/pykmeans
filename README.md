@@ -1,4 +1,4 @@
-# pycluster
+# pykmeans
 
 Experiments in initialisation strategies for the K-means data clustering algorithm, as research for my MSc by Dissertation at the University of Essex.
 
