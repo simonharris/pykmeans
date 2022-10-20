@@ -1,6 +1,6 @@
 # pykmeans
 
-Experiments in initialisation strategies for the K-means data clustering algorithm, as research for my MSc by Dissertation at the University of Essex.
+Experiments in initialisation strategies for the K-means data clustering algorithm, as research for my MSc by Dissertation at the University of Essex. This is the software used to perform the experiments for [our paper published in IEEE Access](https://ieeexplore.ieee.org/document/9786801).
 
 ## Structure
 
